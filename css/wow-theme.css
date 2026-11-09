@@ -1230,6 +1230,15 @@ textarea.form-control {
   z-index: 3;
 }
 
+/* Sur mobile et tablette : masquer la structure fil de fer pour que les photos réelles soient 100% nettes et visibles */
+@media (max-width: 991px) {
+  #feeHero3DCanvas {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+}
+
 /* 2. Vidéo Cinématique Hero 4K */
 .hero-video-container {
   position: absolute;

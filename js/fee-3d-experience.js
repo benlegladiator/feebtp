@@ -25,6 +25,9 @@
       const parent = canvas.parentElement;
       width = canvas.width = parent.clientWidth || window.innerWidth;
       height = canvas.height = parent.clientHeight || window.innerHeight;
+      if (width <= 991) {
+        ctx.clearRect(0, 0, width, height);
+      }
     }
     window.addEventListener('resize', resize);
     resize();
@@ -38,96 +41,237 @@
       }
     });
 
-    // Génération d'une structure 3D d'immeuble géométrique (FEE BTP Tower Mesh)
+    // ========================================================================
+    // STRUCTURE GÉOMÉTRIQUE IMPOSANTE : TOUR RMC BTP HIGH-RISE & FONDATIONS
+    // ========================================================================
     const nodes = [];
     const edges = [];
-    const floors = 7;
-    const radius = Math.min(width, height) * 0.22;
+    const floors = 14; // Gratte-ciel de 14 niveaux
+    const baseRadius = Math.min(width, height) * 0.216; // Réduit de 40% (0.36 * 0.60 = 0.216) pour cadrage parfait
+    const pointsPerFloor = 8; // Octogone architectural moderne
 
     for (let f = 0; f < floors; f++) {
-      const y = (f - floors / 2) * (radius * 0.38);
-      const floorRadius = radius * (1 - f * 0.04);
-      const pointsPerFloor = 6; // Prisme hexagonal BTP
+      // Étage avec profil aérodynamique décroissant et flèche sommitale
+      const floorProgress = f / (floors - 1);
+      const floorRadius = baseRadius * (1 - Math.pow(floorProgress, 1.4) * 0.45);
+      const y = (f - floors * 0.42) * (baseRadius * 0.22);
 
+      // Anneau extérieur octogonal
       for (let i = 0; i < pointsPerFloor; i++) {
         const theta = (i / pointsPerFloor) * Math.PI * 2;
         nodes.push({
           x0: Math.cos(theta) * floorRadius,
-          y0: y,
+          y0: -y, // Croissance vers le haut
           z0: Math.sin(theta) * floorRadius,
-          x: 0, y: 0, z: 0,
-          floor: f
+          floor: f,
+          isCore: false
+        });
+      }
+
+      // Noyau central porteur (Piliers intérieurs de génie civil)
+      const coreRadius = floorRadius * 0.42;
+      for (let i = 0; i < 4; i++) {
+        const theta = (i / 4) * Math.PI * 2 + Math.PI / 4;
+        nodes.push({
+          x0: Math.cos(theta) * coreRadius,
+          y0: -y,
+          z0: Math.sin(theta) * coreRadius,
+          floor: f,
+          isCore: true
         });
       }
     }
 
-    // Connecter les arrêtes (lignes horizontales, verticales et diagonales de contreventement)
-    const ppf = 6;
-    for (let f = 0; f < floors; f++) {
-      for (let i = 0; i < ppf; i++) {
-        const cur = f * ppf + i;
-        const next = f * ppf + ((i + 1) % ppf);
-        edges.push([cur, next, 'ring']); // Anneau horizontal
+    // Flèche sommitale / Antenne de prestige (Point culminant)
+    const topFloorY = (floors - 1 - floors * 0.42) * (baseRadius * 0.22);
+    const apexIndex = nodes.length;
+    nodes.push({
+      x0: 0,
+      y0: -(topFloorY + baseRadius * 0.65),
+      z0: 0,
+      floor: floors,
+      isCore: true,
+      isApex: true
+    });
 
+    // Lier les arrêtes du bâtiment
+    const nodeStride = pointsPerFloor + 4; // 8 extérieurs + 4 intérieurs = 12 par étage
+    for (let f = 0; f < floors; f++) {
+      const baseIdx = f * nodeStride;
+
+      // 1. Périmètre extérieur
+      for (let i = 0; i < pointsPerFloor; i++) {
+        const cur = baseIdx + i;
+        const next = baseIdx + ((i + 1) % pointsPerFloor);
+        edges.push([cur, next, 'ring']);
+
+        // Colonnes verticales extérieures
         if (f < floors - 1) {
-          const above = (f + 1) * ppf + i;
-          edges.push([cur, above, 'column']); // Poteau vertical
-          if (i % 2 === 0) {
-            const aboveDiag = (f + 1) * ppf + ((i + 1) % ppf);
-            edges.push([cur, aboveDiag, 'brace']); // Diagonale acier
+          const above = baseIdx + nodeStride + i;
+          edges.push([cur, above, 'column']);
+
+          // Contreventements croisés en X (Treillis BTP de haute ingénierie)
+          if (f % 2 === 0) {
+            const aboveNext = baseIdx + nodeStride + ((i + 1) % pointsPerFloor);
+            edges.push([cur, aboveNext, 'brace']);
           }
         }
       }
+
+      // 2. Noyau intérieur central
+      const coreOffset = baseIdx + pointsPerFloor;
+      for (let i = 0; i < 4; i++) {
+        const curCore = coreOffset + i;
+        const nextCore = coreOffset + ((i + 1) % 4);
+        edges.push([curCore, nextCore, 'core-ring']);
+
+        if (f < floors - 1) {
+          const aboveCore = coreOffset + nodeStride + i;
+          edges.push([curCore, aboveCore, 'core-column']);
+        }
+
+        // Poutres radiales reliant le noyau à la façade extérieure
+        edges.push([curCore, baseIdx + (i * 2), 'radial']);
+      }
     }
 
-    // Particules de poussière de chantier / laser
+    // Relier les derniers étages à l'apex (flèche sommitale)
+    const lastFloorBase = (floors - 1) * nodeStride;
+    for (let i = 0; i < pointsPerFloor; i += 2) {
+      edges.push([lastFloorBase + i, apexIndex, 'spire']);
+    }
+
+    // 3. Fondations Massives & Semelles Béton Armé (Base du Bâtiment)
+    const foundationPads = [];
+    const groundY = (floors * 0.35) * (baseRadius * 0.22);
+
+    // Semelles isolées et massifs de fondation sous chaque colonne extérieure
+    for (let i = 0; i < pointsPerFloor; i++) {
+      const theta = (i / pointsPerFloor) * Math.PI * 2;
+      const padX = Math.cos(theta) * baseRadius;
+      const padZ = Math.sin(theta) * baseRadius;
+      const padSize = baseRadius * 0.14;
+      foundationPads.push({ x: padX, y: groundY, z: padZ, size: padSize });
+    }
+
+    // Grille de fondation géotechnique au sol (Sol de chantier / Radier général)
+    const gridLines = [];
+    const gridSize = baseRadius * 1.6;
+    const gridSteps = 7;
+    for (let g = -gridSteps; g <= gridSteps; g++) {
+      const pos = (g / gridSteps) * gridSize;
+      gridLines.push([
+        { x: -gridSize, y: groundY, z: pos },
+        { x: gridSize, y: groundY, z: pos }
+      ]);
+      gridLines.push([
+        { x: pos, y: groundY, z: -gridSize },
+        { x: pos, y: groundY, z: gridSize }
+      ]);
+    }
+
+    // Particules volumétriques dorées et d'énergie de construction
     const particles = [];
-    for (let p = 0; p < 35; p++) {
+    for (let p = 0; p < 50; p++) {
       particles.push({
-        x: (Math.random() - 0.5) * radius * 3.5,
-        y: (Math.random() - 0.5) * radius * 3.5,
-        z: (Math.random() - 0.5) * radius * 3.5,
-        size: Math.random() * 2 + 1,
-        speed: Math.random() * 0.005 + 0.002
+        x: (Math.random() - 0.5) * baseRadius * 3.2,
+        y: (Math.random() - 0.5) * baseRadius * 3.2,
+        z: (Math.random() - 0.5) * baseRadius * 3.2,
+        size: Math.random() * 2.5 + 1.2,
+        speed: Math.random() * 0.007 + 0.003,
+        alpha: Math.random() * 0.6 + 0.4
       });
     }
+
+    let autoRotation = 0; // Rotation continue à 360°
+    let scanLaserY = 0;
 
     function render() {
       ctx.clearRect(0, 0, width, height);
 
-      // Interpolation douce
-      angleX += (targetX - angleX) * 0.05 + 0.0018;
+      // Sur mobile et tablette : libérer l'écran pour que les photos et les textes soient 100% visibles
+      if (width <= 991) {
+        requestAnimationFrame(render);
+        return;
+      }
+
+      // Rotation continue 360° fluide & cinématique (vitesse type turntable architectural)
+      autoRotation += 0.0075;
+
+      // angleX = rotation 360° continue + influence douce de la souris
+      angleX = autoRotation + (targetX * 2);
+      
+      // angleY = légère inclinaison de perspective en plongée/contre-plongée
       angleY += (targetY - angleY) * 0.05;
 
       const cosX = Math.cos(angleX);
       const sinX = Math.sin(angleX);
-      const cosY = Math.cos(angleY);
-      const sinY = Math.sin(angleY);
+      const cosY = Math.cos(angleY + 0.18); // Légère contre-plongée majestueuse
+      const sinY = Math.sin(angleY + 0.18);
 
-      const cx = width * 0.72; // Placé sur le flanc droit pour laisser respirer le texte
-      const cy = height * 0.52;
-      const fov = 650;
+      // Centrage équilibré : Flèche en haut et fondations en bas visibles en entier dans le cadre
+      const cx = width > 992 ? width * 0.74 : width * 0.5;
+      const cy = height * 0.50;
+      const fov = 750;
 
-      // Projection des nœuds
-      const projected = [];
-      for (let i = 0; i < nodes.length; i++) {
-        const n = nodes[i];
-        // Rotation Y puis X
-        let x1 = n.x0 * cosX - n.z0 * sinX;
-        let z1 = n.z0 * cosX + n.x0 * sinX;
-        let y1 = n.y0 * cosY - z1 * sinY;
-        let z2 = z1 * cosY + n.y0 * sinY + 600;
-
-        const scale = fov / z2;
-        projected.push({
+      // Fonction de projection 3D
+      function projectPoint(x, y, z) {
+        let x1 = x * cosX - z * sinX;
+        let z1 = z * cosX + x * sinX;
+        let y1 = y * cosY - z1 * sinY;
+        let z2 = z1 * cosY + y * sinY + 750;
+        const scale = fov / Math.max(100, z2);
+        return {
           px: cx + x1 * scale,
           py: cy + y1 * scale,
           scale: scale,
           z: z2
-        });
+        };
       }
 
-      // Tracé des arrêtes architecturales
+      // --- A. RADIER GÉNÉRAL & GRILLE GÉOTECHNIQUE AU SOL (FONDATIONS CLAIRES ET VISIBLES) ---
+      ctx.lineWidth = 1.6;
+      ctx.strokeStyle = 'rgba(0, 180, 255, 0.35)'; // Grille au sol bleu cyan technologique RMC BTP
+      for (let g = 0; g < gridLines.length; g++) {
+        const pt1 = projectPoint(gridLines[g][0].x, gridLines[g][0].y, gridLines[g][0].z);
+        const pt2 = projectPoint(gridLines[g][1].x, gridLines[g][1].y, gridLines[g][1].z);
+        ctx.beginPath();
+        ctx.moveTo(pt1.px, pt1.py);
+        ctx.lineTo(pt2.px, pt2.py);
+        ctx.stroke();
+      }
+
+      // Semelles de fondation béton au sol (Carrés massifs de soutènement)
+      for (let s = 0; s < foundationPads.length; s++) {
+        const pad = foundationPads[s];
+        const half = pad.size;
+        const pCorners = [
+          projectPoint(pad.x - half, pad.y, pad.z - half),
+          projectPoint(pad.x + half, pad.y, pad.z - half),
+          projectPoint(pad.x + half, pad.y, pad.z + half),
+          projectPoint(pad.x - half, pad.y, pad.z + half)
+        ];
+        ctx.beginPath();
+        ctx.moveTo(pCorners[0].px, pCorners[0].py);
+        for (let c = 1; c < pCorners.length; c++) {
+          ctx.lineTo(pCorners[c].px, pCorners[c].py);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(0, 114, 255, 0.25)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(0, 210, 255, 0.9)';
+        ctx.lineWidth = 2.4;
+        ctx.stroke();
+      }
+
+      // Projection de tous les nœuds de la tour
+      const projected = [];
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        projected.push(projectPoint(n.x0, n.y0, n.z0));
+      }
+
+      // --- B. TRACÉ DES ARRÊTES ARCHITECTURALES TRÈS ÉPAISSES & CONTRASTÉES ---
       for (let e = 0; e < edges.length; e++) {
         const p1 = projected[edges[e][0]];
         const p2 = projected[edges[e][1]];
@@ -137,45 +281,74 @@
         ctx.moveTo(p1.px, p1.py);
         ctx.lineTo(p2.px, p2.py);
 
-        if (type === 'brace') {
-          ctx.strokeStyle = 'rgba(249, 115, 22, 0.45)'; // Poutre orange FEE BTP
-          ctx.lineWidth = 1;
+        if (type === 'spire') {
+          ctx.strokeStyle = '#00f0ff'; // Flèche cyan éclatante
+          ctx.lineWidth = 3.4;
         } else if (type === 'column') {
-          ctx.strokeStyle = 'rgba(255, 180, 0, 0.55)'; // Colonne porteuse or
-          ctx.lineWidth = 1.4;
+          ctx.strokeStyle = '#0084ff'; // Colonnes porteuses bleu royal vibrant RMC
+          ctx.lineWidth = 3.0;
+        } else if (type === 'brace') {
+          ctx.strokeStyle = 'rgba(0, 210, 255, 0.75)'; // Treillis de renfort BTP cyan
+          ctx.lineWidth = 1.8;
+        } else if (type === 'core-column' || type === 'core-ring') {
+          ctx.strokeStyle = '#ffffff'; // Cœur béton armé blanc haute luminosité
+          ctx.lineWidth = 2.2;
+        } else if (type === 'radial') {
+          ctx.strokeStyle = 'rgba(180, 220, 255, 0.45)';
+          ctx.lineWidth = 1.5;
         } else {
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)'; // Dalle structurale blanche
-          ctx.lineWidth = 1;
+          ctx.strokeStyle = '#0055cc'; // Dalles d'étages bleu de référence RMC BTP
+          ctx.lineWidth = 2.2;
         }
         ctx.stroke();
       }
 
-      // Nœuds lumineux (Joints de soudure / coulages de béton armé)
+      // --- C. SCAN LASER ÉCHÉANCIER / NIVEAU LASER DE CHANTIER BTP ---
+      scanLaserY += 0.015;
+      const currentLaserFloor = (Math.sin(scanLaserY) * 0.5 + 0.5) * (floors - 1);
+      const laserFloorInt = Math.floor(currentLaserFloor);
+      if (laserFloorInt < floors - 1) {
+        const baseScan = laserFloorInt * nodeStride;
+        ctx.beginPath();
+        for (let i = 0; i < pointsPerFloor; i++) {
+          const pt = projected[baseScan + i];
+          if (i === 0) ctx.moveTo(pt.px, pt.py);
+          else ctx.lineTo(pt.px, pt.py);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2.5;
+        ctx.shadowColor = '#00d2ff';
+        ctx.shadowBlur = 18;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+
+      // --- D. NŒUDS LUMINEUX D'ASSEMBLAGE (ÉTOILES DE STRUCTURE) ---
       for (let i = 0; i < projected.length; i++) {
         const p = projected[i];
+        const isApex = nodes[i].isApex;
+        const radiusPt = isApex ? 5.0 : Math.max(1.8, p.scale * 3.2);
+
         ctx.beginPath();
-        ctx.arc(p.px, p.py, Math.max(1.5, p.scale * 2.8), 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = '#f97316';
-        ctx.shadowBlur = 10;
+        ctx.arc(p.px, p.py, radiusPt, 0, Math.PI * 2);
+        ctx.fillStyle = isApex ? '#ffffff' : (nodes[i].isCore ? '#ffffff' : '#00e5ff');
+        ctx.shadowColor = isApex ? '#ffffff' : '#00aaff';
+        ctx.shadowBlur = isApex ? 22 : 10;
         ctx.fill();
         ctx.shadowBlur = 0;
       }
 
-      // Particules flottantes ambiantes
+      // --- E. PARTICULES DE POUSSIÈRE LUMINEUSE D'ATMOSPHÈRE ---
       for (let i = 0; i < particles.length; i++) {
         const pt = particles[i];
-        pt.y -= pt.speed * 80;
-        if (pt.y < -radius * 2) pt.y = radius * 2;
+        pt.y -= pt.speed * 70;
+        if (pt.y < -baseRadius * 2) pt.y = baseRadius * 2;
 
-        let x1 = pt.x * cosX - pt.z * sinX;
-        let z1 = pt.z * cosX + pt.x * sinX;
-        let z2 = z1 * cosY + pt.y * sinY + 600;
-        const scale = fov / z2;
-
+        const proj = projectPoint(pt.x, pt.y, pt.z);
         ctx.beginPath();
-        ctx.arc(cx + x1 * scale, cy + pt.y * scale, pt.size * scale, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(249, 115, 22, 0.6)';
+        ctx.arc(proj.px, proj.py, Math.max(0.6, pt.size * proj.scale), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 210, 255, ${pt.alpha})`;
         ctx.fill();
       }
 

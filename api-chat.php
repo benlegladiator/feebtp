@@ -266,12 +266,30 @@ function hasWord($text, array $words) {
 $reply = "";
 $suggestions = [];
 
+// 0. Recrutement / Emploi / Recherche de Travail / Stage / Candidature
+if (hasWord($cleanMsg, [
+    'travail', 'emploi', 'cherche travail', 'cherche du travail', 'cherche un travail', 
+    'cherche un emploi', 'cherche emploi', 'job', 'recrutement', 'recruter', 'recrutez', 
+    'embauche', 'embaucher', 'postuler', 'candidature', 'cv', 'stage', 'stagiaire', 
+    'apporter mon experience', 'rejoindre votre equipe', 'rejoindre l\'equipe', 
+    'rejoindre l\'entreprise', 'offre demploi', 'offre d\'emploi', 'cherche de travail', 
+    'recherche travail', 'recherche emploi', 'cherche un poste', 'recrutez-vous', 
+    'travailler avec vous', 'travailler chez vous', 'trouver du travail'
+])) {
+    $reply = "🤝 **Recrutement & Carrières chez " . htmlspecialchars($companyName) . " :**\n\nNous accueillons toujours avec grand intérêt les profils passionnés et compétents en génie civil, conduite de chantiers et métiers techniques du BTP (Ingénieurs, Conducteurs de travaux, Métreurs, Topographes et Techniciens).\n\nPour soumettre votre profil :\n• **Par WhatsApp :** Transmettez votre CV et portfolio directement au bureau technique au **" . htmlspecialchars($phonePrimary) . "**\n• **Par E-mail :** Envoyez votre CV et lettre de motivation à **" . htmlspecialchars($emailContact) . "**\n\nUn ingénieur étudiera votre dossier et vos compétences dans les meilleurs délais.";
+    $suggestions = [
+        ['label' => '📄 Transmettre mon CV sur WhatsApp', 'action' => 'contact_whatsapp'],
+        ['label' => '✉️ Poser une question au bureau technique', 'action' => 'contact_whatsapp'],
+        ['label' => '🏗️ Découvrir nos chantiers en cours', 'action' => 'quick_services']
+    ];
+}
+
 // 1. Diaspora & Suivi de chantier à distance
-if (hasWord($cleanMsg, ['diaspora', 'etranger', 'étranger', 'france', 'europe', 'canada', 'usa', 'etats-unis', 'belgique', 'angleterre', 'allemagne', 'distance', 'confiance', 'escroquerie', 'famille', 'deception'])) {
+elseif (hasWord($cleanMsg, ['diaspora', 'etranger', 'étranger', 'france', 'europe', 'canada', 'usa', 'etats-unis', 'belgique', 'angleterre', 'allemagne', 'distance', 'confiance', 'escroquerie', 'famille', 'deception'])) {
     $reply = "🌍 **Gestion de Chantier Spéciale Diaspora chez FEE BTP SARL :**\n\nConstruire au pays depuis l'étranger est un investissement précieux qui exige une confiance absolue. Pour vous garantir une sérénité totale, nous appliquons un protocole rigoureux :\n• **Contrat d'entreprise formel** et facturation transparente jalonnée par étapes validées.\n• **Rapports hebdomadaires en direct** : vidéos HD par drone, photos détaillées et appels vidéo WhatsApp sur site.\n• **Paiements échelonnés** : vous ne débloquez les fonds qu'après constatation visuelle de l'achèvement de chaque phase (fondations, élévation, dalle, toiture, finitions).\n• Zéro intermédiaire familial pour éviter tout détournement de matériaux.";
     $suggestions = [
         ['label' => '📄 Demander un contrat type & devis diaspora', 'action' => 'flow_devis'],
-        ['label' => '💬 Échanger en direct avec M. Fabrice AGHOKENG', 'action' => 'contact_whatsapp']
+        ['label' => '💬 Échanger en direct avec l\'ingénieur', 'action' => 'contact_whatsapp']
     ];
 }
 
