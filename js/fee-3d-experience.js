@@ -237,18 +237,23 @@
       // Adaptation responsive progressive : rétrécit nettement sur mobile sans dominer le texte
       let responsiveScale = 1.0;
       let mobileAlpha = 0.95;
+      let lineMultiplier = 1.0;
       if (width <= 480) {
-        responsiveScale = 0.28; // Réduction drastique pour mobile portrait
-        mobileAlpha = 0.22;     // Effet filigrane discret derrière la typographie
+        responsiveScale = 0.12; // Rétrécissement très net sur mobile (compact et lisible)
+        mobileAlpha = 0.38;
+        lineMultiplier = 0.45;
       } else if (width <= 640) {
-        responsiveScale = 0.34;
-        mobileAlpha = 0.26;
+        responsiveScale = 0.16;
+        mobileAlpha = 0.48;
+        lineMultiplier = 0.55;
       } else if (width <= 768) {
-        responsiveScale = 0.42;
-        mobileAlpha = 0.35;
+        responsiveScale = 0.22;
+        mobileAlpha = 0.58;
+        lineMultiplier = 0.65;
       } else if (width <= 991) {
-        responsiveScale = 0.58;
-        mobileAlpha = 0.50;
+        responsiveScale = 0.35;
+        mobileAlpha = 0.70;
+        lineMultiplier = 0.80;
       }
 
       // Rotation continue 360° fluide & cinématique
@@ -290,7 +295,7 @@
       }
 
       // --- A. GRILLE GÉOTECHNIQUE AU SOL (100% AMBRE & TERRACOTTA FEE BTP - ZÉRO BLEU) ---
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1.5 * lineMultiplier;
       ctx.strokeStyle = 'rgba(234, 88, 12, 0.30)'; // Grille au sol ambre latérite FEE BTP
       for (let g = 0; g < gridLines.length; g++) {
         const pt1 = projectPoint(gridLines[g][0].x, gridLines[g][0].y, gridLines[g][0].z);
@@ -320,7 +325,7 @@
         ctx.fillStyle = 'rgba(255, 106, 0, 0.22)';
         ctx.fill();
         ctx.strokeStyle = '#ff7a00';
-        ctx.lineWidth = 2.4;
+        ctx.lineWidth = 2.4 * lineMultiplier;
         ctx.stroke();
       }
 
@@ -344,30 +349,30 @@
         if (type === 'monumental-arch') {
           // Grandes Arches Paraboliques maîtresses : Orange Flamboyant Ultra-Épais
           ctx.strokeStyle = '#ff6a00';
-          ctx.lineWidth = 3.6;
+          ctx.lineWidth = 3.6 * lineMultiplier;
         } else if (type === 'cable-stay') {
           // Câbles de haubanage suspendus : Blanc pur haute précision
           ctx.strokeStyle = 'rgba(255, 255, 255, 0.75)';
-          ctx.lineWidth = 1.3;
+          ctx.lineWidth = 1.3 * lineMultiplier;
         } else if (type === 'dome-apex-rib' || type === 'dome-ring') {
           // Dôme géodésique : Ambre doré rayonnant
           ctx.strokeStyle = '#f59e0b';
-          ctx.lineWidth = 2.0;
+          ctx.lineWidth = 2.0 * lineMultiplier;
         } else if (type === 'dome-meridian' || type === 'dome-tri') {
           // Maillage triangulé du dôme : Ambre doux
           ctx.strokeStyle = 'rgba(245, 158, 11, 0.50)';
-          ctx.lineWidth = 1.2;
+          ctx.lineWidth = 1.2 * lineMultiplier;
         } else if (type === 'terrace-ring') {
           // Gradins de soutènement : Orange BTP profond
           ctx.strokeStyle = '#ea580c';
-          ctx.lineWidth = 2.2;
+          ctx.lineWidth = 2.2 * lineMultiplier;
         } else if (type === 'buttress' || type === 'terrace-brace') {
           // Contreforts de soutènement : Ambre chaud
           ctx.strokeStyle = 'rgba(217, 119, 6, 0.60)';
-          ctx.lineWidth = 1.6;
+          ctx.lineWidth = 1.6 * lineMultiplier;
         } else {
           ctx.strokeStyle = '#ff7a00';
-          ctx.lineWidth = 1.8;
+          ctx.lineWidth = 1.8 * lineMultiplier;
         }
         ctx.stroke();
       }

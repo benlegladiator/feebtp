@@ -25,6 +25,25 @@ $expYears = getSetting('stats_experience', '12');
 $totalProjects = getSetting('stats_projects', '165');
 $satisfaction = getSetting('stats_satisfaction', '99');
 $equipments = getSetting('stats_equipments', '48');
+
+// Visuels de repère configurables par section FEE BTP
+require_once __DIR__ . '/config/visuals_helper.php';
+$homeVisuals = getPageVisuals($pdo, 'home');
+$hero1 = getVisualInfo($homeVisuals, 'hero_slide_1', 'images/personnel/FAB-6.jpg', 'center top');
+$hero2 = getVisualInfo($homeVisuals, 'hero_slide_2', 'images/personnel/FAB-8.jpg', 'center top');
+$hero3 = getVisualInfo($homeVisuals, 'hero_slide_3', 'images/personnel/FAB-4.jpg', 'center top');
+$pillar1 = getVisualInfo($homeVisuals, 'pillar_terrain_1', 'images/IMG-20261015-WA0073.jpg', 'center top');
+$pillar2 = getVisualInfo($homeVisuals, 'pillar_terrain_2', 'images/IMG-20261029-WA0105.jpg', 'center top');
+$pillar3 = getVisualInfo($homeVisuals, 'pillar_terrain_3', 'images/IMG-20261015-WA0054.jpg', 'center top');
+$dgPortrait = getVisualInfo($homeVisuals, 'dg_portrait', 'images/team/aghokeng-fabrice.jpg', 'center top');
+$aboutPhoto = getVisualInfo($homeVisuals, 'about_photo', 'images/about.jpg', 'center top');
+$baBefore = getVisualInfo($homeVisuals, 'ba_before', 'images/IMG-20261015-WA0073.jpg', 'center center');
+$baAfter = getVisualInfo($homeVisuals, 'ba_after', 'images/wa0062-framed-16x9.jpg', 'center center');
+$counterBg = getVisualInfo($homeVisuals, 'counter_bg', 'images/bg_2.jpg', 'center center');
+$ctaBg = getVisualInfo($homeVisuals, 'cta_bg', 'images/bg_1.jpg', 'center center');
+$showcase1 = getVisualInfo($homeVisuals, 'showcase_card_1', 'images/wa0062-framed-16x9.jpg', 'center center');
+$showcase2 = getVisualInfo($homeVisuals, 'showcase_card_2', 'images/IMG-20261015-WA0062.jpg', 'center center');
+$showcase3 = getVisualInfo($homeVisuals, 'showcase_card_3', 'images/IMG-20261015-WA0073.jpg', 'center center');
 ?>
 
 <!-- Alertes Flash -->
@@ -78,7 +97,7 @@ $equipments = getSetting('stats_equipments', '48');
 				</div>
 				<?php endif; ?>
 				<!-- Fond Image Haute Fidélité FAB-6.jpg -->
-				<div class="kenburns-bg" style="background-image: url('images/personnel/FAB-6.jpg');"></div>
+				<div class="kenburns-bg" style="background-image: url('<?= htmlspecialchars($hero1['url']) ?>'); background-position: <?= htmlspecialchars($hero1['focal']) ?> !important;"></div>
 				<div class="cinematic-overlay" style="background: radial-gradient(circle at 75% 35%, rgba(30, 34, 41, 0.2) 0%, rgba(17, 20, 24, 0.65) 85%), linear-gradient(90deg, rgba(17, 20, 24, 0.78) 0%, rgba(17, 20, 24, 0.45) 55%, rgba(17, 20, 24, 0.15) 100%);"></div>
 				<div class="container h-100" style="position: relative; z-index: 4;">
 					<div class="row no-gutters slider-text js-fullheight align-items-center">
@@ -119,7 +138,7 @@ $equipments = getSetting('stats_equipments', '48');
 		<!-- SLIDE 2 : FAB-8 (Opérations de Terrain & Cadence Chantier) -->
 		<div class="carousel-item">
 			<section class="hero-wrap js-fullheight kenburns-slide">
-				<div class="kenburns-bg" style="background-image: url('images/personnel/FAB-8.jpg');"></div>
+				<div class="kenburns-bg" style="background-image: url('<?= htmlspecialchars($hero2['url']) ?>'); background-position: <?= htmlspecialchars($hero2['focal']) ?> !important;"></div>
 				<div class="cinematic-overlay"></div>
 				<div class="container h-100">
 					<div class="row no-gutters slider-text js-fullheight align-items-center">
@@ -156,7 +175,7 @@ $equipments = getSetting('stats_equipments', '48');
 		<!-- SLIDE 3 : FAB-4 (Études Techniques & Rigueur de Contrôle) -->
 		<div class="carousel-item">
 			<section class="hero-wrap js-fullheight kenburns-slide">
-				<div class="kenburns-bg" style="background-image: url('images/personnel/FAB-4.jpg');"></div>
+				<div class="kenburns-bg" style="background-image: url('<?= htmlspecialchars($hero3['url']) ?>'); background-position: <?= htmlspecialchars($hero3['focal']) ?> !important;"></div>
 				<div class="cinematic-overlay"></div>
 				<div class="container h-100">
 					<div class="row no-gutters slider-text js-fullheight align-items-center">
@@ -357,7 +376,7 @@ $equipments = getSetting('stats_equipments', '48');
 			<div class="col-lg-4 col-md-6 d-flex ftco-animate mb-4 mb-lg-0">
 				<div class="fee-terrain-card w-100">
 					<!-- Photo En-tête Réelle Chantier -->
-					<div class="fee-terrain-photo-wrap" style="background-image: url('images/IMG-20261015-WA0073.jpg'); background-position: center top !important;">
+					<div class="fee-terrain-photo-wrap" style="background-image: url('<?= htmlspecialchars($pillar1['url']) ?>'); background-position: <?= htmlspecialchars($pillar1['focal']) ?> !important;">
 						<div class="fee-terrain-photo-overlay"></div>
 						<span class="fee-terrain-badge-tag"><i class="fa fa-shield text-warning mr-1"></i> EXPERTISE 01 • STABILISATION</span>
 						<div class="fee-terrain-icon-float">
@@ -398,7 +417,7 @@ $equipments = getSetting('stats_equipments', '48');
 			<div class="col-lg-4 col-md-6 d-flex ftco-animate mb-4 mb-lg-0">
 				<div class="fee-terrain-card terrain-featured w-100">
 					<!-- Photo En-tête Réelle Chantier Engins -->
-					<div class="fee-terrain-photo-wrap" style="background-image: url('images/IMG-20261029-WA0105.jpg'); background-position: center top !important;">
+					<div class="fee-terrain-photo-wrap" style="background-image: url('<?= htmlspecialchars($pillar2['url']) ?>'); background-position: <?= htmlspecialchars($pillar2['focal']) ?> !important;">
 						<div class="fee-terrain-photo-overlay"></div>
 						<span class="fee-terrain-badge-tag" style="background: rgba(234, 88, 12, 0.9); color: #fff; border-color: rgba(255,255,255,0.4);"><i class="fa fa-fire mr-1"></i> EXPERTISE 02 • PUISSANCE CHANTIER</span>
 						<div class="fee-terrain-icon-float" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
@@ -439,7 +458,7 @@ $equipments = getSetting('stats_equipments', '48');
 			<div class="col-lg-4 col-md-6 d-flex ftco-animate">
 				<div class="fee-terrain-card w-100">
 					<!-- Photo En-tête Réelle Chantier Béton -->
-					<div class="fee-terrain-photo-wrap" style="background-image: url('images/IMG-20261015-WA0054.jpg'); background-position: center top !important;">
+					<div class="fee-terrain-photo-wrap" style="background-image: url('<?= htmlspecialchars($pillar3['url']) ?>'); background-position: <?= htmlspecialchars($pillar3['focal']) ?> !important;">
 						<div class="fee-terrain-photo-overlay"></div>
 						<span class="fee-terrain-badge-tag"><i class="fa fa-cubes text-warning mr-1"></i> EXPERTISE 03 • DURABILITÉ</span>
 						<div class="fee-terrain-icon-float">
@@ -568,8 +587,8 @@ $equipments = getSetting('stats_equipments', '48');
 			<!-- Projet 1 -->
 			<div class="col-lg-4 col-md-6 mb-4 ftco-animate">
 				<div class="card h-100 border-0 shadow-sm" style="border-radius: 20px; overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0 !important; transition: transform 0.3s ease, box-shadow 0.3s ease;">
-					<div style="height: 230px; position: relative; overflow: hidden; background: #0f172a;">
-						<img src="images/wa0062-framed-16x9.jpg" alt="Villa Duplex Contemporaine R+1" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+					<div style="height: 230px; position: relative; overflow: hidden; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+						<img src="<?= htmlspecialchars($showcase1['url']) ?>" alt="Villa Duplex Contemporaine R+1" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; object-position: <?= htmlspecialchars($showcase1['focal']) ?>; display: block;">
 						<span class="badge badge-success px-3 py-2 font-weight-bold" style="position: absolute; top: 15px; left: 15px; font-size: 11px; border-radius: 50px; box-shadow: 0 4px 10px rgba(16,185,129,0.3); z-index: 2;">
 							<i class="fa fa-check-circle mr-1"></i> 100% LIVRÉ & HABITÉ
 						</span>
@@ -595,8 +614,8 @@ $equipments = getSetting('stats_equipments', '48');
 			<!-- Projet 2 -->
 			<div class="col-lg-4 col-md-6 mb-4 ftco-animate">
 				<div class="card h-100 border-0 shadow-sm" style="border-radius: 20px; overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0 !important; transition: transform 0.3s ease, box-shadow 0.3s ease;">
-					<div style="height: 230px; position: relative; overflow: hidden; background: #0f172a;">
-						<img src="images/IMG-20261015-WA0062.jpg" alt="Immeuble Mixte Résidentiel R+3" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+					<div style="height: 230px; position: relative; overflow: hidden; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+						<img src="<?= htmlspecialchars($showcase2['url']) ?>" alt="Immeuble Mixte Résidentiel R+3" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; object-position: <?= htmlspecialchars($showcase2['focal']) ?>; display: block;">
 						<span class="badge badge-success px-3 py-2 font-weight-bold" style="position: absolute; top: 15px; left: 15px; font-size: 11px; border-radius: 50px; box-shadow: 0 4px 10px rgba(16,185,129,0.3); z-index: 2;">
 							<i class="fa fa-check-circle mr-1"></i> 100% LIVRÉ & EXPLOITÉ
 						</span>
@@ -622,8 +641,8 @@ $equipments = getSetting('stats_equipments', '48');
 			<!-- Projet 3 -->
 			<div class="col-lg-4 col-md-6 mb-4 ftco-animate">
 				<div class="card h-100 border-0 shadow-sm" style="border-radius: 20px; overflow: hidden; background: #ffffff; border: 1px solid #e2e8f0 !important; transition: transform 0.3s ease, box-shadow 0.3s ease;">
-					<div style="height: 230px; position: relative; overflow: hidden; background: #0f172a;">
-						<img src="images/IMG-20261015-WA0073.jpg" alt="Murs de Soutènement & Sécurisation" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+					<div style="height: 230px; position: relative; overflow: hidden; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+						<img src="<?= htmlspecialchars($showcase3['url']) ?>" alt="Murs de Soutènement & Sécurisation" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; object-position: <?= htmlspecialchars($showcase3['focal']) ?>; display: block;">
 						<span class="badge badge-warning text-dark px-3 py-2 font-weight-bold" style="position: absolute; top: 15px; left: 15px; font-size: 11px; border-radius: 50px; z-index: 2;">
 							<i class="fa fa-shield mr-1"></i> OUVRAGE GARANTI 10 ANS
 						</span>

@@ -3,18 +3,29 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$adminTitle = "Gestionnaire de Visuels de Repère par Section";
-require_once __DIR__ . '/header.php';
+require_once __DIR__ . '/auth_check.php';
+require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../config/visuals_helper.php';
+
+$pdo = getDBConnection();
+$siteSettings = getSiteSettings($pdo);
 
 $success = '';
 $error = '';
+
+if (isset($_GET['saved']) && $_GET['saved'] == '1') {
+    $success = "Le visuel a été mis à jour avec succès et s'affiche maintenant sur le site en direct.";
+} elseif (isset($_GET['reset']) && $_GET['reset'] == '1') {
+    $success = "Le visuel a été réinitialisé à son image d'origine avec succès.";
+}
 
 try {
     initPageVisualsTable($pdo);
 } catch (Throwable $e) {
     $error = "Erreur d'initialisation de la table des visuels : " . $e->getMessage();
 }
+
+$filterPage = $_GET['page_slug'] ?? 'all';
 
 // Traitement de la mise à jour d'un visuel
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_visual'])) {
@@ -37,7 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_visual'])) {
                     $focalPoint = 'center top';
                     $stmtUp = $pdo->prepare("UPDATE page_visuals SET image_url = ?, focal_point = ? WHERE id = ?");
                     $stmtUp->execute([$newImageUrl, $focalPoint, $visualId]);
-                    $success = "Le visuel « " . htmlspecialchars((string)$current['title']) . " » a été réinitialisé à son image d'origine.";
+                    header("Location: visuals.php?page_slug=" . urlencode((string)$filterPage) . "&reset=1");
+                    exit;
                 } else {
                     // Si téléversement d'un nouveau fichier image
                     if (isset($_FILES['visual_file']) && $_FILES['visual_file']['error'] !== UPLOAD_ERR_NO_FILE) {
@@ -74,7 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_visual'])) {
                         $finalTitle = !empty($title) ? $title : $current['title'];
                         $stmtUp = $pdo->prepare("UPDATE page_visuals SET image_url = ?, focal_point = ?, title = ? WHERE id = ?");
                         $stmtUp->execute([$newImageUrl, $focalPoint, $finalTitle, $visualId]);
-                        $success = "Le visuel « " . htmlspecialchars((string)$finalTitle) . " » a été mis à jour avec succès sur le site en direct.";
+                        header("Location: visuals.php?page_slug=" . urlencode((string)$filterPage) . "&saved=1");
+                        exit;
                     }
                 }
             } else {
@@ -85,6 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_visual'])) {
         }
     }
 }
+
+$adminTitle = "Gestionnaire de Visuels de Repère par Section";
+require_once __DIR__ . '/header.php';
 
 // Filtre par page active
 $filterPage = $_GET['page_slug'] ?? 'all';

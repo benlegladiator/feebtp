@@ -1235,12 +1235,14 @@ textarea.form-control {
   #feeHero3DCanvas {
     display: block !important;
     visibility: visible !important;
-    opacity: 0.65;
+    opacity: 0.50;
+    filter: drop-shadow(0 0 10px rgba(255, 120, 0, 0.40));
   }
 }
 @media (max-width: 576px) {
   #feeHero3DCanvas {
-    opacity: 0.45;
+    opacity: 0.35;
+    filter: drop-shadow(0 0 6px rgba(255, 120, 0, 0.25));
   }
 }
 

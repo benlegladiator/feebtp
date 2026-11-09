@@ -23,12 +23,14 @@ function initPageVisualsTable($pdo) {
             UNIQUE KEY unique_page_sec (page_slug, section_key)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
-        // Auto-réparation des clés erronées ou fichiers RMC non existants sur FEE BTP
-        $repairCheck = $pdo->query("SELECT 1 FROM page_visuals WHERE default_url LIKE '%_JMP6225%' OR title LIKE '%RMC BTP%' OR default_url LIKE '%rodrigue-djomo%' LIMIT 1");
-        $needsRepair = ($repairCheck && $repairCheck->fetch());
-        if ($needsRepair) {
-            $pdo->exec("DELETE FROM page_visuals WHERE default_url LIKE '%_JMP6225%' OR title LIKE '%RMC BTP%' OR default_url LIKE '%rodrigue-djomo%'");
-        }
+        // Auto-réparation et nettoyage complet des clés orphelines de RMC BTP non conformes à FEE BTP
+        $pdo->exec("DELETE FROM page_visuals WHERE section_key IN ('ecosystem_btp', 'ecosystem_quincaillerie', 'ecosystem_decor') 
+            OR default_url LIKE '%_JMP6225%' 
+            OR default_url LIKE '%rodrigue-djomo%' 
+            OR default_url LIKE '%IMG-20261029-WA0099%' 
+            OR default_url LIKE '%IMG-20261029-WA0098%' 
+            OR default_url LIKE '%IMG-20261029-WA0097%'
+            OR title LIKE '%RMC BTP%'");
 
         // Liste des visuels de repère fondamentaux réels de FEE BTP SARL
         $defaults = [
@@ -98,6 +100,40 @@ function initPageVisualsTable($pdo) {
                 'default_url' => 'images/IMG-20261015-WA0054.jpg',
                 'focal_point' => 'center top',
                 'sort_order' => 50
+            ],
+            // --- Section B.2 : Résultats Concrets Livrés (Showcase Diaspora) ---
+            [
+                'page_slug' => 'home',
+                'section_key' => 'showcase_card_1',
+                'section_name' => "Section B.2 : Résultats Concrets Livrés (Clés en Main)",
+                'title' => "Projet Livré 1 : Villa Duplex Contemporaine R+1 (Foréké-Dschang)",
+                'description' => "Photo de la villa livrée clé en main en 7 mois avec finitions complètes.",
+                'image_url' => 'images/wa0062-framed-16x9.jpg',
+                'default_url' => 'images/wa0062-framed-16x9.jpg',
+                'focal_point' => 'center center',
+                'sort_order' => 52
+            ],
+            [
+                'page_slug' => 'home',
+                'section_key' => 'showcase_card_2',
+                'section_name' => "Section B.2 : Résultats Concrets Livrés (Clés en Main)",
+                'title' => "Projet Livré 2 : Immeuble Mixte Résidentiel R+3 (Dschang Centre)",
+                'description' => "Photo de l'immeuble d'appartements et commerces livré pour la diaspora.",
+                'image_url' => 'images/IMG-20261015-WA0062.jpg',
+                'default_url' => 'images/IMG-20261015-WA0062.jpg',
+                'focal_point' => 'center center',
+                'sort_order' => 54
+            ],
+            [
+                'page_slug' => 'home',
+                'section_key' => 'showcase_card_3',
+                'section_name' => "Section B.2 : Résultats Concrets Livrés (Clés en Main)",
+                'title' => "Projet Livré 3 : Murs de Soutènement & Sécurisation de Terrains",
+                'description' => "Photo de l'ouvrage de soutènement banché garanti 10 ans sur pente abrupte.",
+                'image_url' => 'images/IMG-20261015-WA0073.jpg',
+                'default_url' => 'images/IMG-20261015-WA0073.jpg',
+                'focal_point' => 'center center',
+                'sort_order' => 56
             ],
             [
                 'page_slug' => 'home',
@@ -229,15 +265,6 @@ function initPageVisualsTable($pdo) {
                 'sort_order' => 410
             ]
         ];
-
-        // Optimisation haute performance : si des visuels existent déjà et aucune réparation n'est nécessaire
-        if (!$needsRepair) {
-            $checkExists = $pdo->query("SELECT 1 FROM page_visuals LIMIT 1");
-            if ($checkExists && $checkExists->fetch()) {
-                $initialized = true;
-                return;
-            }
-        }
 
         $stmt = $pdo->prepare("INSERT IGNORE INTO page_visuals 
             (page_slug, section_key, section_name, title, description, image_url, default_url, focal_point, sort_order) 
