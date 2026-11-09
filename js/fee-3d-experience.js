@@ -39,36 +39,43 @@
     });
 
     // ========================================================================
-    // STRUCTURE GÉOMÉTRIQUE IMPOSANTE : TOUR RMC BTP HIGH-RISE & FONDATIONS
+    // STRUCTURE ARCHITECTURALE D'AVANT-GARDE : TOUR TORSADÉE TWIST & DIAGRID FEE BTP
     // ========================================================================
     const nodes = [];
     const edges = [];
-    const floors = 14; // Gratte-ciel de 14 niveaux
-    const baseRadius = Math.min(width, height) * 0.216; // Réduit de 40% (0.36 * 0.60 = 0.216) pour cadrage parfait
-    const pointsPerFloor = 8; // Octogone architectural moderne
+    const floors = 16; // Gratte-ciel haute ingénierie de 16 niveaux
+    const baseRadius = Math.min(width, height) * 0.216; // Rayon proportionnel
+    const pointsPerFloor = 8; // Octogone à torsion continue
 
     for (let f = 0; f < floors; f++) {
-      // Étage avec profil aérodynamique décroissant et flèche sommitale
       const floorProgress = f / (floors - 1);
-      const floorRadius = baseRadius * (1 - Math.pow(floorProgress, 1.4) * 0.45);
-      const y = (f - floors * 0.42) * (baseRadius * 0.22);
+      // Effet de torsion progressive hélicoïdale (Turning Torso / Cayan Tower)
+      const twistAngle = Math.pow(floorProgress, 1.1) * (Math.PI * 0.45);
+      
+      // Rayon étagé avec porte-à-faux en porte-à-faux (Sky Terraces tous les 4 étages)
+      let floorRadius = baseRadius * (1 - Math.pow(floorProgress, 1.3) * 0.42);
+      if (f > 0 && f < floors - 1 && f % 4 === 0) {
+        floorRadius *= 1.16; // Balcon / terrasse panoramique en porte-à-faux
+      }
+      const y = (f - floors * 0.42) * (baseRadius * 0.21);
 
-      // Anneau extérieur octogonal
+      // Anneau extérieur octogonal avec torsion hélicoïdale
       for (let i = 0; i < pointsPerFloor; i++) {
-        const theta = (i / pointsPerFloor) * Math.PI * 2;
+        const theta = (i / pointsPerFloor) * Math.PI * 2 + twistAngle;
         nodes.push({
           x0: Math.cos(theta) * floorRadius,
-          y0: -y, // Croissance vers le haut
+          y0: -y,
           z0: Math.sin(theta) * floorRadius,
           floor: f,
+          isCantilever: (f % 4 === 0),
           isCore: false
         });
       }
 
-      // Noyau central porteur (Piliers intérieurs de génie civil)
-      const coreRadius = floorRadius * 0.42;
+      // Noyau central porteur cylindrique (Cage d'ascenseurs et voiles béton armé)
+      const coreRadius = floorRadius * 0.38;
       for (let i = 0; i < 4; i++) {
-        const theta = (i / 4) * Math.PI * 2 + Math.PI / 4;
+        const theta = (i / 4) * Math.PI * 2 + Math.PI / 4 + (twistAngle * 0.5);
         nodes.push({
           x0: Math.cos(theta) * coreRadius,
           y0: -y,
@@ -79,39 +86,39 @@
       }
     }
 
-    // Flèche sommitale / Antenne de prestige (Point culminant)
-    const topFloorY = (floors - 1 - floors * 0.42) * (baseRadius * 0.22);
+    // Double Flèche sommitale / Antennes architecturales de prestige
+    const topFloorY = (floors - 1 - floors * 0.42) * (baseRadius * 0.21);
     const apexIndex = nodes.length;
     nodes.push({
       x0: 0,
-      y0: -(topFloorY + baseRadius * 0.65),
+      y0: -(topFloorY + baseRadius * 0.72),
       z0: 0,
       floor: floors,
       isCore: true,
       isApex: true
     });
 
-    // Lier les arrêtes du bâtiment
+    // Lier les arrêtes du bâtiment avec treillis Diagrid en losanges
     const nodeStride = pointsPerFloor + 4; // 8 extérieurs + 4 intérieurs = 12 par étage
     for (let f = 0; f < floors; f++) {
       const baseIdx = f * nodeStride;
 
-      // 1. Périmètre extérieur
+      // 1. Périmètre extérieur de la dalle
       for (let i = 0; i < pointsPerFloor; i++) {
         const cur = baseIdx + i;
         const next = baseIdx + ((i + 1) % pointsPerFloor);
         edges.push([cur, next, 'ring']);
 
-        // Colonnes verticales extérieures
+        // Colonnes torsadées et treillis Diagrid structural
         if (f < floors - 1) {
           const above = baseIdx + nodeStride + i;
           edges.push([cur, above, 'column']);
 
-          // Contreventements croisés en X (Treillis BTP de haute ingénierie)
-          if (f % 2 === 0) {
-            const aboveNext = baseIdx + nodeStride + ((i + 1) % pointsPerFloor);
-            edges.push([cur, aboveNext, 'brace']);
-          }
+          // Diagonales croisées (Diagrid BTP haute résistance sismique)
+          const aboveNext = baseIdx + nodeStride + ((i + 1) % pointsPerFloor);
+          edges.push([cur, aboveNext, 'brace']);
+          const abovePrev = baseIdx + nodeStride + ((i - 1 + pointsPerFloor) % pointsPerFloor);
+          edges.push([cur, abovePrev, 'brace-rev']);
         }
       }
 
@@ -127,33 +134,32 @@
           edges.push([curCore, aboveCore, 'core-column']);
         }
 
-        // Poutres radiales reliant le noyau à la façade extérieure
+        // Poutres radiales de solidarisation dalle / noyau
         edges.push([curCore, baseIdx + (i * 2), 'radial']);
       }
     }
 
-    // Relier les derniers étages à l'apex (flèche sommitale)
+    // Relier les derniers étages à l'apex sommital
     const lastFloorBase = (floors - 1) * nodeStride;
-    for (let i = 0; i < pointsPerFloor; i += 2) {
+    for (let i = 0; i < pointsPerFloor; i++) {
       edges.push([lastFloorBase + i, apexIndex, 'spire']);
     }
 
-    // 3. Fondations Massives & Semelles Béton Armé (Base du Bâtiment)
+    // 3. Fondations Géotechniques & Radier Nervuré FEE BTP
     const foundationPads = [];
-    const groundY = (floors * 0.35) * (baseRadius * 0.22);
+    const groundY = (floors * 0.35) * (baseRadius * 0.21);
 
-    // Semelles isolées et massifs de fondation sous chaque colonne extérieure
     for (let i = 0; i < pointsPerFloor; i++) {
       const theta = (i / pointsPerFloor) * Math.PI * 2;
       const padX = Math.cos(theta) * baseRadius;
       const padZ = Math.sin(theta) * baseRadius;
-      const padSize = baseRadius * 0.14;
+      const padSize = baseRadius * 0.15;
       foundationPads.push({ x: padX, y: groundY, z: padZ, size: padSize });
     }
 
-    // Grille de fondation géotechnique au sol (Sol de chantier / Radier général)
+    // Grille de fondation géotechnique
     const gridLines = [];
-    const gridSize = baseRadius * 1.6;
+    const gridSize = baseRadius * 1.65;
     const gridSteps = 7;
     for (let g = -gridSteps; g <= gridSteps; g++) {
       const pos = (g / gridSteps) * gridSize;
@@ -186,31 +192,42 @@
     function render() {
       ctx.clearRect(0, 0, width, height);
 
-      // Adaptation responsive progressive : rétrécit harmonieusement sans disparaître
-      const responsiveScale = width <= 480 ? 0.40 : (width <= 768 ? 0.55 : (width <= 991 ? 0.72 : 1.0));
+      // Adaptation responsive progressive : rétrécit nettement sur mobile sans dominer le texte
+      let responsiveScale = 1.0;
+      let mobileAlpha = 0.95;
+      if (width <= 480) {
+        responsiveScale = 0.28; // Réduction drastique pour mobile portrait
+        mobileAlpha = 0.22;     // Effet filigrane discret derrière la typographie
+      } else if (width <= 640) {
+        responsiveScale = 0.34;
+        mobileAlpha = 0.26;
+      } else if (width <= 768) {
+        responsiveScale = 0.42;
+        mobileAlpha = 0.35;
+      } else if (width <= 991) {
+        responsiveScale = 0.58;
+        mobileAlpha = 0.50;
+      }
 
-      // Rotation continue 360° fluide & cinématique (vitesse type turntable architectural)
+      // Rotation continue 360° fluide & cinématique
       autoRotation += 0.0075;
 
-      // angleX = rotation 360° continue + influence douce de la souris
       angleX = autoRotation + (targetX * 2);
-      
-      // angleY = légère inclinaison de perspective en plongée/contre-plongée
       angleY += (targetY - angleY) * 0.05;
 
       const cosX = Math.cos(angleX);
       const sinX = Math.sin(angleX);
-      const cosY = Math.cos(angleY + 0.18); // Légère contre-plongée majestueuse
+      const cosY = Math.cos(angleY + 0.18);
       const sinY = Math.sin(angleY + 0.18);
 
       // Centrage équilibré selon la taille d'écran
-      const cx = width > 992 ? width * 0.74 : (width > 600 ? width * 0.50 : width * 0.50);
-      const cy = width > 992 ? height * 0.50 : (width > 600 ? height * 0.52 : height * 0.54);
+      const cx = width > 992 ? width * 0.74 : width * 0.50;
+      const cy = width > 992 ? height * 0.50 : (width <= 640 ? height * 0.46 : height * 0.48);
       const fov = 750;
 
       // Opacité adaptée sur mobile pour laisser respirer les textes et photos
       const prevAlpha = ctx.globalAlpha;
-      ctx.globalAlpha = width <= 576 ? 0.42 : (width <= 991 ? 0.60 : 1.0);
+      ctx.globalAlpha = mobileAlpha;
 
       // Fonction de projection 3D mise à l'échelle responsive
       function projectPoint(x, y, z) {
@@ -230,9 +247,9 @@
         };
       }
 
-      // --- A. RADIER GÉNÉRAL & GRILLE GÉOTECHNIQUE AU SOL (FONDATIONS CLAIRES ET VISIBLES) ---
+      // --- A. RADIER GÉNÉRAL & GRILLE AU SOL (FONDATIONS FEE BTP) ---
       ctx.lineWidth = 1.6;
-      ctx.strokeStyle = 'rgba(0, 180, 255, 0.35)'; // Grille au sol bleu cyan technologique RMC BTP
+      ctx.strokeStyle = 'rgba(255, 122, 0, 0.35)'; // Grille au sol ambre orangée FEE BTP
       for (let g = 0; g < gridLines.length; g++) {
         const pt1 = projectPoint(gridLines[g][0].x, gridLines[g][0].y, gridLines[g][0].z);
         const pt2 = projectPoint(gridLines[g][1].x, gridLines[g][1].y, gridLines[g][1].z);
@@ -242,7 +259,7 @@
         ctx.stroke();
       }
 
-      // Semelles de fondation béton au sol (Carrés massifs de soutènement)
+      // Semelles de fondation béton au sol
       for (let s = 0; s < foundationPads.length; s++) {
         const pad = foundationPads[s];
         const half = pad.size;
@@ -258,21 +275,21 @@
           ctx.lineTo(pCorners[c].px, pCorners[c].py);
         }
         ctx.closePath();
-        ctx.fillStyle = 'rgba(0, 114, 255, 0.25)';
+        ctx.fillStyle = 'rgba(255, 122, 0, 0.20)';
         ctx.fill();
-        ctx.strokeStyle = 'rgba(0, 210, 255, 0.9)';
+        ctx.strokeStyle = 'rgba(245, 158, 11, 0.85)';
         ctx.lineWidth = 2.4;
         ctx.stroke();
       }
 
-      // Projection de tous les nœuds de la tour
+      // Projection des nœuds de la tour
       const projected = [];
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
         projected.push(projectPoint(n.x0, n.y0, n.z0));
       }
 
-      // --- B. TRACÉ DES ARRÊTES ARCHITECTURALES TRÈS ÉPAISSES & CONTRASTÉES ---
+      // --- B. TRACÉ DES ARRÊTES ARCHITECTURALES HAUTE DÉFINITION FEE BTP ---
       for (let e = 0; e < edges.length; e++) {
         const p1 = projected[edges[e][0]];
         const p2 = projected[edges[e][1]];
@@ -283,28 +300,28 @@
         ctx.lineTo(p2.px, p2.py);
 
         if (type === 'spire') {
-          ctx.strokeStyle = '#00f0ff'; // Flèche cyan éclatante
-          ctx.lineWidth = 3.4;
+          ctx.strokeStyle = '#ffffff'; // Flèche blanche éclatante
+          ctx.lineWidth = 3.2;
         } else if (type === 'column') {
-          ctx.strokeStyle = '#0084ff'; // Colonnes porteuses bleu royal vibrant RMC
-          ctx.lineWidth = 3.0;
-        } else if (type === 'brace') {
-          ctx.strokeStyle = 'rgba(0, 210, 255, 0.75)'; // Treillis de renfort BTP cyan
-          ctx.lineWidth = 1.8;
+          ctx.strokeStyle = '#ff7a00'; // Colonnes porteuses Orange BTP signature
+          ctx.lineWidth = 2.8;
+        } else if (type === 'brace' || type === 'brace-rev') {
+          ctx.strokeStyle = 'rgba(245, 158, 11, 0.65)'; // Treillis Diagrid Ambre
+          ctx.lineWidth = 1.6;
         } else if (type === 'core-column' || type === 'core-ring') {
           ctx.strokeStyle = '#ffffff'; // Cœur béton armé blanc haute luminosité
           ctx.lineWidth = 2.2;
         } else if (type === 'radial') {
-          ctx.strokeStyle = 'rgba(180, 220, 255, 0.45)';
-          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = 'rgba(255, 200, 150, 0.40)';
+          ctx.lineWidth = 1.4;
         } else {
-          ctx.strokeStyle = '#0055cc'; // Dalles d'étages bleu de référence RMC BTP
-          ctx.lineWidth = 2.2;
+          ctx.strokeStyle = '#e65100'; // Dalles d'étages orange soutenu FEE BTP
+          ctx.lineWidth = 2.0;
         }
         ctx.stroke();
       }
 
-      // --- C. SCAN LASER ÉCHÉANCIER / NIVEAU LASER DE CHANTIER BTP ---
+      // --- C. SCAN LASER DE CHANTIER (Orange Laser de mesure Topographique) ---
       scanLaserY += 0.015;
       const currentLaserFloor = (Math.sin(scanLaserY) * 0.5 + 0.5) * (floors - 1);
       const laserFloorInt = Math.floor(currentLaserFloor);
@@ -319,7 +336,7 @@
         ctx.closePath();
         ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 2.5;
-        ctx.shadowColor = '#00d2ff';
+        ctx.shadowColor = '#ff7a00';
         ctx.shadowBlur = 18;
         ctx.stroke();
         ctx.shadowBlur = 0;
@@ -329,18 +346,18 @@
       for (let i = 0; i < projected.length; i++) {
         const p = projected[i];
         const isApex = nodes[i].isApex;
-        const radiusPt = isApex ? 5.0 : Math.max(1.8, p.scale * 3.2);
+        const radiusPt = isApex ? 5.0 : Math.max(1.8, p.scale * 3.0);
 
         ctx.beginPath();
         ctx.arc(p.px, p.py, radiusPt, 0, Math.PI * 2);
-        ctx.fillStyle = isApex ? '#ffffff' : (nodes[i].isCore ? '#ffffff' : '#00e5ff');
-        ctx.shadowColor = isApex ? '#ffffff' : '#00aaff';
+        ctx.fillStyle = isApex ? '#ffffff' : (nodes[i].isCore ? '#ffffff' : '#f59e0b');
+        ctx.shadowColor = isApex ? '#ffffff' : '#ff7a00';
         ctx.shadowBlur = isApex ? 22 : 10;
         ctx.fill();
         ctx.shadowBlur = 0;
       }
 
-      // --- E. PARTICULES DE POUSSIÈRE LUMINEUSE D'ATMOSPHÈRE ---
+      // --- E. PARTICULES DE POUSSIÈRE LUMINEUSE DORÉE ---
       for (let i = 0; i < particles.length; i++) {
         const pt = particles[i];
         pt.y -= pt.speed * 70;
@@ -349,7 +366,7 @@
         const proj = projectPoint(pt.x, pt.y, pt.z);
         ctx.beginPath();
         ctx.arc(proj.px, proj.py, Math.max(0.6, pt.size * proj.scale), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 210, 255, ${pt.alpha})`;
+        ctx.fillStyle = `rgba(245, 158, 11, ${pt.alpha})`;
         ctx.fill();
       }
 
