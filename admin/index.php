@@ -26,7 +26,7 @@ $latestProjects = $pdo->query("SELECT * FROM projects ORDER BY id DESC LIMIT 4")
       Bonjour <?php echo htmlspecialchars($_SESSION['admin_fullname'] ?? 'M. AGHOKENG TANGMO Fabrice'); ?> !
     </h3>
     <p>
-      Bienvenue sur votre centre de pilotage digital <strong>FREE BTP SARL</strong>. Suivez vos demandes de devis, publiez vos chantiers et gérez les contenus de votre site en toute simplicité.
+      Bienvenue sur votre centre de pilotage digital <strong>FEE BTP SARL</strong>. Suivez vos demandes de devis, publiez vos chantiers et gérez les contenus de votre site en toute simplicité.
     </p>
   </div>
   <div style="display: flex; gap: 10px; align-items: center; z-index: 2;">

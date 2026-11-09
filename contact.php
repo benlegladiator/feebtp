@@ -1,209 +1,194 @@
 <?php
-$pageTitle = "Contact & Localisation du Siège à Dschang";
+$pageTitle = "Contact & Demande de Cotation BTP | FEE BTP SARL à Dschang";
+$pageDescription = "Contactez FEE BTP SARL à Dschang : formulaire de devis express avec téléversement de plans (PDF/images), géolocalisation et assistance téléphonique directe.";
 require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/includes/navbar.php';
 
-$requestedType = $_GET['type'] ?? 'contact';
-$prefillService = $_GET['service'] ?? '';
-$prefillProject = $_GET['projet'] ?? '';
-$hasSuccess = isset($_GET['success']);
+$defaultType = $_GET['type'] ?? 'contact';
+$prefilledService = $_GET['service'] ?? '';
+$prefilledProject = $_GET['projet'] ?? '';
 ?>
 
-<div style="background: var(--primary); color: #ffffff; padding: 60px 0; text-align: center;">
-  <div class="container">
-    <div class="section-tag" style="background: rgba(243,108,33,0.2); color: #ff9800;">Échange Direct</div>
-    <h1 style="font-size: 2.6rem; font-weight: 800; margin-bottom: 12px;">Contactez FREE BTP SARL</h1>
-    <p style="font-size: 1.1rem; color: #cbd5e1; max-width: 720px; margin: 0 auto;">
-      Nos bureaux d'études et notre direction générale vous accueillent à Dschang. Envoyez-nous votre demande de cotation ou vos plans.
-    </p>
-  </div>
-</div>
+<!-- BANNIÈRE EN-TÊTE -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('images/IMG-20261015-WA0079.jpg'); background-position: center top;" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-end justify-content-start">
+			<div class="col-md-9 ftco-animate pb-5">
+				<p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.php">Accueil <i class="fa fa-chevron-right"></i></a></span> <span>Contact & Devis <i class="fa fa-chevron-right"></i></span></p>
+				<h1 class="mb-3 bread text-white font-weight-bold">Contactez Notre Bureau Technique à Dschang</h1>
+			</div>
+		</div>
+	</div>
+</section>
 
-<section class="section">
-  <div class="container">
+<!-- SECTION FORMULAIRE & INFORMATIONS -->
+<section class="ftco-section bg-light">
+	<div class="container">
 
-    <?php if ($hasSuccess && isset($_SESSION['form_success'])): ?>
-      <div style="background: #dcfce7; border: 1px solid #86efac; color: #166534; padding: 18px 24px; border-radius: 8px; margin-bottom: 30px; display: flex; align-items: center; gap: 12px;">
-        <i class="fas fa-check-circle" style="font-size: 1.6rem;"></i>
-        <div>
-          <h4 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 2px;">Demande Enregistrée avec Succès !</h4>
-          <p style="font-size: 0.92rem;"><?php echo htmlspecialchars($_SESSION['form_success']); unset($_SESSION['form_success']); ?></p>
-        </div>
-      </div>
-    <?php endif; ?>
+		<!-- Alertes Flash -->
+		<?php if (!empty($_SESSION['flash_success'])): ?>
+			<div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert">
+				<i class="fa fa-check-circle mr-2"></i> <?= htmlspecialchars($_SESSION['flash_success']) ?>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<?php unset($_SESSION['flash_success']); ?>
+		<?php endif; ?>
 
-    <?php if (isset($_SESSION['form_error'])): ?>
-      <div style="background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; padding: 18px 24px; border-radius: 8px; margin-bottom: 30px; display: flex; align-items: center; gap: 12px;">
-        <i class="fas fa-exclamation-triangle" style="font-size: 1.6rem;"></i>
-        <div>
-          <h4 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 2px;">Attention</h4>
-          <p style="font-size: 0.92rem;"><?php echo htmlspecialchars($_SESSION['form_error']); unset($_SESSION['form_error']); ?></p>
-        </div>
-      </div>
-    <?php endif; ?>
+		<?php if (!empty($_SESSION['flash_error'])): ?>
+			<div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
+				<i class="fa fa-exclamation-triangle mr-2"></i> <?= htmlspecialchars($_SESSION['flash_error']) ?>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Fermer">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<?php unset($_SESSION['flash_error']); ?>
+		<?php endif; ?>
 
-    <div class="contact-grid">
-      <!-- Colonne Coordonnées Officielles -->
-      <div>
-        <div class="contact-info-card">
-          <h3 style="font-size: 1.35rem; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 12px;">
-            Coordonnées Officielles du Siège
-          </h3>
+		<div class="row">
+			<!-- Formulaire de Devis & Contact -->
+			<div class="col-lg-7 ftco-animate mb-4">
+				<div class="bg-white p-4 p-md-5 rounded shadow-sm">
+					<h3 class="font-weight-bold text-dark mb-2">Formulaire de Devis & Étude de Prix</h3>
+					<p class="text-muted small mb-4">
+						Transmettez-nous les détails de vos travaux ainsi que vos plans d'architecte ou pièces jointes (PDF, JPEG). Nos métreurs vous feront un retour sous 24h.
+					</p>
 
-          <div class="contact-info-item">
-            <i class="fas fa-building"></i>
-            <div>
-              <h4>FREE BTP SARL</h4>
-              <p>Société à Responsabilité Limitée au capital de BTP</p>
-              <p>Réf Contrat : <?php echo htmlspecialchars($siteSettings['contract_ref'] ?? 'CT-WEB-FREEBTP-2026-01'); ?></p>
-            </div>
-          </div>
+					<form action="process-contact.php" method="POST" enctype="multipart/form-data">
+						<input type="hidden" name="form_type" value="<?= $defaultType === 'devis' ? 'Demande de Devis' : 'Prise de Contact' ?>">
 
-          <div class="contact-info-item">
-            <i class="fas fa-user-tie"></i>
-            <div>
-              <h4>Direction Générale</h4>
-              <p><?php echo htmlspecialchars($siteSettings['manager_name'] ?? 'M. AGHOKENG TANGMO FABRICE'); ?></p>
-              <p style="font-size: 0.8rem; color: #cbd5e1;"><?php echo htmlspecialchars($siteSettings['manager_role'] ?? 'Gérant / Directeur Général'); ?></p>
-            </div>
-          </div>
+						<div class="row">
+							<div class="col-md-6 form-group">
+								<label class="font-weight-bold small">Nom & Prénom *</label>
+								<input type="text" name="full_name" class="form-control" placeholder="Ex: Jean Paul Ndjock" required>
+							</div>
+							<div class="col-md-6 form-group">
+								<label class="font-weight-bold small">Numéro de Téléphone (WhatsApp) *</label>
+								<input type="tel" name="phone" class="form-control" placeholder="(+237) 6..." required>
+							</div>
+						</div>
 
-          <div class="contact-info-item">
-            <i class="fas fa-map-marker-alt"></i>
-            <div>
-              <h4>Adresse & Localisation</h4>
-              <p><?php echo htmlspecialchars($siteSettings['address'] ?? 'Dschang, Région de l\'Ouest, Cameroun'); ?></p>
-              <p style="font-size: 0.8rem; color: #cbd5e1;">Intervention : Ouest, Centre, Littoral et Sud</p>
-            </div>
-          </div>
+						<div class="row">
+							<div class="col-md-6 form-group">
+								<label class="font-weight-bold small">Adresse Email</label>
+								<input type="email" name="email" class="form-control" placeholder="adresse@domaine.com">
+							</div>
+							<div class="col-md-6 form-group">
+								<label class="font-weight-bold small">Corps d'État Concerné *</label>
+								<select name="subject" class="form-control" required>
+									<option value="Gros Œuvre & Maçonnerie" <?= $prefilledService === 'Gros Œuvre & Maçonnerie Générale' ? 'selected' : '' ?>>Gros Œuvre & Maçonnerie</option>
+									<option value="Génie Civil & VRD" <?= $prefilledService === 'Génie Civil & VRD (Voiries et Réseaux)' ? 'selected' : '' ?>>Génie Civil & VRD (Voiries)</option>
+									<option value="Second Œuvre & Finitions" <?= $prefilledService === 'Second Œuvre & Finitions Haut Standing' ? 'selected' : '' ?>>Second Œuvre & Finitions</option>
+									<option value="Rénovation & Réhabilitation" <?= $prefilledService === 'Rénovation & Réhabilitation Immobilière' ? 'selected' : '' ?>>Rénovation & Réhabilitation</option>
+									<option value="Études Techniques & Architecture" <?= $prefilledService === 'Études Techniques, Plans & Architecture' ? 'selected' : '' ?>>Études Techniques & Architecture</option>
+									<option value="Conduite & Pilotage de Travaux">Conduite & Pilotage de Travaux</option>
+									<option value="Autre Demande Spécifique">Autre Demande Spécifique</option>
+								</select>
+							</div>
+						</div>
 
-          <div class="contact-info-item">
-            <i class="fas fa-phone-alt"></i>
-            <div>
-              <h4>Lignes Téléphoniques</h4>
-              <p><a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $siteSettings['phone_primary'] ?? '+237691006431'); ?>"><?php echo htmlspecialchars($siteSettings['phone_primary'] ?? '(+237) 691 00 64 31'); ?></a></p>
-              <p><a href="tel:<?php echo preg_replace('/[^0-9+]/', '', $siteSettings['phone_secondary'] ?? '+237671063441'); ?>"><?php echo htmlspecialchars($siteSettings['phone_secondary'] ?? '(+237) 671 06 34 41'); ?></a></p>
-            </div>
-          </div>
+						<div class="form-group">
+							<label class="font-weight-bold small">Description Détaillée du Projet *</label>
+							<textarea name="message" class="form-control" rows="5" placeholder="Indiquez la localisation exacte (ville, quartier), la surface approximative, le délai envisagé et tout détail technique utile..." required><?= !empty($prefilledProject) ? "Bonjour, je souhaite obtenir un devis pour un projet similaire à : " . htmlspecialchars($prefilledProject) : "" ?></textarea>
+						</div>
 
-          <div class="contact-info-item">
-            <i class="fas fa-envelope"></i>
-            <div>
-              <h4>Courriers Électroniques</h4>
-              <p><a href="mailto:<?php echo htmlspecialchars($siteSettings['email_contact'] ?? 'contact@freebtp-sarl.com'); ?>"><?php echo htmlspecialchars($siteSettings['email_contact'] ?? 'contact@freebtp-sarl.com'); ?></a></p>
-              <p><a href="mailto:<?php echo htmlspecialchars($siteSettings['email_direction'] ?? 'direction@freebtp-sarl.com'); ?>"><?php echo htmlspecialchars($siteSettings['email_direction'] ?? 'direction@freebtp-sarl.com'); ?></a></p>
-            </div>
-          </div>
+						<div class="form-group border rounded p-3 bg-light">
+							<label class="font-weight-bold small text-dark d-block">
+								<i class="fa fa-paperclip text-primary mr-1"></i> Joindre un Document / Plan (PDF, DWG, Image)
+							</label>
+							<small class="text-muted d-block mb-2">Taille maximale : 15 Mo. Formats acceptés : .pdf, .jpg, .png, .docx, .dwg</small>
+							<input type="file" name="attachment" class="form-control-file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.dwg">
+						</div>
 
-          <div class="contact-info-item">
-            <i class="fab fa-whatsapp"></i>
-            <div>
-              <h4>WhatsApp Commercial & Direction</h4>
-              <p><a href="https://wa.me/<?php echo htmlspecialchars($siteSettings['whatsapp_number'] ?? '237691006431'); ?>" target="_blank" style="color: #25d366; font-weight: 700;">+237 691 00 64 31 (Messagerie directe)</a></p>
-            </div>
-          </div>
+						<button type="submit" class="btn btn-primary btn-block font-weight-bold py-3 mt-4">
+							<i class="fa fa-paper-plane mr-2"></i> Envoyer ma Demande de Cotation
+						</button>
+					</form>
+				</div>
+			</div>
 
-          <div class="contact-info-item">
-            <i class="fas fa-clock"></i>
-            <div>
-              <h4>Horaires d'Ouverture</h4>
-              <p><?php echo htmlspecialchars($siteSettings['opening_hours'] ?? 'Lun - Ven : 07h30 - 18h00 | Sam : 08h00 - 13h00'); ?></p>
-            </div>
-          </div>
-        </div>
-      </div>
+			<!-- Coordonnées & Accompagnement -->
+			<div class="col-lg-5 ftco-animate">
+				<!-- Carte Coordonnées -->
+				<div class="bg-white p-4 p-md-5 rounded shadow-sm mb-4">
+					<h4 class="font-weight-bold text-dark mb-4">Coordonnées Officielles</h4>
+					
+					<div class="d-flex mb-3">
+						<div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 44px; height: 44px; min-width: 44px;">
+							<i class="fa fa-map-marker" style="font-size: 18px;"></i>
+						</div>
+						<div>
+							<h6 class="font-weight-bold mb-1">Siège Social</h6>
+							<p class="text-muted small mb-0"><?= htmlspecialchars($address) ?></p>
+						</div>
+					</div>
 
-      <!-- Colonne Formulaire de Contact & Devis avec Pièces Jointes -->
-      <div>
-        <div class="contact-form-card">
-          <div style="margin-bottom: 25px;">
-            <h3 style="color: var(--primary); font-size: 1.35rem; font-weight: 700; margin-bottom: 6px;">
-              <?php echo ($requestedType === 'devis') ? 'Formulaire de Demande de Devis Détaillé' : 'Envoyer un Message à FREE BTP'; ?>
-            </h3>
-            <p style="color: var(--muted); font-size: 0.9rem;">
-              Joignez vos plans architecturaux, devis existants ou photos du terrain au format PDF ou image.
-            </p>
-          </div>
+					<div class="d-flex mb-3">
+						<div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 44px; height: 44px; min-width: 44px;">
+							<i class="fa fa-phone" style="font-size: 18px;"></i>
+						</div>
+						<div>
+							<h6 class="font-weight-bold mb-1">Lignes Téléphoniques</h6>
+							<p class="text-dark font-weight-bold mb-0"><?= htmlspecialchars($phonePrimary) ?></p>
+							<p class="text-muted small mb-0"><?= htmlspecialchars($phoneSecondary) ?></p>
+						</div>
+					</div>
 
-          <form action="api/contact.php" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="type" value="<?php echo htmlspecialchars($requestedType); ?>">
+					<div class="d-flex mb-3">
+						<div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 44px; height: 44px; min-width: 44px;">
+							<i class="fab fa-whatsapp" style="font-size: 20px;"></i>
+						</div>
+						<div>
+							<h6 class="font-weight-bold mb-1">WhatsApp Direct</h6>
+							<p class="text-muted small mb-1">Échangez en direct avec un conseiller technique :</p>
+							<a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $whatsappNumber) ?>?text=Bonjour%20FEE%20BTP,%20je%20souhaite%20une%20cotation." class="btn btn-success btn-sm font-weight-bold" target="_blank">
+								<i class="fab fa-whatsapp mr-1"></i> Ouvrir la discussion WhatsApp
+							</a>
+						</div>
+					</div>
 
-            <div class="form-group">
-              <label><i class="fas fa-user"></i> Nom Complet / Entreprise <span style="color:red;">*</span></label>
-              <input type="text" name="name" class="form-control" placeholder="M. / Mme / Société" required>
-            </div>
+					<div class="d-flex mb-3">
+						<div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 44px; height: 44px; min-width: 44px;">
+							<i class="fa fa-envelope" style="font-size: 18px;"></i>
+						</div>
+						<div>
+							<h6 class="font-weight-bold mb-1">Emails Professionnels</h6>
+							<p class="text-muted small mb-0"><?= htmlspecialchars($emailContact) ?></p>
+							<p class="text-muted small mb-0"><?= htmlspecialchars(getSetting('email_direction', 'direction@feebtp-sarl.com')) ?></p>
+						</div>
+					</div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-              <div class="form-group">
-                <label><i class="fas fa-phone"></i> Téléphone / WhatsApp <span style="color:red;">*</span></label>
-                <input type="text" name="phone" class="form-control" placeholder="(+237) 6XX XX XX XX" required>
-              </div>
-              <div class="form-group">
-                <label><i class="fas fa-envelope"></i> Adresse Email</label>
-                <input type="email" name="email" class="form-control" placeholder="votre-email@domaine.cm">
-              </div>
-            </div>
+					<div class="d-flex">
+						<div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mr-3" style="width: 44px; height: 44px; min-width: 44px;">
+							<i class="fa fa-clock-o" style="font-size: 18px;"></i>
+						</div>
+						<div>
+							<h6 class="font-weight-bold mb-1">Horaires de Travail</h6>
+							<p class="text-muted small mb-0"><?= htmlspecialchars($openingHours) ?></p>
+						</div>
+					</div>
+				</div>
 
-            <div class="form-group">
-              <label><i class="fas fa-hard-hat"></i> Service ou Expertise BTP concernée</label>
-              <select name="service" class="form-control">
-                <option value="">Sélectionnez un service...</option>
-                <option value="Gros Œuvre & Maçonnerie Générale" <?php echo ($prefillService === 'Gros Œuvre & Maçonnerie Générale') ? 'selected' : ''; ?>>Gros Œuvre & Maçonnerie Générale</option>
-                <option value="Second Œuvre & Finitions Haut Standing" <?php echo ($prefillService === 'Second Œuvre & Finitions Haut Standing') ? 'selected' : ''; ?>>Second Œuvre & Finitions Haut Standing</option>
-                <option value="Génie Civil & VRD (Voiries et Réseaux)" <?php echo ($prefillService === 'Génie Civil & VRD (Voiries et Réseaux)') ? 'selected' : ''; ?>>Génie Civil & VRD (Voiries et Réseaux)</option>
-                <option value="Rénovation & Réhabilitation Immobilière" <?php echo ($prefillService === 'Rénovation & Réhabilitation Immobilière') ? 'selected' : ''; ?>>Rénovation & Réhabilitation Immobilière</option>
-                <option value="Études Techniques, Plans & Architecture" <?php echo ($prefillService === 'Études Techniques, Plans & Architecture') ? 'selected' : ''; ?>>Études Techniques, Plans & Architecture</option>
-                <option value="Conduite de Travaux & Pilotage de Chantier" <?php echo ($prefillService === 'Conduite de Travaux & Pilotage de Chantier') ? 'selected' : ''; ?>>Conduite de Travaux & Pilotage de Chantier</option>
-                <option value="Autre demande">Autre prestation</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label><i class="fas fa-tag"></i> Objet du Message</label>
-              <input type="text" name="subject" class="form-control" value="<?php echo !empty($prefillProject) ? 'Étude similaire au projet : ' . htmlspecialchars($prefillProject) : ''; ?>" placeholder="Ex: Devis construction villa R+1 à Dschang">
-            </div>
-
-            <div class="form-group">
-              <label><i class="fas fa-comment-dots"></i> Descriptif de votre besoin <span style="color:red;">*</span></label>
-              <textarea name="message" class="form-control" rows="4" placeholder="Précisez la situation géographique du terrain, la superficie approximative, les délais envisagés..." required></textarea>
-            </div>
-
-            <div class="form-group" style="background: #f8fafc; padding: 15px; border-radius: 6px; border: 1px dashed var(--border);">
-              <label><i class="fas fa-paperclip"></i> Joindre un fichier (Plan 2D/3D, Devis, Cahier des charges, Photo)</label>
-              <input type="file" name="attachment" class="form-control" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.dwg,.zip">
-              <small style="color: var(--muted); font-size: 0.78rem; display: block; margin-top: 4px;">Formats acceptés : PDF, Images (JPG, PNG), Word, AutoCAD (DWG) - Taille max : 10 Mo.</small>
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
-              <i class="fas fa-paper-plane"></i> Envoyer ma demande à FREE BTP SARL
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- Carte Google Maps Intégrée (Dschang, Ouest Cameroun) -->
-    <div style="margin-top: 50px; background: #ffffff; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow-sm);">
-      <div style="padding: 20px 25px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
-        <h4 style="color: var(--primary); font-size: 1.1rem; font-weight: 700;">
-          <i class="fas fa-map-marked-alt" style="color: var(--accent); margin-right: 8px;"></i>
-          Localisation Géographique - Siège Social à Dschang (Cameroun)
-        </h4>
-        <span style="font-size: 0.85rem; color: var(--muted);">Dschang, Menoua, Région de l'Ouest</span>
-      </div>
-      <div style="width: 100%; height: 380px;">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31792.83188981604!2d10.03816654261763!3d5.449645938448981!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x105fc49c81912f27%3A0xe6bf4b693e46ca79!2sDschang!5e0!3m2!1sfr!2scm!4v1700000000000!5m2!1sfr!2scm" 
-          width="100%" 
-          height="100%" 
-          style="border:0;" 
-          allowfullscreen="" 
-          loading="lazy" 
-          referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
-      </div>
-    </div>
-
-  </div>
+				<!-- Localisation Interactive Dschang -->
+				<div class="bg-white p-3 rounded shadow-sm">
+					<h5 class="font-weight-bold text-dark mb-2 px-2">Localisation à Dschang</h5>
+					<div class="rounded overflow-hidden" style="height: 250px;">
+						<iframe 
+							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.287236599723!2d10.05193987498068!3d5.449645994529881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x105fc48b0a73b5bf%3A0xe5a3bb4569e160a2!2sDschang%2C%20Cameroun!5e0!3m2!1sfr!2scm!4v1710000000000!5m2!1sfr!2scm" 
+							width="100%" 
+							height="100%" 
+							style="border:0;" 
+							allowfullscreen="" 
+							loading="lazy" 
+							referrerpolicy="no-referrer-when-downgrade">
+						</iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

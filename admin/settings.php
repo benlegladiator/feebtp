@@ -10,7 +10,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['save_settings
         'address', 'city', 'country', 'phone_primary', 'phone_secondary',
         'whatsapp_number', 'email_contact', 'email_direction', 'opening_hours',
         'stats_experience', 'stats_projects', 'stats_satisfaction', 'stats_equipments',
-        'about_summary'
+        'about_summary', 'gemini_api_key', 'ai_provider', 'ai_system_prompt'
     ];
 
     $stmt = $pdo->prepare("INSERT INTO settings (setting_key, setting_value) VALUES (?, ?) ON CONFLICT(setting_key) DO UPDATE SET setting_value = excluded.setting_value");
@@ -37,7 +37,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['save_settings
 
 <div class="admin-card">
   <div class="admin-card-header">
-    <h3><i class="fas fa-sliders-h" style="color: var(--admin-accent); margin-right: 8px;"></i> Configuration Générale de FREE BTP SARL</h3>
+    <h3><i class="fas fa-sliders-h" style="color: var(--admin-accent); margin-right: 8px;"></i> Configuration Générale de FEE BTP SARL</h3>
   </div>
 
   <div class="admin-card-body">
@@ -51,7 +51,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['save_settings
       <div class="form-grid" style="margin-bottom: 25px;">
         <div class="form-group">
           <label>Raison Sociale</label>
-          <input type="text" name="company_name" class="form-control" value="<?php echo htmlspecialchars($siteSettings['company_name'] ?? 'FREE BTP SARL'); ?>" required>
+          <input type="text" name="company_name" class="form-control" value="<?php echo htmlspecialchars($siteSettings['company_name'] ?? 'FEE BTP SARL'); ?>" required>
         </div>
         <div class="form-group">
           <label>Slogan Officiel</label>
@@ -133,9 +133,29 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['save_settings
       <h4 style="font-size: 1.05rem; color: var(--admin-primary); margin-bottom: 15px; border-bottom: 1px solid var(--admin-border); padding-bottom: 8px;">
         4. Textes de Présentation
       </h4>
-      <div class="form-group">
-        <label>Résumé "À Propos" (Pied de page & Accueil)</label>
-        <textarea name="about_summary" class="form-control" rows="3"><?php echo htmlspecialchars($siteSettings['about_summary'] ?? ''); ?></textarea>
+      <!-- Section 5 : Intelligence Artificielle du Chatbot (LLM & Concierge) -->
+      <h4 style="font-size: 1.05rem; color: var(--admin-primary); margin-bottom: 15px; border-bottom: 1px solid var(--admin-border); padding-bottom: 8px;">
+        <i class="fas fa-brain" style="color: var(--admin-accent); margin-right: 6px;"></i> 5. Intelligence Artificielle & Messagerie Instantanée
+      </h4>
+      <div class="form-grid" style="margin-bottom: 25px;">
+        <div class="form-group">
+          <label>Mode de Fonctionnement du Chatbot</label>
+          <select name="ai_provider" class="form-control">
+            <option value="auto" <?php echo (($siteSettings['ai_provider'] ?? 'auto') === 'auto') ? 'selected' : ''; ?>>Hybride Intelligent (IA Cloud si clé active + Moteur BTP Local)</option>
+            <option value="gemini" <?php echo (($siteSettings['ai_provider'] ?? '') === 'gemini') ? 'selected' : ''; ?>>Google Gemini AI (Génératif Avancé)</option>
+            <option value="local" <?php echo (($siteSettings['ai_provider'] ?? '') === 'local') ? 'selected' : ''; ?>>Moteur Sémantique BTP Local 100% Autonome</option>
+          </select>
+          <small class="text-muted" style="display: block; margin-top: 4px;">Le mode Hybride bascule automatiquement sur le moteur local expert en cas de besoin.</small>
+        </div>
+        <div class="form-group">
+          <label>Clé d'API Google Gemini (Gratuite / Optionnelle)</label>
+          <input type="password" name="gemini_api_key" class="form-control" value="<?php echo htmlspecialchars($siteSettings['gemini_api_key'] ?? ''); ?>" placeholder="AIzaSy...">
+          <small class="text-muted" style="display: block; margin-top: 4px;">Permet au chatbot de répondre à TOUTES les questions libres comme un ingénieur BTP en direct.</small>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom: 25px;">
+        <label>Consignes Spécifiques pour l'IA (Personnalité & Directives de Vente)</label>
+        <textarea name="ai_system_prompt" class="form-control" rows="3" placeholder="Ex: Mettre l'accent sur les solutions pour la diaspora, insister sur les visites de terrain à Dschang le weekend, etc."><?php echo htmlspecialchars($siteSettings['ai_system_prompt'] ?? ''); ?></textarea>
       </div>
 
       <button type="submit" class="btn btn-primary btn-lg">

@@ -26,7 +26,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['save_project'
     $isFeatured = isset($_POST['is_featured']) ? 1 : 0;
 
     // Gestion image upload
-    $mainImage = $_POST['current_main_image'] ?? 'assets/images/project-1.jpg';
+    $mainImage = $_POST['current_main_image'] ?? 'images/project-1.jpg';
     if (isset($_FILES['main_image_file']) && $_FILES['main_image_file']['error'] === UPLOAD_ERR_OK) {
         $upDir = __DIR__ . '/../uploads/projects/';
         if (!is_dir($upDir)) mkdir($upDir, 0777, true);

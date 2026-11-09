@@ -41,18 +41,20 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion Administration | FREE BTP SARL</title>
+  <title>Connexion Administration | FEE BTP SARL</title>
+  <link rel="icon" type="image/png" href="../images/favicon.png?v=<?= time() ?>">
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico?v=<?= time() ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/admin.css">
+  <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body class="login-body">
 
   <div class="login-card">
     <div class="login-header">
-      <div style="width: 50px; height: 50px; background: var(--admin-accent); border-radius: 10px; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff;">
-        <i class="fas fa-hard-hat"></i>
+      <div style="margin: 0 auto 18px auto; text-align: center;">
+        <img src="../images/logo.png" alt="FEE BTP SARL" style="height: 76px; width: auto; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(12, 46, 96, 0.1));">
       </div>
-      <h2 style="font-size: 1.3rem; margin-bottom: 4px;">FREE BTP SARL</h2>
+      <h2 style="font-size: 1.35rem; margin-bottom: 4px; font-weight: 800; color: var(--admin-primary);">FEE BTP SARL</h2>
       <p style="font-size: 0.8rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">Tableau de Bord Administrateur Sécurisé</p>
     </div>
 
@@ -86,7 +88,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 
       <div style="margin-top: 25px; text-align: center; border-top: 1px solid var(--admin-border); padding-top: 15px;">
         <a href="../index.php" style="color: var(--admin-muted); font-size: 0.85rem; text-decoration: none;">
-          <i class="fas fa-arrow-left"></i> Retour au site public FREE BTP
+          <i class="fas fa-arrow-left"></i> Retour au site public FEE BTP
         </a>
       </div>
     </div>

@@ -16,10 +16,14 @@ $adminCurrentPage = basename($_SERVER['PHP_SELF'], '.php');
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo isset($adminTitle) ? htmlspecialchars($adminTitle) . ' | Dashboard FREE BTP' : 'Tableau de Bord Administrateur | FREE BTP SARL'; ?></title>
+  <title><?php echo isset($adminTitle) ? htmlspecialchars($adminTitle) . ' | Dashboard FEE BTP' : 'Tableau de Bord Administrateur | FEE BTP SARL'; ?></title>
   
+  <link rel="icon" type="image/png" href="../images/favicon.png?v=<?= time() ?>">
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico?v=<?= time() ?>">
+  <link rel="apple-touch-icon" href="../images/apple-touch-icon.png?v=<?= time() ?>">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/admin.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/admin.css'); ?>">
+  <link rel="stylesheet" href="../css/admin.css?v=<?php echo filemtime(__DIR__ . '/../css/admin.css'); ?>">
 </head>
 <body>
 
@@ -27,11 +31,9 @@ $adminCurrentPage = basename($_SERVER['PHP_SELF'], '.php');
   <!-- Barre Latérale (Sidebar) -->
   <aside class="admin-sidebar">
     <a href="index.php" class="sidebar-brand">
-      <div class="sidebar-brand-icon">
-        <i class="fas fa-hard-hat"></i>
-      </div>
+      <img src="../images/logo-white.png" alt="FEE BTP SARL" style="height: 48px; width: auto; object-fit: contain; margin-right: 12px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));">
       <div>
-        <h3>FREE BTP SARL</h3>
+        <h3>FEE BTP SARL</h3>
         <p>Administration Dschang</p>
       </div>
     </a>

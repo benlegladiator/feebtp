@@ -1,144 +1,191 @@
 <?php
 require_once __DIR__ . '/config/db.php';
-$pdo = getDBConnection();
 
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$stmt = $pdo->prepare("SELECT * FROM projects WHERE id = ?");
-$stmt->execute([$id]);
+$projectId = (int)($_GET['id'] ?? 0);
+$stmt = $pdo->prepare("SELECT * FROM projects WHERE id = ? LIMIT 1");
+$stmt->execute([$projectId]);
 $project = $stmt->fetch();
 
 if (!$project) {
-    header('Location: projects.php');
+    header("Location: project.php");
     exit;
 }
 
-$pageTitle = $project['title'] . " - Fiche Chantier BTP";
+$pageTitle = htmlspecialchars($project['title']) . " | Réalisation FEE BTP SARL";
+$pageDescription = "Chantier BTP réalisé par FEE BTP SARL à " . htmlspecialchars($project['location'] ?? 'Dschang') . " : " . htmlspecialchars($project['title']);
 require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/includes/navbar.php';
+
+$titleLower = mb_strtolower($project['title'] ?? '');
+$locLower = mb_strtolower($project['location'] ?? '');
+if (strpos($titleLower, 'villa') !== false || strpos($titleLower, 'duplex') !== false || strpos($locLower, 'keleng') !== false) {
+    $mainImg = 'images/IMG-20261015-WA0079.jpg';
+} elseif (strpos($titleLower, 'immeuble') !== false || strpos($titleLower, 'standing') !== false || strpos($locLower, 'foréké') !== false) {
+    $mainImg = 'images/IMG-20261015-WA0129.jpg';
+} elseif (strpos($titleLower, 'soutènement') !== false || strpos($titleLower, 'banché') !== false || strpos($locLower, 'falaise') !== false || strpos($locLower, 'esplanade') !== false) {
+    $mainImg = 'images/IMG-20261015-WA0070.jpg';
+} elseif (strpos($titleLower, 'terrassement') !== false || strpos($titleLower, 'nivellement') !== false || strpos($titleLower, 'plateforme') !== false || strpos($locLower, 'bafoussam') !== false) {
+    $mainImg = 'images/IMG-20261029-WA0105.jpg';
+} elseif (strpos($titleLower, 'voirie') !== false || strpos($titleLower, 'pavée') !== false || strpos($titleLower, 'pluviale') !== false || strpos($locLower, 'axe urbain') !== false) {
+    $mainImg = 'images/IMG-20261015-WA0062.jpg';
+} elseif (strpos($titleLower, 'contrôle') !== false || strpos($titleLower, 'supervision') !== false) {
+    $mainImg = 'images/IMG-20261015-WA0120.jpg';
+} else {
+    $mainImg = resolveImage($project['main_image'] ?? '', 'images/IMG-20261015-WA0079.jpg');
+}
+$beforeImg = resolveImage($project['before_image'] ?? '', 'images/about.jpg');
+$afterImg = !empty($project['after_image']) ? resolveImage($project['after_image'], $mainImg) : $mainImg;
+
+// Galerie complémentaire
+$galleryStmt = $pdo->prepare("SELECT * FROM project_gallery WHERE project_id = ?");
+$galleryStmt->execute([$projectId]);
+$gallery = $galleryStmt->fetchAll();
 ?>
 
-<div style="background: var(--primary); color: #ffffff; padding: 50px 0;">
-  <div class="container">
-    <div style="margin-bottom: 12px;">
-      <a href="projects.php" style="color: #cbd5e1; font-size: 0.85rem;"><i class="fas fa-arrow-left"></i> Retour à toutes les réalisations</a>
-    </div>
-    <div class="section-tag" style="background: rgba(243,108,33,0.2); color: #ff9800;"><?php echo htmlspecialchars($project['category']); ?></div>
-    <h1 style="font-size: 2.4rem; font-weight: 800; margin-bottom: 10px;"><?php echo htmlspecialchars($project['title']); ?></h1>
-    <div style="display: flex; gap: 20px; color: #cbd5e1; font-size: 0.95rem; flex-wrap: wrap;">
-      <span><i class="fas fa-map-marker-alt" style="color: var(--accent);"></i> <?php echo htmlspecialchars($project['location']); ?></span>
-      <span><i class="fas fa-calendar-alt" style="color: var(--accent);"></i> Durée : <?php echo htmlspecialchars($project['duration'] ?? 'N/A'); ?></span>
-      <span class="badge <?php echo ($project['status'] === 'Terminé') ? 'status-completed' : 'status-ongoing'; ?>">
-        <?php echo htmlspecialchars($project['status']); ?>
-      </span>
-    </div>
-  </div>
-</div>
+<!-- BANNIÈRE EN-TÊTE -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('<?= htmlspecialchars($mainImg) ?>'); background-position: center top !important;" data-stellar-background-ratio="0.5">
+	<div class="overlay" style="background: rgba(30, 34, 41,0.85);"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-end justify-content-start">
+			<div class="col-md-9 ftco-animate pb-5">
+				<p class="breadcrumbs mb-2">
+					<span class="mr-2"><a href="index.php">Accueil <i class="fa fa-chevron-right"></i></a></span> 
+					<span class="mr-2"><a href="project.php">Chantiers <i class="fa fa-chevron-right"></i></a></span> 
+					<span><?= htmlspecialchars($project['title']) ?></span>
+				</p>
+				<h1 class="mb-3 bread text-white font-weight-bold"><?= htmlspecialchars($project['title']) ?></h1>
+			</div>
+		</div>
+	</div>
+</section>
 
-<section class="section">
-  <div class="container">
-    <div class="about-grid" style="align-items: flex-start; margin-bottom: 50px;">
-      
-      <!-- Colonne Visuel Principal -->
-      <div>
-        <div style="border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border); margin-bottom: 25px;">
-          <img src="<?php echo htmlspecialchars($project['main_image']); ?>" alt="<?php echo htmlspecialchars($project['title']); ?>" style="width: 100%; height: auto;">
-        </div>
+<!-- CONTENU DU PROJET -->
+<section class="ftco-section">
+	<div class="container">
+		<div class="row">
+			<!-- Colonne Principale -->
+			<div class="col-lg-8 ftco-animate">
+				
+				<!-- Image Principale ou Comparatif Avant/Après -->
+				<?php if (!empty($project['before_image']) && !empty($project['after_image'])): ?>
+					<div class="mb-4">
+						<h4 class="font-weight-bold text-dark mb-3">
+							<i class="fa fa-columns text-primary mr-2"></i> Comparatif Avant / Après Chantier
+						</h4>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<div class="before-after-container">
+									<span class="ba-label ba-label-before">État Initial (Avant)</span>
+									<img src="<?= htmlspecialchars($beforeImg) ?>" alt="Chantier Avant Travaux">
+								</div>
+							</div>
+							<div class="col-md-6 mb-3">
+								<div class="before-after-container">
+									<span class="ba-label ba-label-after">Ouvrage Livré (Après)</span>
+									<img src="<?= htmlspecialchars($afterImg) ?>" alt="Chantier Après Travaux">
+								</div>
+							</div>
+						</div>
+					</div>
+				<?php else: ?>
+					<div class="mb-4">
+						<img src="<?= htmlspecialchars($mainImg) ?>" alt="<?= htmlspecialchars($project['title']) ?>" class="img-fluid rounded shadow-sm w-100" style="max-height: 480px; object-fit: cover;">
+					</div>
+				<?php endif; ?>
 
-        <?php if (!empty($project['video_url'])): 
-          $videoData = parseVideoEmbed($project['video_url']);
-        ?>
-          <?php if ($videoData): ?>
-            <div id="video" style="background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); margin-bottom: 25px;">
-              <h4 style="color: var(--primary-dark); font-size: 1.1rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
-                <span><i class="fas fa-video" style="color: var(--accent); margin-right: 8px;"></i> Immersion Vidéo & Vues Drone</span>
-                <span class="badge" style="background: var(--accent-light); color: var(--accent); font-size: 0.75rem;">HD 1080p</span>
-              </h4>
-              <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; background: #000;">
-                <?php echo $videoData['embed_html']; ?>
-              </div>
-              <p style="font-size: 0.82rem; color: var(--muted); margin-top: 10px; margin-bottom: 0;">
-                <i class="fas fa-info-circle"></i> Captation aérienne et suivi régulier de l'ouvrage par l'équipe FREE BTP SARL.
-              </p>
-            </div>
-          <?php endif; ?>
-        <?php endif; ?>
-      </div>
+				<!-- Description du Chantier -->
+				<h3 class="font-weight-bold mb-3">Présentation Technique de l'Ouvrage</h3>
+				<div class="text-muted mb-4 lead" style="font-size: 1.05rem; line-height: 1.7;">
+					<?= nl2br(htmlspecialchars($project['description'] ?? $project['short_desc'] ?? '')) ?>
+				</div>
 
-      <!-- Colonne Fiche Synthétique & Détails -->
-      <div>
-        <!-- Fiche technique -->
-        <div style="background: #ffffff; border-radius: 12px; border: 1px solid var(--border); padding: 30px; box-shadow: var(--shadow-sm); margin-bottom: 30px;">
-          <h3 style="color: var(--primary); font-size: 1.25rem; font-weight: 700; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 20px;">
-            <i class="fas fa-clipboard-list" style="color: var(--accent); margin-right: 8px;"></i> Caractéristiques du Projet
-          </h3>
+				<!-- Vidéo Immersive / Drone si renseignée -->
+				<?php if (!empty($project['video_url'])): ?>
+					<div class="mb-5 mt-4">
+						<h4 class="font-weight-bold text-dark mb-3">
+							<i class="fa fa-video-camera text-danger mr-2"></i> Immersion Vidéo & Vue Drone du Chantier
+						</h4>
+						<div class="embed-responsive embed-responsive-16by9 rounded shadow overflow-hidden">
+							<?php 
+							$videoUrl = $project['video_url'];
+							if (strpos($videoUrl, 'youtube.com/watch') !== false) {
+								parse_str(parse_url($videoUrl, PHP_URL_QUERY), $query);
+								$videoId = $query['v'] ?? '';
+								$videoUrl = "https://www.youtube.com/embed/" . $videoId;
+							}
+							?>
+							<iframe class="embed-responsive-item" src="<?= htmlspecialchars($videoUrl) ?>" allowfullscreen></iframe>
+						</div>
+					</div>
+				<?php endif; ?>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.92rem;">
-            <div>
-              <span style="color: var(--muted); display: block;">Maître d'Ouvrage :</span>
-              <strong><?php echo htmlspecialchars($project['client_name'] ?? 'Client Privé'); ?></strong>
-            </div>
-            <div>
-              <span style="color: var(--muted); display: block;">Localisation :</span>
-              <strong><?php echo htmlspecialchars($project['location']); ?></strong>
-            </div>
-            <div>
-              <span style="color: var(--muted); display: block;">Surface Bâtie :</span>
-              <strong><?php echo htmlspecialchars($project['surface'] ?? 'N/A'); ?></strong>
-            </div>
-            <div>
-              <span style="color: var(--muted); display: block;">Délai d'Exécution :</span>
-              <strong><?php echo htmlspecialchars($project['duration'] ?? 'N/A'); ?></strong>
-            </div>
-            <div>
-              <span style="color: var(--muted); display: block;">Budget Indicatif :</span>
-              <strong style="color: var(--accent);"><?php echo htmlspecialchars($project['budget'] ?? 'Confidentiel'); ?></strong>
-            </div>
-            <div>
-              <span style="color: var(--muted); display: block;">Statut de l'Ouvrage :</span>
-              <strong><?php echo htmlspecialchars($project['status']); ?></strong>
-            </div>
-          </div>
+				<!-- Galerie Photos Additionnelle -->
+				<?php if (!empty($gallery)): ?>
+					<h4 class="font-weight-bold text-dark mb-3">
+						<i class="fa fa-images text-primary mr-2"></i> Galerie Photos Détaillées du Chantier
+					</h4>
+					<div class="row">
+						<?php foreach ($gallery as $gImg): 
+							$gPath = resolveImage($gImg['image_url'], 'images/project-1.jpg');
+						?>
+							<div class="col-md-4 col-6 mb-3">
+								<a href="<?= htmlspecialchars($gPath) ?>" class="image-popup d-block rounded overflow-hidden shadow-sm" style="height: 140px;">
+									<img src="<?= htmlspecialchars($gPath) ?>" alt="<?= htmlspecialchars($gImg['caption'] ?? '') ?>" class="w-100 h-100" style="object-fit: cover;">
+								</a>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
 
-          <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--border);">
-            <a href="contact.php?type=devis&projet=<?php echo urlencode($project['title']); ?>" class="btn btn-primary" style="width: 100%;">
-              <i class="fas fa-calculator"></i> Demander une étude similaire pour mon terrain
-            </a>
-          </div>
-        </div>
+			</div>
 
-        <!-- Descriptif détaillé -->
-        <div style="background: #ffffff; border-radius: 12px; border: 1px solid var(--border); padding: 30px; box-shadow: var(--shadow-sm);">
-          <h3 style="color: var(--primary); font-size: 1.25rem; font-weight: 700; margin-bottom: 15px;">
-            Descriptif Technique des Travaux
-          </h3>
-          <p style="color: var(--muted); line-height: 1.8; font-size: 0.98rem;">
-            <?php echo nl2br(htmlspecialchars($project['description'] ?? $project['short_desc'])); ?>
-          </p>
-        </div>
-      </div>
-    </div>
+			<!-- Barre Latérale : Fiche Fiche Technique -->
+			<div class="col-lg-4 ftco-animate">
+				<div class="card border-0 shadow-sm rounded p-4 bg-light mb-4 sticky-top" style="top: 90px; z-index: 1;">
+					<h4 class="font-weight-bold mb-3 border-bottom pb-2 text-dark">
+						<i class="fa fa-clipboard text-primary mr-2"></i> Fiche d'Identité
+					</h4>
+					<ul class="list-unstyled mb-4">
+						<li class="py-2 border-bottom d-flex justify-content-between">
+							<span class="text-muted"><i class="fa fa-folder-open mr-2 text-primary"></i> Catégorie :</span>
+							<strong class="text-dark"><?= htmlspecialchars($project['category'] ?? 'BTP') ?></strong>
+						</li>
+						<li class="py-2 border-bottom d-flex justify-content-between">
+							<span class="text-muted"><i class="fa fa-user mr-2 text-primary"></i> Maître d'ouvrage :</span>
+							<strong class="text-dark"><?= htmlspecialchars($project['client_name'] ?? 'Particulier / Privé') ?></strong>
+						</li>
+						<li class="py-2 border-bottom d-flex justify-content-between">
+							<span class="text-muted"><i class="fa fa-map-marker mr-2 text-primary"></i> Localisation :</span>
+							<strong class="text-dark"><?= htmlspecialchars($project['location'] ?? 'Dschang') ?></strong>
+						</li>
+						<?php if (!empty($project['duration'])): ?>
+							<li class="py-2 border-bottom d-flex justify-content-between">
+								<span class="text-muted"><i class="fa fa-calendar mr-2 text-primary"></i> Durée d'exécution :</span>
+								<strong class="text-dark"><?= htmlspecialchars($project['duration']) ?></strong>
+							</li>
+						<?php endif; ?>
+						<?php if (!empty($project['surface'])): ?>
+							<li class="py-2 border-bottom d-flex justify-content-between">
+								<span class="text-muted"><i class="fa fa-arrows-alt mr-2 text-primary"></i> Surface couverte :</span>
+								<strong class="text-dark"><?= htmlspecialchars($project['surface']) ?></strong>
+							</li>
+						<?php endif; ?>
+						<li class="py-2 border-bottom d-flex justify-content-between">
+							<span class="text-muted"><i class="fa fa-check-circle mr-2 text-success"></i> Statut de livraison :</span>
+							<span class="badge badge-success px-2 py-1 font-weight-bold"><?= htmlspecialchars($project['status'] ?? 'Terminé') ?></span>
+						</li>
+					</ul>
 
-    <!-- Comparatif Avant / Après si disponible -->
-    <?php if (!empty($project['before_image'])): ?>
-      <div id="avant-apres" style="margin-top: 40px; padding: 40px; background: #ffffff; border-radius: 12px; border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
-        <div class="section-header" style="margin-bottom: 30px;">
-          <div class="section-tag">Évolution du Chantier</div>
-          <h2 class="section-title">Comparatif Avant & Après Exécution</h2>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-          <div>
-            <div style="font-weight: 700; color: var(--primary); margin-bottom: 8px;"><i class="fas fa-history" style="color: var(--muted);"></i> État Initial / Démarrage</div>
-            <img src="<?php echo htmlspecialchars($project['before_image']); ?>" alt="Avant travaux" style="width: 100%; border-radius: 8px;">
-          </div>
-          <div>
-            <div style="font-weight: 700; color: var(--accent); margin-bottom: 8px;"><i class="fas fa-check-circle" style="color: var(--accent);"></i> Ouvrage Réalisé par FREE BTP</div>
-            <img src="<?php echo htmlspecialchars($project['after_image'] ?? $project['main_image']); ?>" alt="Après travaux" style="width: 100%; border-radius: 8px;">
-          </div>
-        </div>
-      </div>
-    <?php endif; ?>
-
-  </div>
+					<a href="contact.php?type=devis&projet=<?= urlencode($project['title']) ?>" class="btn btn-primary btn-block font-weight-bold py-2 mb-2">
+						<i class="fa fa-calculator mr-1"></i> Chiffrer un projet similaire
+					</a>
+					<a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $whatsappNumber) ?>?text=Bonjour,%20je%20vous%20contacte%20concernant%20le%20projet%20: <?= urlencode($project['title']) ?>" class="btn btn-success btn-block font-weight-bold py-2" target="_blank">
+						<i class="fab fa-whatsapp mr-1"></i> Discuter sur WhatsApp
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>CONTRAT DE PRESTATION DE SERVICES INFORMATIQUES - FEE BTP SARL</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 18mm 15mm 18mm 15mm;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+            font-size: 10pt;
+            line-height: 1.5;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        .header-container {
+            border-bottom: 3px solid #1e3a8a;
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .header-title {
+            margin: 0;
+            font-size: 16pt;
+            font-weight: 800;
+            color: #1e3a8a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-subtitle {
+            margin: 4px 0 0 0;
+            font-size: 10.5pt;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: 8.5pt;
+            color: #64748b;
+            line-height: 1.4;
+        }
+
+        .badge-ref {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #1e3a8a;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 8pt;
+            margin-bottom: 4px;
+        }
+
+        .parties-box {
+            display: table;
+            width: 100%;
+            margin-bottom: 18px;
+            border-spacing: 10px 0;
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+
+        .party-card {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-top: 4px solid #1e3a8a;
+            border-radius: 6px;
+            padding: 10px 14px;
+        }
+
+        .party-card.client {
+            border-top-color: #0284c7;
+        }
+
+        .party-role {
+            font-size: 8.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .party-name {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+
+        .party-details {
+            font-size: 9pt;
+            color: #334155;
+            line-height: 1.45;
+        }
+
+        .party-details strong {
+            color: #0f172a;
+        }
+
+        .preamble {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 10px 14px;
+            margin-bottom: 18px;
+            font-size: 9pt;
+            color: #1e3a8a;
+            border-radius: 0 6px 6px 0;
+            line-height: 1.45;
+            text-align: justify;
+        }
+
+        h2 {
+            font-size: 11.5pt;
+            color: #0f172a;
+            border-bottom: 1.5px solid #e2e8f0;
+            padding-bottom: 4px;
+            margin-top: 16px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        h3 {
+            font-size: 10pt;
+            color: #1e3a8a;
+            margin-top: 10px;
+            margin-bottom: 6px;
+        }
+
+        p, li {
+            font-size: 9.5pt;
+            color: #334155;
+            text-align: justify;
+        }
+
+        ul {
+            margin-top: 4px;
+            margin-bottom: 8px;
+            padding-left: 18px;
+        }
+
+        li {
+            margin-bottom: 3px;
+        }
+
+        .table-custom {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0 14px 0;
+            font-size: 9pt;
+        }
+
+        .table-custom th {
+            background: #1e3a8a;
+            color: #ffffff;
+            padding: 7px 9px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .table-custom td {
+            padding: 7px 9px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .table-custom tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+
+        .table-custom tr.total-row td {
+            background: #eff6ff;
+            font-weight: bold;
+            color: #1e3a8a;
+            border-top: 2px solid #1e3a8a;
+        }
+
+        .highlight-box {
+            background: #f1f5f9;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin: 10px 0;
+            border: 1px dashed #94a3b8;
+            font-size: 9pt;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .avoid-break {
+            page-break-inside: avoid;
+        }
+
+        .signatures-container {
+            display: table;
+            width: 100%;
+            margin-top: 22px;
+            border-spacing: 16px 0;
+            page-break-inside: avoid;
+        }
+
+        .signature-box {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 12px;
+            background: #fafafa;
+        }
+
+        .sig-header {
+            font-weight: bold;
+            font-size: 9.5pt;
+            color: #0f172a;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 4px;
+            margin-bottom: 6px;
+        }
+
+        .sig-mention {
+            font-size: 8pt;
+            font-style: italic;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .sig-space {
+            height: 65px;
+            border: 1px dashed #cbd5e1;
+            background: #ffffff;
+            border-radius: 4px;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 8pt;
+        }
+
+        .footer-note {
+            margin-top: 18px;
+            font-size: 8pt;
+            text-align: center;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ENTÊTE DU CONTRAT -->
+    <div class="header-container">
+        <div>
+            <div class="header-title">Contrat de Prestation Informatique</div>
+            <div class="header-subtitle">Site Web Dynamique BTP & Dashboard d'Administration Dédié</div>
+        </div>
+        <div class="header-meta">
+            <span class="badge-ref">RÉF : CT-WEB-FEEBTP-2026-01</span><br>
+            <strong>Date :</strong> 21 Septembre 2026<br>
+            <strong>Durée :</strong> 2 Mois (8 Semaines)<br>
+            <strong>Montant Total :</strong> 300 000 FCFA
+        </div>
+    </div>
+
+    <!-- IDENTIFICATION DES PARTIES -->
+    <div class="parties-box">
+        <div class="party-card">
+            <div class="party-role">LE PRESTATAIRE</div>
+            <div class="party-name">M. NDONGMO TEJIONA BEN ARTHUR</div>
+            <div class="party-details">
+                <strong>Activité :</strong> Concepteur & Développeur Web<br>
+                <strong>Adresse :</strong> Yaoundé, Quartier Obili, Cameroun<br>
+                <strong>Téléphone :</strong> (+237) 691 67 06 26<br>
+                <strong>Email :</strong> ndongmoarthur9@mail.com
+            </div>
+        </div>
+        <div class="party-card client">
+            <div class="party-role">LE CLIENT</div>
+            <div class="party-name">FEE BTP SARL</div>
+            <div class="party-details">
+                <strong>Secteur :</strong> Bâtiment & Travaux Publics, Génie Civil<br>
+                <strong>Siège Social :</strong> Dschang, Région de l'Ouest, Cameroun<br>
+                <strong>Représentant :</strong> M. AGHOKENG TANGMO FABRICE (Gérant / PDG)<br>
+                <strong>Téléphone(s) :</strong> (+237) 691 00 64 31 / 671 06 34 41
+            </div>
+        </div>
+    </div>
+
+    <!-- PRÉAMBULE -->
+    <div class="preamble">
+        <strong>PRÉAMBULE :</strong> La société <strong>FEE BTP SARL</strong>, basée à Dschang et spécialisée dans le BTP, la construction et le génie civil, souhaite développer sa visibilité et acquérir de nouveaux marchés grâce à un site web dynamique, professionnel et complet. Le Client a exprimé le besoin de disposer d'une vitrine moderne pour présenter ses chantiers en photos et vidéos, ainsi que d'un <strong>espace d'administration sécurisé (Dashboard)</strong> permettant de consulter les messages des visiteurs, de téléverser des médias et d'éditer le contenu de toutes les rubriques. Le Prestataire, <strong>M. NDONGMO TEJIONA BEN ARTHUR</strong>, possède les compétences techniques pour concevoir, développer, héberger et déployer cette solution informatique.
+    </div>
+
+    <!-- ARTICLE 1 -->
+    <h2>Article 1 : Objet du Contrat</h2>
+    <p>Le présent contrat a pour objet de confier au Prestataire la réalisation intégrale des prestations suivantes :</p>
+    <ul>
+        <li><strong>Conception Graphique & UI/UX :</strong> Design moderne, responsive et optimisé pour le secteur du bâtiment (PC, tablettes, mobiles).</li>
+        <li><strong>Développement Web Dynamique :</strong> Architecture Frontend & Backend robuste avec base de données relationnelle.</li>
+        <li><strong>Dashboard Administrateur Dédié :</strong> Espace sécurisé permettant de gérer les messages, les médias et les contenus du site.</li>
+        <li><strong>Modules d'Interaction :</strong> Messagerie connectée, boîte de dialogue / Live Chat interactif et passerelle WhatsApp professionnelle.</li>
+        <li><strong>Infrastructure Web :</strong> Réservation du nom de domaine, hébergement SSD haute performance, certificats SSL (HTTPS) et emails professionnels.</li>
+        <li><strong>Mise en ligne, Formation et Garantie technique de 3 mois.</strong></li>
+    </ul>
+
+    <!-- ARTICLE 2 -->
+    <h2>Article 2 : Cahier des Charges Technique & Fonctionnalités</h2>
+
+    <h3>2.1. Plateforme Publique (Frontend)</h3>
+    <ul>
+        <li><strong>Page d'Accueil :</strong> Bannière immersive (vidéo/slider BTP), vision d'entreprise, chiffres clés, résumé des prestations, chantiers récents, avis clients et appels à l'action immédiats (devis rapide).</li>
+        <li><strong>Page À Propos :</strong> Historique, ancrage à Dschang, équipe dirigeante et technique, parcs d'engins et engagements sécurité.</li>
+        <li><strong>Catalogue Dynamique des Services :</strong> Gros œuvre, second œuvre, rénovation, VRD, génie civil, études architecturales et métrés avec bouton de devis rattaché à chaque corps d'état.</li>
+        <li><strong>Portfolio Projets & Chantiers BTP :</strong> Galeries photos HD, affichage comparatif Avant/Après, intégration de vidéos immersives de chantiers / drones, filtres par catégorie.</li>
+        <li><strong>Actualités & Blog :</strong> Suivi des chantiers en cours et articles d'innovations BTP.</li>
+        <li><strong>Contact & Formulaires :</strong> Géolocalisation interactive (Dschang), formulaire de cotation avec téléversement de documents (plans PDF/images).</li>
+        <li><strong>Boîte de Dialogue & Live Chat :</strong> Widget flottant d'assistance instantanée et redirection directe vers le WhatsApp de l'entreprise.</li>
+    </ul>
+
+    <h3>2.2. Espace d'Administration & Dashboard Dédié (Backend)</h3>
+    <ul>
+        <li><strong>Tableau de Bord Central (Dashboard) :</strong> Statistiques d'activité (nombre de visites, nouveaux messages, projets publiés).</li>
+        <li><strong>Boîte de Réception & Gestion des Messages :</strong> Visualisation centralisée de tous les messages et demandes de devis transmis par les formulaires, avec alertes emails automatiques instantanées.</li>
+        <li><strong>Médiathèque Dynamique :</strong> Module d'upload simplifié d'images HD (compression automatique) et intégration de vidéos de réalisations.</li>
+        <li><strong>Éditeur Intégral des Rubriques (CMS) :</strong> Ajout, modification et suppression en totale autonomie des services, chantiers, actualités et coordonnées sans nécessiter de compétences techniques.</li>
+        <li><strong>Sécurité & SEO :</strong> Optimisation du référencement naturel Google, certificat SSL et protection anti-spam reCAPTCHA.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- ARTICLE 3 -->
+    <h2>Article 3 : Infrastructure, Hébergement & Emails Professionnels</h2>
+    <p>Le Prestataire prend en charge l'ensemble de la mise en place technique de l'infrastructure web :</p>
+    <ul>
+        <li><strong>Nom de Domaine :</strong> Réservation et configuration DNS du nom de domaine officiel (ex. : <em>feebtp-sarl.com</em> ou <em>feebtp.cm</em>).</li>
+        <li><strong>Hébergement SSD Haute Performance :</strong> Serveur sécurisé, bande passante illimitée, sauvegardes hebdomadaires et haute disponibilité (99,9%).</li>
+        <li><strong>Sécurité SSL :</strong> Certificat HTTPS actif pour le cryptage des données et la conformité aux standards du web.</li>
+        <li><strong>Emails d'Entreprise :</strong> Création et configuration des boîtes professionnelles (ex. : <em>direction@feebtp-sarl.com</em>, <em>contact@...</em>).</li>
+    </ul>
+
+    <!-- ARTICLE 4 -->
+    <h2>Article 4 : Calendrier d'Exécution (2 Mois / 8 Semaines)</h2>
+    <table class="table-custom">
+        <thead>
+            <tr>
+                <th style="width: 25%;">Phase</th>
+                <th style="width: 25%;">Période</th>
+                <th style="width: 50%;">Objectifs et Livrables</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Phase 1 : Cadrage & UI</strong></td>
+                <td>Semaines 1 à 2</td>
+                <td>Collecte des contenus, maquettes graphiques et validation de la structure.</td>
+            </tr>
+            <tr>
+                <td><strong>Phase 2 : Développement</strong></td>
+                <td>Semaines 3 à 4</td>
+                <td>Programmation du site public, intégration des services et portfolio multimédia BTP.</td>
+            </tr>
+            <tr>
+                <td><strong>Phase 3 : Dashboard & Chat</strong></td>
+                <td>Semaines 5 à 6</td>
+                <td>Développement du Dashboard Admin (messages, médias, rubriques) et du Live Chat.</td>
+            </tr>
+            <tr>
+                <td><strong>Phase 4 : Recette & Tests</strong></td>
+                <td>Semaine 7</td>
+                <td><strong>Livraison en pré-production</strong> sur serveur test, recueil des retours et ajustements.</td>
+            </tr>
+            <tr>
+                <td><strong>Phase 5 : Mise en Ligne</strong></td>
+                <td>Semaine 8</td>
+                <td><strong>Validation définitive</strong>, mise en production, formation de l'admin et remise des accès.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ARTICLE 5 -->
+    <h2>Article 5 : Conditions Financières & Modalités de Paiement</h2>
+    <p>Le montant total forfaitaire de la prestation est arrêté à la somme ferme de <strong>300 000 FCFA</strong> (Trois cent mille Francs CFA). Conformément aux termes convenus, le règlement s'effectue en <strong>trois (3) versements égaux de 100 000 FCFA (règle des 1/3)</strong> :</p>
+    
+    <table class="table-custom">
+        <thead>
+            <tr>
+                <th style="width: 22%;">Tranche</th>
+                <th style="width: 48%;">Événement Déclencheur</th>
+                <th style="width: 15%;">Quote-part</th>
+                <th style="width: 15%;">Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>1ère Tranche</strong></td>
+                <td>À la signature du contrat (Avance de démarrage des travaux)</td>
+                <td><strong>1/3 (33,33%)</strong></td>
+                <td><strong>100 000 FCFA</strong></td>
+            </tr>
+            <tr>
+                <td><strong>2ème Tranche</strong></td>
+                <td>À la livraison de la version de test complète en pré-production (Semaine 7)</td>
+                <td><strong>1/3 (33,33%)</strong></td>
+                <td><strong>100 000 FCFA</strong></td>
+            </tr>
+            <tr>
+                <td><strong>3ème Tranche</strong></td>
+                <td>À la validation finale, mise en ligne définitive et remise des accès (Semaine 8)</td>
+                <td><strong>1/3 (33,34%)</strong></td>
+                <td><strong>100 000 FCFA</strong></td>
+            </tr>
+            <tr class="total-row">
+                <td colspan="2"><strong>TOTAL GÉNÉRAL DU CONTRAT</strong></td>
+                <td><strong>100 %</strong></td>
+                <td><strong>300 000 FCFA</strong></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="highlight-box">
+        <strong>Canal de paiement :</strong> Paiement Mobile Sécurisé (Orange Money / MTN Mobile Money) au numéro : <strong>(+237) 691 67 06 26</strong> au nom de <strong>M. NDONGMO TEJIONA BEN ARTHUR</strong> ou par virement bancaire / chèque.
+    </div>
+
+    <!-- ARTICLE 6 -->
+    <h2>Article 6 : Obligations des Parties</h2>
+    <ul>
+        <li><strong>Engagements du Prestataire :</strong> Réaliser les prestations selon les règles de l'art, respecter le calendrier de 2 mois, garantir la confidentialité et former l'administrateur désigné.</li>
+        <li><strong>Engagements du Client :</strong> Fournir les contenus (textes, photos, vidéos, logo), procéder aux validations et respecter l'échéancier des règlements.</li>
+    </ul>
+
+    <!-- ARTICLE 7 -->
+    <h2>Article 7 : Recette, Garantie & Propriété Intellectuelle</h2>
+    <ul>
+        <li><strong>Recette :</strong> Le Client dispose de 7 jours après la livraison en pré-production pour soumettre ses demandes d'ajustements.</li>
+        <li><strong>Garantie Technique :</strong> Une garantie gratuite de <strong>trois (3) mois</strong> couvre la correction de tout bug ou anomalie technique après la mise en ligne.</li>
+        <li><strong>Propriété & Accès :</strong> Dès le paiement total des 300 000 FCFA, FEE BTP SARL devient l'unique propriétaire du site, des bases de données et reçoit l'ensemble des accès maîtres (Admin, hébergement cPanel, registrar, emails).</li>
+    </ul>
+
+    <!-- SIGNATURES -->
+    <div class="signatures-container avoid-break">
+        <div class="signature-box">
+            <div class="sig-header">POUR LE CLIENT : FEE BTP SARL</div>
+            <div class="party-details">
+                <strong>M. AGHOKENG TANGMO FABRICE</strong><br>
+                Gérant / Directeur Général<br>
+                Siège : Dschang, Cameroun<br>
+                Tél : (+237) 691 00 64 31 / 671 06 34 41<br>
+                Date : _____ / _____ / 2026
+            </div>
+            <div class="sig-mention">Mention manuscrite « Lu et approuvé, bon pour accord » :</div>
+            <div class="sig-space">Signature & Cachet de l'Entreprise</div>
+        </div>
+
+        <div class="signature-box">
+            <div class="sig-header">POUR LE PRESTATAIRE</div>
+            <div class="party-details">
+                <strong>M. NDONGMO TEJIONA BEN ARTHUR</strong><br>
+                Concepteur & Développeur Web<br>
+                Yaoundé, Quartier Obili, Cameroun<br>
+                Tél : (+237) 691 67 06 26<br>
+                Date : _____ / _____ / 2026
+            </div>
+            <div class="sig-mention">Mention manuscrite « Lu et approuvé, bon pour accord » :</div>
+            <div class="sig-space">Signature du Prestataire</div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        Contrat de prestation informatique établi en deux (2) exemplaires originaux - Fait à Yaoundé et Dschang, Cameroun.
+    </div>
+
+</body>
+</html>

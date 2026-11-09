@@ -13,12 +13,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['save_article'
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
     }
     $category = trim($_POST['category'] ?? 'Actualités Chantiers');
-    $author = trim($_POST['author'] ?? 'Direction FREE BTP');
+    $author = trim($_POST['author'] ?? 'Direction FEE BTP');
     $summary = trim($_POST['summary'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $isPublished = isset($_POST['is_published']) ? 1 : 0;
 
-    $image = $_POST['current_image'] ?? 'assets/images/news-1.jpg';
+    $image = $_POST['current_image'] ?? 'images/image_1.jpg';
     if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
         $upDir = __DIR__ . '/../uploads/media/';
         if (!is_dir($upDir)) mkdir($upDir, 0777, true);
@@ -84,7 +84,7 @@ $articles = $pdo->query("SELECT * FROM articles ORDER BY id DESC")->fetchAll();
     <form action="news.php" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="save_article" value="1">
       <input type="hidden" name="article_id" value="<?php echo $editArt['id'] ?? 0; ?>">
-      <input type="hidden" name="current_image" value="<?php echo htmlspecialchars($editArt['image'] ?? 'assets/images/news-1.jpg'); ?>">
+      <input type="hidden" name="current_image" value="<?php echo htmlspecialchars($editArt['image'] ?? 'images/image_1.jpg'); ?>">
 
       <div class="form-grid">
         <div class="form-group">
@@ -99,7 +99,7 @@ $articles = $pdo->query("SELECT * FROM articles ORDER BY id DESC")->fetchAll();
 
         <div class="form-group">
           <label>Auteur</label>
-          <input type="text" name="author" class="form-control" value="<?php echo htmlspecialchars($editArt['author'] ?? 'Direction FREE BTP'); ?>">
+          <input type="text" name="author" class="form-control" value="<?php echo htmlspecialchars($editArt['author'] ?? 'Direction FEE BTP'); ?>">
         </div>
 
         <div class="form-group">

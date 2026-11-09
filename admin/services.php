@@ -26,7 +26,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['save_service'
             $success = "Service mis à jour avec succès.";
         } else {
             $stmt = $pdo->prepare("INSERT INTO services (title, slug, icon, short_desc, full_desc, sort_order, is_active, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$title, $slug, $icon, $shortDesc, $fullDesc, $sortOrder, $isActive, 'assets/images/service-gros-oeuvre.jpg']);
+            $stmt->execute([$title, $slug, $icon, $shortDesc, $fullDesc, $sortOrder, $isActive, 'images/services-1.jpg']);
             $success = "Nouveau service ajouté avec succès.";
         }
     } else {

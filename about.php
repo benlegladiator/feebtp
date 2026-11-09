@@ -1,265 +1,317 @@
 <?php
-$pageTitle = "À Propos - Histoire, Direction & Parcs d'Engins";
+$pageTitle = "À Propos de FEE BTP SARL | Direction, Histoire & Engagements à Dschang";
+$pageDescription = "Découvrez FEE BTP SARL : son ancrage à Dschang, son dirigeant M. AGHOKENG TANGMO FABRICE, son parc d'engins lourds et sa politique de sécurité.";
 require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/includes/navbar.php';
+
+$expYears = getSetting('stats_experience', '12');
+$totalProjects = getSetting('stats_projects', '165');
+$satisfaction = getSetting('stats_satisfaction', '99');
+$equipments = getSetting('stats_equipments', '48');
+$managerName = getSetting('manager_name', 'M. AGHOKENG TANGMO FABRICE');
+$managerRole = getSetting('manager_role', 'Gérant / Directeur Général');
 ?>
 
-<div style="background: var(--primary); color: #ffffff; padding: 60px 0; text-align: center;">
-  <div class="container">
-    <div class="section-tag" style="background: rgba(243,108,33,0.2); color: #ff9800;">Présentation Officielle</div>
-    <h1 style="font-size: 2.6rem; font-weight: 800; margin-bottom: 12px;">À Propos de FREE BTP SARL</h1>
-    <p style="font-size: 1.1rem; color: #cbd5e1; max-width: 700px; margin: 0 auto;">
-      Bâtisseur de confiance à Dschang, dans la Région de l'Ouest et sur l'ensemble du territoire camerounais.
-    </p>
-  </div>
-</div>
-
-<section class="section">
-  <div class="container">
-    <div class="about-grid">
-      <div>
-        <div class="section-tag">Notre Histoire & Implantation</div>
-        <h2 class="section-title">Plus d'une Décennie au Service du Développement Urbain et BTP</h2>
-        <p style="color: var(--muted); margin-bottom: 18px; font-size: 1.02rem; line-height: 1.7;">
-          Fondée avec la volonté résolue de combler le déficit d'infrastructures pérennes et conformes aux règles de l'art dans les hauts plateaux de l'Ouest et au-delà, <strong>FREE BTP SARL</strong> s'est développée autour de valeurs d'intégrité, de rigueur technique et de respect inconditionnel des engagements contractuels.
-        </p>
-        <p style="color: var(--muted); margin-bottom: 18px; font-size: 1.02rem; line-height: 1.7;">
-          Depuis son siège historique à <strong>Dschang</strong>, notre société coordonne des chantiers d'envergure : construction de résidences modernes, complexes scolaires et universitaires, hangars industriels et plateformes logistiques, voiries urbaines pavées et réseaux d'assainissement (VRD).
-        </p>
-        <p style="color: var(--muted); margin-bottom: 25px; font-size: 1.02rem; line-height: 1.7;">
-          Notre rayonnement géographique s'étend aujourd'hui des départements de la Menoua et des Bamboutos jusqu'aux métropoles économiques de <strong>Yaoundé</strong>, <strong>Douala</strong>, <strong>Bafoussam</strong> et <strong>Kribi</strong>.
-        </p>
-        
-        <div style="background: #f8fafc; padding: 20px; border-left: 4px solid var(--accent); border-radius: 6px;">
-          <h4 style="color: var(--primary); margin-bottom: 5px;"><i class="fas fa-quote-left" style="color: var(--accent); margin-right: 8px;"></i> Notre Raison d'Être</h4>
-          <p style="font-style: italic; color: var(--dark); font-size: 0.95rem;">
-            « Concevoir et bâtir des ouvrages sûrs, durables et élégants qui traversent les générations, en garantissant à chaque maître d'ouvrage une tranquillité d'esprit absolue du terrassement jusqu'à la réception. »
-          </p>
-        </div>
-      </div>
-
-      <div>
-        <div style="border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--border);">
-          <img src="assets/images/service-pilotage.jpg" alt="Siège FREE BTP SARL Dschang" style="width: 100%; height: auto;">
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- BANNIÈRE EN-TÊTE -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('images/personnel/FAB-8.jpg'); background-position: center top;" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-end justify-content-start">
+			<div class="col-md-9 ftco-animate pb-5">
+				<p class="breadcrumbs mb-2"><span class="mr-2"><a href="index.php">Accueil <i class="fa fa-chevron-right"></i></a></span> <span>À Propos <i class="fa fa-chevron-right"></i></span></p>
+				<h1 class="mb-3 bread text-white font-weight-bold">L'Excellence & L'Ingénierie BTP à Dschang</h1>
+			</div>
+		</div>
+	</div>
 </section>
 
-<!-- ========================================================================
-     DIRECTION GÉNÉRALE & VALEURS DU MANAGEMENT
-     ======================================================================== -->
-<section class="section" style="background-color: #f1f5f9;">
-  <div class="container">
-    <div class="about-grid" style="grid-template-columns: 0.8fr 1.2fr;">
-      <div>
-        <div style="background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: var(--shadow-md); text-align: center; border-top: 5px solid var(--accent);">
-          <div style="width: 120px; height: 120px; border-radius: 50%; background: var(--primary); color: #fff; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; font-size: 3rem;">
-            <i class="fas fa-user-tie"></i>
-          </div>
-          <h3 style="color: var(--primary); font-size: 1.35rem; margin-bottom: 4px;"><?php echo htmlspecialchars($siteSettings['manager_name'] ?? 'M. AGHOKENG TANGMO FABRICE'); ?></h3>
-          <span style="color: var(--accent); font-weight: 700; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.5px;">
-            <?php echo htmlspecialchars($siteSettings['manager_role'] ?? 'Gérant / Directeur Général'); ?>
-          </span>
-          <p style="color: var(--muted); font-size: 0.88rem; margin-top: 15px; line-height: 1.6;">
-            Leader pragmatique et visionnaire, M. AGHOKENG insuffle une culture d'exigence technique, de transparence financière et d'innovation opérationnelle sur tous les sites gérés par FREE BTP SARL.
-          </p>
-          <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--muted);">
-            <div><i class="fas fa-phone-alt" style="color: var(--accent);"></i> (+237) 691 00 64 31 / 671 06 34 41</div>
-            <div style="margin-top: 5px;"><i class="fas fa-envelope" style="color: var(--accent);"></i> direction@freebtp-sarl.com</div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="section-tag">Gouvernance & Valeurs</div>
-        <h2 class="section-title">Les 4 Piliers Inébranlables de FREE BTP</h2>
-        <p style="color: var(--muted); margin-bottom: 25px;">
-          Notre démarche de management repose sur une responsabilité contractuelle rigoureuse et une conformité sans compromis avec les normes techniques internationales.
-        </p>
-
-        <div style="display: flex; flex-direction: column; gap: 20px;">
-          <div style="background: #ffffff; padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary); display: flex; gap: 15px; align-items: flex-start;">
-            <div style="font-size: 1.5rem; color: var(--accent);"><i class="fas fa-ruler-combined"></i></div>
-            <div>
-              <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 4px;">1. Précision Technique et Études Préalables</h4>
-              <p style="color: var(--muted); font-size: 0.9rem;">Aucun ouvrage n'est exécuté sans sondage de sol géotechnique, calcul de résistance des matériaux et plans de ferraillage validés.</p>
-            </div>
-          </div>
-
-          <div style="background: #ffffff; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); display: flex; gap: 15px; align-items: flex-start;">
-            <div style="font-size: 1.5rem; color: var(--accent);"><i class="fas fa-calendar-check"></i></div>
-            <div>
-              <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 4px;">2. Respect Inviolable des Échéances</h4>
-              <p style="color: var(--muted); font-size: 0.9rem;">Chaque semaine donne lieu à un point de contrôle et à l'actualisation du diagramme de Gantt pour proscrire tout glissement de calendrier.</p>
-            </div>
-          </div>
-
-          <div style="background: #ffffff; padding: 20px; border-radius: 8px; border-left: 4px solid var(--primary); display: flex; gap: 15px; align-items: flex-start;">
-            <div style="font-size: 1.5rem; color: var(--accent);"><i class="fas fa-hard-hat"></i></div>
-            <div>
-              <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 4px;">3. Politique Hygiène, Sécurité et Environnement (HSE)</h4>
-              <p style="color: var(--muted); font-size: 0.9rem;">Équipements de protection individuelle (EPI) obligatoires sur site, balisage sécuritaire et gestion responsable des déchets de chantier.</p>
-            </div>
-          </div>
-
-          <div style="background: #ffffff; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); display: flex; gap: 15px; align-items: flex-start;">
-            <div style="font-size: 1.5rem; color: var(--accent);"><i class="fas fa-handshake"></i></div>
-            <div>
-              <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 4px;">4. Clarté et Transparence Financière</h4>
-              <p style="color: var(--muted); font-size: 0.9rem;">Devis détaillés ligne par ligne (quantitatif et estimatif), sans coûts cachés, avec échéancier de facturation lié aux jalons physiques constatés.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- PRÉSENTATION DE L'ENTREPRISE, HISTORIQUE & VISION -->
+<section class="ftco-section">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-6 ftco-animate">
+				<div class="img about-image rounded shadow overflow-hidden position-relative" style="background-image: url('images/personnel/FAB-2.jpg'); min-height: 500px; background-size: cover; background-position: center top;">
+					<div class="badge-btp position-absolute" style="bottom: 20px; left: 20px; background: rgba(17, 20, 24, 0.85); backdrop-filter: blur(8px); color: #fff; padding: 10px 18px; border-radius: 50px; border: 1px solid rgba(249, 115, 22, 0.5);">
+						<i class="fa fa-calendar-check-o text-warning mr-1"></i> Fondée en 2016 • Dschang, Cameroun
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 pl-md-5 ftco-animate mt-4 mt-md-0">
+				<span class="subheading text-primary font-weight-bold" style="letter-spacing: 2px;">HISTORIQUE & VISION</span>
+				<h2 class="mb-4 font-weight-bold">Bâtir l'Excellence, Transformer le Cadre de Vie</h2>
+				<p class="text-muted" style="line-height: 1.8;">
+					Créée en <strong>2016</strong> au Cameroun, <strong>FEE BTP SARL</strong> est une société de droit camerounais née de la volonté de ses fondateurs de contribuer activement au développement des infrastructures et à la modernisation du cadre de vie des populations. Nous concevons et réalisons des ouvrages de haute technicité, répondant aux normes les plus strictes du secteur de la construction.
+				</p>
+				<p class="text-muted" style="line-height: 1.8;">
+					<strong>Notre Vision :</strong> Devenir l'entreprise de référence incontournable dans le BTP au Cameroun, et à long terme en <strong>Afrique Centrale</strong>. Nous transformons les paysages urbains et ruraux à travers des infrastructures fiables, modernes, accessibles et durables, tout en plaçant la qualité, la sécurité et la satisfaction client au cœur de nos chantiers.
+				</p>
+				<div class="p-3 mb-4 rounded" style="background: #fff7ed; border-left: 4px solid #ea580c;">
+					<h6 class="font-weight-bold mb-1" style="color: #c2410c;"><i class="fa fa-globe mr-2"></i>Engagement Spécial Diaspora</h6>
+					<p class="small text-muted mb-0">
+						Accompagner et mettre en pleine confiance nos frères et sœurs de la diaspora dans tous leurs investissements immobiliers au Cameroun, avec une transparence absolue et des comptes rendus vidéo réguliers.
+					</p>
+				</div>
+				<div class="row mt-4">
+					<div class="col-4 mb-3">
+						<div class="border-left border-primary pl-3">
+							<h4 class="font-weight-bold text-dark mb-0">+<?= htmlspecialchars($expYears) ?> Ans</h4>
+							<small class="text-muted">D'expérience (depuis 2016)</small>
+						</div>
+					</div>
+					<div class="col-4 mb-3">
+						<div class="border-left border-primary pl-3">
+							<h4 class="font-weight-bold text-dark mb-0">+<?= htmlspecialchars($totalProjects) ?> Projets</h4>
+							<small class="text-muted">Déjà réalisés avec succès</small>
+						</div>
+					</div>
+					<div class="col-4 mb-3">
+						<div class="border-left border-primary pl-3">
+							<h4 class="font-weight-bold text-dark mb-0">R+3</h4>
+							<small class="text-muted">Jusqu'à 1 200 m²</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
-<!-- ========================================================================
-     PARCS DE MATÉRIELS & ENGINS LOURDS BTP
-     ======================================================================== -->
-<section class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Puissance Opérationnelle</div>
-      <h2 class="section-title">Nos Parcs d'Engins & Équipements BTP</h2>
-      <p class="section-subtitle">
-        L'autonomie matérielle est la clé de notre réactivité. FREE BTP possède et entretient sa propre flotte d'engins lourds.
-      </p>
-    </div>
-
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon"><i class="fas fa-truck-monster"></i></div>
-        <h3 class="service-title">Terrassement & Fouilles</h3>
-        <p class="service-desc">
-          Pelles hydrauliques sur chenilles, tractopelles mixtes, chargeuses compactes et niveleuses pour excavations massives et déblais/remblais.
-        </p>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon"><i class="fas fa-truck-moving"></i></div>
-        <h3 class="service-title">Transport Logistique & Bennes</h3>
-        <p class="service-desc">
-          Flotte de camions bennes 6x4 et 8x4 pour l'acheminement direct des agrégats, sable de carrière, ciment et évacuation des gravats.
-        </p>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon"><i class="fas fa-cubes"></i></div>
-        <h3 class="service-title">Production & Coulage de Béton</h3>
-        <p class="service-desc">
-          Bétonnières thermiques haute capacité, vibreurs pneumatiques à béton, bennes de grutage et pompes à béton pour dalles et poteaux.
-        </p>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon"><i class="fas fa-road"></i></div>
-        <h3 class="service-title">Compactage & Voiries (VRD)</h3>
-        <p class="service-desc">
-          Rouleaux compacteurs tandem vibrants, plaques vibrantes et dames sauteuses garantissant un indice CBR optimal pour chaussées et dallages.
-        </p>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon"><i class="fas fa-drafting-compass"></i></div>
-        <h3 class="service-title">Topographie & Contrôle Laser</h3>
-        <p class="service-desc">
-          Stations totales électroniques, niveaux de chantier haute précision, mires laser et récepteurs GPS différentiels pour implantations millimétriques.
-        </p>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon"><i class="fas fa-layer-group"></i></div>
-        <h3 class="service-title">Échafaudages & Sécurité en Hauteur</h3>
-        <p class="service-desc">
-          Plus de 3 000 m² d'échafaudages tubulaires métalliques certifiés, étais télescopiques lourds, coffrages métalliques et filets de protection.
-        </p>
-      </div>
-    </div>
-  </div>
+<!-- VALEURS & PROTOCOLES HSE (HYGIÈNE, SÉCURITÉ, ENVIRONNEMENT) -->
+<section class="ftco-section bg-light">
+	<div class="container">
+		<div class="row justify-content-center mb-5">
+			<div class="col-md-8 text-center heading-section ftco-animate">
+				<span class="subheading text-primary font-weight-bold">Nos Engagements</span>
+				<h2 class="mb-4">Sécurité des Hommes & Rigueur des Procédés</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4 ftco-animate mb-4">
+				<div class="bg-white p-4 rounded shadow-sm text-center h-100">
+					<div class="icon mb-3 text-primary" style="font-size: 40px;"><i class="fa fa-hard-hat"></i></div>
+					<h4 class="font-weight-bold mb-3">Normes HSE Intransigeantes</h4>
+					<p class="text-muted small">Équipements de protection individuelle (EPI) obligatoires pour chaque ouvrier et technicien. Sécurisation intégrale des chantiers pour zéro incident.</p>
+				</div>
+			</div>
+			<div class="col-md-4 ftco-animate mb-4">
+				<div class="bg-white p-4 rounded shadow-sm text-center h-100">
+					<div class="icon mb-3 text-primary" style="font-size: 40px;"><i class="fa fa-ruler-combined"></i></div>
+					<h4 class="font-weight-bold mb-3">Contrôle Qualité des Matériaux</h4>
+					<p class="text-muted small">Sélection des meilleurs agrégats, dosages de ciment scrupuleusement vérifiés, aciers normalisés et éprouvettes de compression testées en laboratoire.</p>
+				</div>
+			</div>
+			<div class="col-md-4 ftco-animate mb-4">
+				<div class="bg-white p-4 rounded shadow-sm text-center h-100">
+					<div class="icon mb-3 text-primary" style="font-size: 40px;"><i class="fa fa-clock-o"></i></div>
+					<h4 class="font-weight-bold mb-3">Respect des Délais Contractuels</h4>
+					<p class="text-muted small">Utilisation de rétro-plannings dynamiques (diagrammes de Gantt) pour garantir une livraison de vos ouvrages sans retard ni surcoût imprévu.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
-<!-- ========================================================================
-     ÉQUIPE TECHNIQUE & ENCADREMENT DE CHANTIER
-     ======================================================================== -->
-<section class="section" style="background-color: #f8fafc; border-top: 1px solid var(--border);">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Compétences Humaines</div>
-      <h2 class="section-title">Notre Équipe Technique & Encadrement</h2>
-      <p class="section-subtitle">
-        Des ingénieurs chevronnés, des conducteurs de travaux rigoureux et des chefs de chantier engagés pour l'excellence de vos réalisations.
-      </p>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
-      <div style="background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-align: center;">
-        <div style="height: 280px; overflow: hidden;">
-          <img src="assets/images/team-1.jpg" alt="Ingénieur Génie Civil FREE BTP" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <div style="padding: 20px;">
-          <h3 style="color: var(--primary-dark); font-size: 1.2rem; margin-bottom: 5px;">Ing. Emmanuel T.</h3>
-          <span style="color: var(--accent); font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">Directeur des Travaux & Gros Œuvre</span>
-          <p style="color: var(--muted); font-size: 0.88rem; margin-top: 10px;">14 ans d'expérience en calculs de structures béton armé et coordination des chantiers multi-étages.</p>
-        </div>
-      </div>
-
-      <div style="background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-align: center;">
-        <div style="height: 280px; overflow: hidden;">
-          <img src="assets/images/team-2.jpg" alt="Conducteur de Travaux VRD" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <div style="padding: 20px;">
-          <h3 style="color: var(--primary-dark); font-size: 1.2rem; margin-bottom: 5px;">Alain D.</h3>
-          <span style="color: var(--accent); font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">Chef de Projet VRD & Travaux Publics</span>
-          <p style="color: var(--muted); font-size: 0.88rem; margin-top: 10px;">Spécialiste de la topographie, des terrassements complexes et du dimensionnement des chaussées.</p>
-        </div>
-      </div>
-
-      <div style="background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-sm); border: 1px solid var(--border); text-align: center;">
-        <div style="height: 280px; overflow: hidden;">
-          <img src="assets/images/team-3.jpg" alt="Responsable Qualité & Sécurité HSE" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
-        <div style="padding: 20px;">
-          <h3 style="color: var(--primary-dark); font-size: 1.2rem; margin-bottom: 5px;">Sandrine M.</h3>
-          <span style="color: var(--accent); font-weight: 700; font-size: 0.85rem; text-transform: uppercase;">Responsable Contrôle Qualité & HSE</span>
-          <p style="color: var(--muted); font-size: 0.88rem; margin-top: 10px;">Garante du respect des normes de sécurité chantier, des essais béton et de la traçabilité des matériaux.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- PARC MATÉRIEL & ÉQUIPEMENTS LOURDS -->
+<section class="ftco-section">
+	<div class="container">
+		<div class="row justify-content-center mb-5">
+			<div class="col-md-8 text-center heading-section ftco-animate">
+				<span class="subheading text-primary font-weight-bold">Moyens Logistiques & Techniques</span>
+				<h2 class="mb-4">Un Parc d'Engins Performant & Opérationnel</h2>
+				<p class="text-muted">Pour assurer l'autonomie et la rapidité d'exécution de nos chantiers de terrassement et génie civil, nous disposons d'équipements adaptés aux reliefs de l'Ouest.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 col-6 text-center mb-4 ftco-animate">
+				<div class="p-3 border rounded shadow-sm bg-white">
+					<i class="flaticon-crane display-4 text-primary mb-2"></i>
+					<h6 class="font-weight-bold mb-1">Grues & Pelles</h6>
+					<p class="small text-muted mb-0">Terrassements & Levage</p>
+				</div>
+			</div>
+			<div class="col-md-3 col-6 text-center mb-4 ftco-animate">
+				<div class="p-3 border rounded shadow-sm bg-white">
+					<i class="flaticon-worker-1 display-4 text-primary mb-2"></i>
+					<h6 class="font-weight-bold mb-1">Camions-Bennes</h6>
+					<p class="small text-muted mb-0">Transport de remblais & matériaux</p>
+				</div>
+			</div>
+			<div class="col-md-3 col-6 text-center mb-4 ftco-animate">
+				<div class="p-3 border rounded shadow-sm bg-white">
+					<i class="fa fa-industry display-4 text-primary mb-2"></i>
+					<h6 class="font-weight-bold mb-1">Centrales & Bétonnières</h6>
+					<p class="small text-muted mb-0">Coulage rapide et homogène</p>
+				</div>
+			</div>
+			<div class="col-md-3 col-6 text-center mb-4 ftco-animate">
+				<div class="p-3 border rounded shadow-sm bg-white">
+					<i class="fa fa-crosshairs display-4 text-primary mb-2"></i>
+					<h6 class="font-weight-bold mb-1">Niveaux Laser & Théodolites</h6>
+					<p class="small text-muted mb-0">Topographie & Alerte altimétrique</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
-<!-- ========================================================================
-     BANDEAU PARTENAIRES TECHNIQUES & FOURNISSEURS DE MATÉRIAUX
-     ======================================================================== -->
-<section class="brands-strip">
-  <div class="container">
-    <div class="brands-header">
-      <span class="brands-title"><i class="fas fa-handshake" style="color: var(--accent); margin-right: 6px;"></i> Partenaires Techniques & Fournisseurs de Matériaux Agréés</span>
-    </div>
-    <div class="brands-grid">
-      <div class="brand-item" title="Partenaire Cimenterie & Béton">
-        <img src="assets/images/brands/brand-1.png" alt="Partenaire Cimenterie & Béton">
-      </div>
-      <div class="brand-item" title="Fournisseur Aciers & Ferraillage">
-        <img src="assets/images/brands/brand-2.png" alt="Fournisseur Aciers & Ferraillage">
-      </div>
-      <div class="brand-item" title="Laboratoire Géotechnique & Contrôle Qualité">
-        <img src="assets/images/brands/brand-3.png" alt="Laboratoire Géotechnique">
-      </div>
-      <div class="brand-item" title="Équipements Lourds & Carrières">
-        <img src="assets/images/brands/brand-4.png" alt="Équipements Lourds & Carrières">
-      </div>
-      <div class="brand-item" title="Menuiserie & Finitions Haut Standing">
-        <img src="assets/images/brands/brand-5.png" alt="Menuiserie & Finitions">
-      </div>
-      <div class="brand-item" title="Réseaux VRD & Assainissement">
-        <img src="assets/images/brands/brand-6.png" alt="Réseaux VRD & Assainissement">
-      </div>
-    </div>
-  </div>
+<!-- ÉQUIPE DIRIGEANTE, ARCHITECTES & CADRES TECHNIQUES -->
+<section class="ftco-section bg-light" id="team-section">
+	<div class="container">
+		<div class="row justify-content-center mb-5">
+			<div class="col-md-9 text-center heading-section ftco-animate">
+				<span class="subheading text-primary font-weight-bold" style="letter-spacing: 2px;">NOTRE CAPITAL HUMAIN</span>
+				<h2 class="mb-4 font-weight-bold">Direction, Bureau d'Études & Équipes Terrain</h2>
+				<p class="text-muted lead">Une synergie d'ingénieurs, architectes et logisticiens passionnés, unis pour concevoir et concrétiser vos projets avec le plus haut niveau d'exigence technique.</p>
+			</div>
+		</div>
+
+		<!-- 1. Direction Générale (Mise en avant d'honneur) -->
+		<div class="row justify-content-center mb-5">
+			<div class="col-lg-8 col-md-10 ftco-animate">
+				<div class="staff bg-white rounded-xl shadow overflow-hidden d-flex flex-column flex-md-row align-items-stretch" style="border: 2px solid rgba(234, 88, 12, 0.2); border-radius: 20px;">
+					<!-- Espace Photo DG -->
+					<div class="col-md-5 p-0 position-relative" style="min-height: 380px;">
+						<div class="w-100 h-100" style="background-image: url('images/team/aghokeng-fabrice.jpg'); background-size: cover; background-position: top center;"></div>
+						<div class="position-absolute" style="bottom: 15px; left: 15px;">
+							<span class="badge badge-warning text-dark font-weight-bold px-3 py-1 shadow-sm">
+								<i class="fa fa-star mr-1"></i> Fondateur & DG
+							</span>
+						</div>
+					</div>
+					<!-- Détails & Mission DG -->
+					<div class="col-md-7 p-4 p-lg-5 d-flex flex-column justify-content-between">
+						<div>
+							<span class="text-uppercase font-weight-bold" style="color: #ea580c; font-size: 12px; letter-spacing: 1.5px;">Direction Générale</span>
+							<h3 class="font-weight-bold text-dark mt-1 mb-2" style="font-size: 1.7rem;"><?= htmlspecialchars($managerName) ?></h3>
+							<p class="badge badge-light border text-primary font-weight-bold px-3 py-1 mb-3" style="font-size: 0.9rem;">Directeur Général</p>
+							<p class="text-muted" style="line-height: 1.8; font-size: 0.98rem;">
+								« Mon rôle est de coordonner et superviser l'ensemble des activités de l'entreprise. Je définis les orientations stratégiques, je veille à la rigueur de la gestion administrative et financière, et je supervise directement les équipes techniques afin de garantir la parfaite exécution de vos projets de construction. »
+							</p>
+						</div>
+						<div class="pt-3 border-top d-flex justify-content-between align-items-center">
+							<small class="text-muted font-weight-bold"><i class="fa fa-map-marker text-danger mr-1"></i> Dschang & Région de l'Ouest</small>
+							<a href="contact.php" class="btn btn-sm btn-outline-primary px-3 font-weight-bold">Prendre Contact</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 2. Les Cadres Techniques & Concepteurs (4 Blocs Alignés sur la Même Ligne) -->
+		<div class="row">
+			<!-- Membre 1 : TCHOUNGO MBONGO JUNIOR -->
+			<div class="col-lg-3 col-md-6 ftco-animate mb-4">
+				<div class="staff bg-white rounded-xl shadow-sm overflow-hidden h-100 d-flex flex-column justify-content-between" style="border: 1.5px solid #e2e8f0; border-radius: 16px;">
+					<div>
+						<!-- Photo Réelle Optimisée Architecte Junior (Tête 100% visible) -->
+						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('images/team/tchoungo-junior.jpg'); background-size: cover; background-position: top center;">
+							<div class="team-photo-overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to top, rgba(15,23,42,0.75) 0%, rgba(0,0,0,0) 35%);"></div>
+							<div class="position-absolute" style="bottom: 10px; left: 12px;">
+								<span class="badge badge-light text-dark font-weight-bold px-2 py-1 shadow-sm" style="font-size: 10px;">
+									<i class="fa fa-pencil-ruler text-primary mr-1"></i> Conception 3D
+								</span>
+							</div>
+						</div>
+						<div class="p-3">
+							<h5 class="font-weight-bold mb-1 text-dark" style="font-size: 1.05rem;">TCHOUNGO M. JUNIOR</h5>
+							<span class="text-primary font-weight-bold d-block mb-2" style="font-size: 0.85rem;">Architecte Concepteur</span>
+							<p class="text-muted" style="line-height: 1.5; font-size: 0.85rem;">
+								« Vos bâtiments sont une priorité car je réalise ce que votre cœur désire. » Spécialiste de la conception moderne et des volumes bioclimatiques.
+							</p>
+						</div>
+					</div>
+					<div class="p-2 px-3 bg-light border-top d-flex justify-content-between align-items-center">
+						<small class="text-muted font-weight-bold" style="font-size: 11px;"><i class="fa fa-drafting-compass text-primary mr-1"></i> Bureau d'Études</small>
+						<span class="badge badge-success px-2 py-1" style="font-size: 10px;">Plans 3D</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Membre 2 : KEIBOG RICARDO -->
+			<div class="col-lg-3 col-md-6 ftco-animate mb-4">
+				<div class="staff bg-white rounded-xl shadow-sm overflow-hidden h-100 d-flex flex-column justify-content-between" style="border: 1.5px solid #e2e8f0; border-radius: 16px;">
+					<div>
+						<!-- Photo Réelle Optimisée Architecte Ricardo (Tête 100% visible) -->
+						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('images/team/keibog-ricardo.jpg'); background-size: cover; background-position: top center;">
+							<div class="team-photo-overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to top, rgba(15,23,42,0.75) 0%, rgba(0,0,0,0) 35%);"></div>
+							<div class="position-absolute" style="bottom: 10px; left: 12px;">
+								<span class="badge badge-light text-dark font-weight-bold px-2 py-1 shadow-sm" style="font-size: 10px;">
+									<i class="fa fa-building text-primary mr-1"></i> Architecture
+								</span>
+							</div>
+						</div>
+						<div class="p-3">
+							<h5 class="font-weight-bold mb-1 text-dark" style="font-size: 1.05rem;">KEIBOG RICARDO</h5>
+							<span class="text-primary font-weight-bold d-block mb-2" style="font-size: 0.85rem;">Architecte</span>
+							<p class="text-muted" style="line-height: 1.5; font-size: 0.85rem;">
+								Chargé de concevoir les espaces et les bâtiments. Il imagine les projets, réalise les plans architecturaux et veille au respect strict des règles d'urbanisme.
+							</p>
+						</div>
+					</div>
+					<div class="p-2 px-3 bg-light border-top d-flex justify-content-between align-items-center">
+						<small class="text-muted font-weight-bold" style="font-size: 11px;"><i class="fa fa-university text-primary mr-1"></i> Permis</small>
+						<span class="badge badge-info px-2 py-1" style="font-size: 10px;">Urbanisme</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Membre 3 : GUEMECHIO ETIENNE BIENVENUE -->
+			<div class="col-lg-3 col-md-6 ftco-animate mb-4">
+				<div class="staff bg-white rounded-xl shadow-sm overflow-hidden h-100 d-flex flex-column justify-content-between" style="border: 1.5px solid #e2e8f0; border-radius: 16px;">
+					<div>
+						<!-- Photo Réelle Optimisée Ingénieur Étienne Bienvenue (Tête 100% visible) -->
+						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('images/team/guemechio-etienne.jpg'); background-size: cover; background-position: top center;">
+							<div class="team-photo-overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to top, rgba(15,23,42,0.75) 0%, rgba(0,0,0,0) 35%);"></div>
+							<div class="position-absolute" style="bottom: 10px; left: 12px;">
+								<span class="badge badge-light text-dark font-weight-bold px-2 py-1 shadow-sm" style="font-size: 10px;">
+									<i class="fa fa-hard-hat text-warning mr-1"></i> Suivi Chantier
+								</span>
+							</div>
+						</div>
+						<div class="p-3">
+							<h5 class="font-weight-bold mb-1 text-dark" style="font-size: 1.05rem;">GUEMECHIO ETIENNE</h5>
+							<span class="text-primary font-weight-bold d-block mb-2" style="font-size: 0.85rem;">Ingénieur Suivi Travaux</span>
+							<p class="text-muted" style="line-height: 1.5; font-size: 0.85rem;">
+								Études techniques de structure (descente de charges, béton armé vibré), rétroplannings et supervision rigoureuse de l'ensemble des chantiers.
+							</p>
+						</div>
+					</div>
+					<div class="p-2 px-3 bg-light border-top d-flex justify-content-between align-items-center">
+						<small class="text-muted font-weight-bold" style="font-size: 11px;"><i class="fa fa-check-circle text-success mr-1"></i> Qualité Béton</small>
+						<span class="badge badge-primary px-2 py-1" style="font-size: 10px;">Contrôle Terrain</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Membre 4 : ZETSA IRISS DUBAL -->
+			<div class="col-lg-3 col-md-6 ftco-animate mb-4">
+				<div class="staff bg-white rounded-xl shadow-sm overflow-hidden h-100 d-flex flex-column justify-content-between" style="border: 1.5px solid #e2e8f0; border-radius: 16px;">
+					<div>
+						<!-- Photo Réelle Optimisée Responsable Logistique Zetsa Iriss (Tête 100% visible) -->
+						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('images/team/zetsa-iriss.jpg'); background-size: cover; background-position: top center;">
+							<div class="team-photo-overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to top, rgba(15,23,42,0.75) 0%, rgba(0,0,0,0) 35%);"></div>
+							<div class="position-absolute" style="bottom: 10px; left: 12px;">
+								<span class="badge badge-light text-dark font-weight-bold px-2 py-1 shadow-sm" style="font-size: 10px;">
+									<i class="fa fa-truck text-danger mr-1"></i> Logistique
+								</span>
+							</div>
+						</div>
+						<div class="p-3">
+							<h5 class="font-weight-bold mb-1 text-dark" style="font-size: 1.05rem;">ZETSA IRISS DUBAL</h5>
+							<span class="text-primary font-weight-bold d-block mb-2" style="font-size: 0.85rem;">Responsable Logistique</span>
+							<p class="text-muted" style="line-height: 1.5; font-size: 0.85rem;">
+								Organisation et contrôle en temps réel du parc d'engins (pelles hydrauliques, camions-bennes, centrales à béton et approvisionnements).
+							</p>
+						</div>
+					</div>
+					<div class="p-2 px-3 bg-light border-top d-flex justify-content-between align-items-center">
+						<small class="text-muted font-weight-bold" style="font-size: 11px;"><i class="fa fa-cogs text-dark mr-1"></i> Flotte Engins</small>
+						<span class="badge badge-warning text-dark px-2 py-1" style="font-size: 10px;">Disponibilité 24/7</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
