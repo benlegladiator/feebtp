@@ -21,31 +21,31 @@
     let targetX = 0, targetY = 0;
     let angleX = 0.2, angleY = 0.3;
 
-    function resize() {
-      const parent = canvas.parentElement;
-      width = canvas.width = parent.clientWidth || window.innerWidth;
-      height = canvas.height = parent.clientHeight || window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
+    let nodes = [];
+    let edges = [];
+    let foundationPads = [];
+    let gridLines = [];
+    let particles = [];
+    let baseRadius = 120;
+    let groundY = 0;
 
-    // Suivi de la souris pour inclinaison dynamique
-    window.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      if (e.clientY < rect.bottom) {
-        targetX = (e.clientX - width / 2) * 0.0005;
-        targetY = (e.clientY - height / 2) * 0.0005;
+    function buildStructure() {
+      nodes = [];
+      edges = [];
+      foundationPads = [];
+      gridLines = [];
+      particles = [];
+
+      // Échelle dynamique proportionnelle pour FEE BTP
+      if (width <= 480) {
+        baseRadius = Math.min(width, height) * 0.12; // Compact sur mobile
+      } else if (width <= 768) {
+        baseRadius = Math.min(width, height) * 0.15;
+      } else if (width <= 991) {
+        baseRadius = Math.min(width, height) * 0.18;
+      } else {
+        baseRadius = Math.min(width, height) * 0.22;
       }
-    });
-
-    // ========================================================================
-    // STRUCTURE ARCHITECTURALE ICONIQUE FEE BTP : 
-    // COMPLEXE GÉODÉSIQUE DE MONTAGNE, GRADINS & DOUBLE ARCHES PARABOLIQUES
-    // (Symbolise le génie civil des reliefs, soutènement de talus et grandes voûtes)
-    // ========================================================================
-    const nodes = [];
-    const edges = [];
-    const baseRadius = Math.min(width, height) * 0.22;
 
     // --- 1. SOCLE EN GRADINS ÉTAGÉS & MURS DE SOUTÈNEMENT (3 Terrasses) ---
     const terraceCount = 3;
@@ -191,18 +191,17 @@
     }
 
     // --- 4. MASSIFS DE FONDATION GÉOTECHNIQUES & RADIER (4 Piliers d'ancrage des Arches) ---
-    const foundationPads = [
-      { x: archSpan, y: terraceCount * 0.25 * baseRadius, z: 0, size: baseRadius * 0.20 },
-      { x: -archSpan, y: terraceCount * 0.25 * baseRadius, z: 0, size: baseRadius * 0.20 },
-      { x: 0, y: terraceCount * 0.25 * baseRadius, z: archSpan, size: baseRadius * 0.20 },
-      { x: 0, y: terraceCount * 0.25 * baseRadius, z: -archSpan, size: baseRadius * 0.20 }
-    ];
+    groundY = terraceCount * 0.25 * baseRadius;
+    foundationPads.push(
+      { x: archSpan, y: groundY, z: 0, size: baseRadius * 0.20 },
+      { x: -archSpan, y: groundY, z: 0, size: baseRadius * 0.20 },
+      { x: 0, y: groundY, z: archSpan, size: baseRadius * 0.20 },
+      { x: 0, y: groundY, z: -archSpan, size: baseRadius * 0.20 }
+    );
 
     // Grille de fondation géotechnique (Sol latéritique / Radier général)
-    const gridLines = [];
     const gridSize = baseRadius * 1.85;
     const gridSteps = 7;
-    const groundY = terraceCount * 0.25 * baseRadius;
     for (let g = -gridSteps; g <= gridSteps; g++) {
       const pos = (g / gridSteps) * gridSize;
       gridLines.push([
@@ -216,8 +215,7 @@
     }
 
     // Particules volumétriques dorées et d'énergie de construction
-    const particles = [];
-    for (let p = 0; p < 50; p++) {
+    for (let p = 0; p < 40; p++) {
       particles.push({
         x: (Math.random() - 0.5) * baseRadius * 3.4,
         y: (Math.random() - 0.5) * baseRadius * 2.8,
@@ -227,64 +225,75 @@
         alpha: Math.random() * 0.6 + 0.4
       });
     }
+  }
 
-    let autoRotation = 0;
-    let scanLaserY = 0;
+  function resize() {
+    const parent = canvas.parentElement;
+    width = canvas.width = parent.clientWidth || window.innerWidth;
+    height = canvas.height = parent.clientHeight || window.innerHeight;
+    buildStructure();
+  }
+  window.addEventListener('resize', resize);
+  resize();
 
-    function render() {
-      ctx.clearRect(0, 0, width, height);
+  // Suivi de la souris pour inclinaison dynamique
+  window.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    if (e.clientY < rect.bottom) {
+      targetX = (e.clientX - width / 2) * 0.0005;
+      targetY = (e.clientY - height / 2) * 0.0005;
+    }
+  });
 
-      // Adaptation responsive progressive : rétrécit nettement sur mobile sans dominer le texte
-      let responsiveScale = 1.0;
-      let mobileAlpha = 0.95;
-      let lineMultiplier = 1.0;
-      if (width <= 480) {
-        responsiveScale = 0.12; // Rétrécissement très net sur mobile (compact et lisible)
-        mobileAlpha = 0.38;
-        lineMultiplier = 0.45;
-      } else if (width <= 640) {
-        responsiveScale = 0.16;
-        mobileAlpha = 0.48;
-        lineMultiplier = 0.55;
-      } else if (width <= 768) {
-        responsiveScale = 0.22;
-        mobileAlpha = 0.58;
-        lineMultiplier = 0.65;
-      } else if (width <= 991) {
-        responsiveScale = 0.35;
-        mobileAlpha = 0.70;
-        lineMultiplier = 0.80;
-      }
+  let autoRotation = 0;
+  let scanLaserY = 0;
 
-      // Rotation continue 360° fluide & cinématique
-      autoRotation += 0.0065;
+  function render() {
+    ctx.clearRect(0, 0, width, height);
 
-      angleX = autoRotation + (targetX * 2);
-      angleY += (targetY - angleY) * 0.05;
+    // Adaptation responsive progressive : rétrécit nettement sur mobile sans dominer le texte
+    let mobileAlpha = 0.95;
+    let lineMultiplier = 1.0;
+    if (width <= 480) {
+      mobileAlpha = 0.30;
+      lineMultiplier = 0.55;
+    } else if (width <= 640) {
+      mobileAlpha = 0.40;
+      lineMultiplier = 0.65;
+    } else if (width <= 768) {
+      mobileAlpha = 0.50;
+      lineMultiplier = 0.75;
+    } else if (width <= 991) {
+      mobileAlpha = 0.68;
+      lineMultiplier = 0.85;
+    }
 
-      const cosX = Math.cos(angleX);
-      const sinX = Math.sin(angleX);
-      const cosY = Math.cos(angleY + 0.24); // Vue plongeante héroïque mettant en valeur les arches
-      const sinY = Math.sin(angleY + 0.24);
+    // Rotation continue 360° fluide & cinématique
+    autoRotation += 0.0065;
 
-      // Centrage équilibré selon la taille d'écran
-      const cx = width > 992 ? width * 0.74 : width * 0.50;
-      const cy = width > 992 ? height * 0.52 : (width <= 640 ? height * 0.48 : height * 0.50);
-      const fov = 750;
+    angleX = autoRotation + (targetX * 2);
+    angleY += (targetY - angleY) * 0.05;
 
-      // Opacité adaptée sur mobile pour laisser respirer les textes et photos
-      const prevAlpha = ctx.globalAlpha;
-      ctx.globalAlpha = mobileAlpha;
+    const cosX = Math.cos(angleX);
+    const sinX = Math.sin(angleX);
+    const cosY = Math.cos(angleY + 0.24); // Vue plongeante héroïque mettant en valeur les arches
+    const sinY = Math.sin(angleY + 0.24);
 
-      // Fonction de projection 3D mise à l'échelle responsive
-      function projectPoint(x, y, z) {
-        const sx = x * responsiveScale;
-        const sy = y * responsiveScale;
-        const sz = z * responsiveScale;
-        let x1 = sx * cosX - sz * sinX;
-        let z1 = sz * cosX + sx * sinX;
-        let y1 = sy * cosY - z1 * sinY;
-        let z2 = z1 * cosY + sy * sinY + 750;
+    // Centrage équilibré selon la taille d'écran
+    const cx = width > 992 ? width * 0.74 : width * 0.50;
+    const cy = width > 992 ? height * 0.52 : height * 0.48;
+    const fov = 750;
+
+    // Opacité adaptée sur mobile pour laisser respirer les textes et photos
+    const prevAlpha = ctx.globalAlpha;
+    ctx.globalAlpha = mobileAlpha;
+
+    // Fonction de projection 3D mise à l'échelle responsive
+    function projectPoint(x, y, z) {
+      let x1 = x * cosX - z * sinX;
+      let z1 = z * cosX + x * sinX;
+      let y1 = y * cosY - z1 * sinY;
+      let z2 = z1 * cosY + y * sinY + 750;
         const scale = fov / Math.max(100, z2);
         return {
           px: cx + x1 * scale,
