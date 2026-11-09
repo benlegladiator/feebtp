@@ -1,0 +1,15 @@
+# Configuration locale & bases
+config/db_production.php
+data/*.sqlite
+*.sql
+
+# Archives et gros fichiers
+*.zip
+*.tar.gz
+
+# Fichiers système & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
