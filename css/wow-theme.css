@@ -1230,12 +1230,17 @@ textarea.form-control {
   z-index: 3;
 }
 
-/* Sur mobile et tablette : masquer la structure fil de fer pour que les photos réelles soient 100% nettes et visibles */
+/* Responsive Canvas 3D : Rétrécit harmonieusement sur tablette et mobile sans disparaître */
 @media (max-width: 991px) {
   #feeHero3DCanvas {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 0.65;
+  }
+}
+@media (max-width: 576px) {
+  #feeHero3DCanvas {
+    opacity: 0.45;
   }
 }
 

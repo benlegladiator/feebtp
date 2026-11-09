@@ -311,6 +311,9 @@ $equipments = getSetting('stats_equipments', '48');
 					<button type="button" class="fee-bim-btn" id="feeBtnBimExplode" title="Décomposer les étages">
 						<i class="fa fa-layer-group"></i> <span>Vue Écorchée</span>
 					</button>
+					<button type="button" class="fee-bim-btn" id="feeBtnBimNight" title="Bascule Ambiance Solaire / Nuit VIP">
+						<i class="fa fa-moon"></i> <span class="d-none d-sm-inline">Mode Nuit</span>
+					</button>
 					<button type="button" class="fee-bim-btn active" id="feeBtnBimRotate" title="Activer/Pause rotation">
 						<i class="fa fa-repeat"></i>
 					</button>
