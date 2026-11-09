@@ -144,7 +144,7 @@
           ctx.strokeStyle = 'rgba(255, 180, 0, 0.55)'; // Colonne porteuse or
           ctx.lineWidth = 1.4;
         } else {
-          ctx.strokeStyle = 'rgba(100, 180, 255, 0.35)'; // Dalle azur
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)'; // Dalle structurale blanche
           ctx.lineWidth = 1;
         }
         ctx.stroke();
