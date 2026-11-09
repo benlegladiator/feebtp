@@ -48,10 +48,10 @@
     const width = container.clientWidth;
     const height = container.clientHeight;
 
-    // 1. Scène & Atmosphère architecturale lumineuse (Ciel Azur & Studio BTP)
+    // 1. Scène & Atmosphère architecturale lumineuse (Ardoise & Studio BTP)
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0c213d); // Bleu architectural profond lumineux
-    scene.fog = new THREE.FogExp2(0x0c213d, 0.016);
+    scene.background = new THREE.Color(0x0f172a); // Ardoise / Anthracite BTP signature FEE BTP
+    scene.fog = new THREE.FogExp2(0x0f172a, 0.016);
 
     // 2. Caméra (Dézoom proportionné sur mobile pour que l'ensemble avec terrasse et piscine tienne dans le cadre)
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
@@ -246,8 +246,8 @@
     const matBrownPillar = createMaterial('solid', 0x78350f, 1, 0.5, 0.15); // Piliers Marron Teck / Pierre de taille
     const matBrownWood = createMaterial('solid', 0x92400e, 1, 0.4, 0.1); // Bois teck noble chaleureux
     const matGoldYellow = createMaterial('solid', 0xf59e0b, 1, 0.25, 0.85); // Jaune Or métallique brossé
-    const matAzureFrame = createMaterial('solid', 0x2563eb, 1, 0.28, 0.65); // Menuiseries Bleu Saphir / Cobalt
-    const matNavyBlue = createMaterial('solid', 0x1e3a8a, 1, 0.35, 0.4); // Acrotères & bandeaux Bleu Royal
+    const matAzureFrame = createMaterial('solid', 0x1e293b, 1, 0.28, 0.65); // Menuiseries Noir Sablé / Anthracite
+    const matNavyBlue = createMaterial('solid', 0xea580c, 1, 0.35, 0.4); // Acrotères & bandeaux Orange BTP signature FEE BTP
     const matPergola = createMaterial('solid', 0xa16207, 1, 0.35, 0.15); // Pergola Marron Chêne Doré
     const matGlass = createMaterial('glass', 0x38bdf8); // Vitrage Bleu Ciel Azur
     const matWater = createMaterial('water', 0x06b6d4); // Eau de piscine turquoise
@@ -616,8 +616,8 @@
         scene.background.set(0x030712);
         scene.fog.color.set(0x030712);
       } else {
-        scene.background.set(0x0c213d);
-        scene.fog.color.set(0x0c213d);
+        scene.background.set(0x0f172a);
+        scene.fog.color.set(0x0f172a);
       }
     }
   }
@@ -625,7 +625,7 @@
   function toggleNightMode(night) {
     isNightMode = night;
     if (scene) {
-      const bgColor = night ? 0x030712 : 0x0c213d;
+      const bgColor = night ? 0x030712 : 0x0f172a;
       scene.background.set(bgColor);
       scene.fog.color.set(bgColor);
     }

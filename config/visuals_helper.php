@@ -1,6 +1,6 @@
 <?php
 /**
- * Gestionnaire de Visuels de Repère par Page & Section - RMC BTP SARL
+ * Gestionnaire de Visuels de Repère par Page & Section - FEE BTP SARL
  */
 
 function initPageVisualsTable($pdo) {
@@ -23,81 +23,88 @@ function initPageVisualsTable($pdo) {
             UNIQUE KEY unique_page_sec (page_slug, section_key)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
-        // Liste des visuels de repère fondamentaux du site
+        // Auto-réparation des clés erronées ou fichiers RMC non existants sur FEE BTP
+        $repairCheck = $pdo->query("SELECT 1 FROM page_visuals WHERE default_url LIKE '%_JMP6225%' OR title LIKE '%RMC BTP%' OR default_url LIKE '%rodrigue-djomo%' LIMIT 1");
+        $needsRepair = ($repairCheck && $repairCheck->fetch());
+        if ($needsRepair) {
+            $pdo->exec("DELETE FROM page_visuals WHERE default_url LIKE '%_JMP6225%' OR title LIKE '%RMC BTP%' OR default_url LIKE '%rodrigue-djomo%'");
+        }
+
+        // Liste des visuels de repère fondamentaux réels de FEE BTP SARL
         $defaults = [
             // --- PAGE D'ACCUEIL (index.php) ---
             [
                 'page_slug' => 'home',
                 'section_key' => 'hero_slide_1',
                 'section_name' => "Section A : Hero Slider Principal",
-                'title' => "Slide 1 : Bâtiments d'Exception & Clés en main",
-                'description' => "Grand visuel plein écran en ouverture du site.",
-                'image_url' => 'images/_JMP6225.jpg',
-                'default_url' => 'images/_JMP6225.jpg',
-                'focal_point' => 'center center',
+                'title' => "Slide 1 : Direction Générale & Conduite de Projets BTP",
+                'description' => "Grand visuel d'ouverture montrant la supervision terrain.",
+                'image_url' => 'images/personnel/FAB-6.jpg',
+                'default_url' => 'images/personnel/FAB-6.jpg',
+                'focal_point' => 'center top',
                 'sort_order' => 10
             ],
             [
                 'page_slug' => 'home',
                 'section_key' => 'hero_slide_2',
                 'section_name' => "Section A : Hero Slider Principal",
-                'title' => "Slide 2 : Cadence Terrain & Gros Œuvre",
+                'title' => "Slide 2 : Maîtrise du Béton Armé & Dalles Nervurées",
                 'description' => "Deuxième arrière-plan du carrousel de bienvenue.",
-                'image_url' => 'images/IMG-20261029-WA0099.jpg',
-                'default_url' => 'images/IMG-20261029-WA0099.jpg',
-                'focal_point' => 'center center',
+                'image_url' => 'images/personnel/FAB-8.jpg',
+                'default_url' => 'images/personnel/FAB-8.jpg',
+                'focal_point' => 'center top',
                 'sort_order' => 20
             ],
             [
                 'page_slug' => 'home',
                 'section_key' => 'hero_slide_3',
                 'section_name' => "Section A : Hero Slider Principal",
-                'title' => "Slide 3 : Maîtrise des Budgets & Finitions",
+                'title' => "Slide 3 : Flotte Mécanique & Terrassement en Montagne",
                 'description' => "Troisième arrière-plan du carrousel de bienvenue.",
-                'image_url' => 'images/IMG-20261029-WA0098.jpg',
-                'default_url' => 'images/IMG-20261029-WA0098.jpg',
-                'focal_point' => 'center center',
+                'image_url' => 'images/personnel/FAB-4.jpg',
+                'default_url' => 'images/personnel/FAB-4.jpg',
+                'focal_point' => 'center top',
                 'sort_order' => 25
             ],
             [
                 'page_slug' => 'home',
-                'section_key' => 'ecosystem_btp',
-                'section_name' => "Section B : Écosystème Intégré 360°",
-                'title' => "Pilier 1 : RMC BTP SARL (Génie Civil & Gros Œuvre)",
-                'description' => "Illustration de la filiale construction et structures en béton.",
-                'image_url' => 'images/IMG-20261029-WA0099.jpg',
-                'default_url' => 'images/IMG-20261029-WA0099.jpg',
+                'section_key' => 'pillar_terrain_1',
+                'section_name' => "Section B : Spécificité Reliefs & Sols de l'Ouest",
+                'title' => "Expertise 1 : Murs de Soutènement & Sécurisation de Talus",
+                'description' => "Illustration de la stabilisation et soutènement sur terrain en pente.",
+                'image_url' => 'images/IMG-20261015-WA0073.jpg',
+                'default_url' => 'images/IMG-20261015-WA0073.jpg',
                 'focal_point' => 'center top',
                 'sort_order' => 30
             ],
             [
                 'page_slug' => 'home',
-                'section_key' => 'ecosystem_quincaillerie',
-                'section_name' => "Section B : Écosystème Intégré 360°",
-                'title' => "Pilier 2 : SIMS Quincaillerie (Fourniture Directe Aciers & Ciments)",
-                'description' => "Illustration de la filiale matériaux et quincaillerie.",
-                'image_url' => 'images/IMG-20261029-WA0098.jpg',
-                'default_url' => 'images/IMG-20261029-WA0098.jpg',
+                'section_key' => 'pillar_terrain_2',
+                'section_name' => "Section B : Spécificité Reliefs & Sols de l'Ouest",
+                'title' => "Expertise 2 : Terrassement & Flotte d'Engins Lourds en Propre",
+                'description' => "Illustration des pelles hydrauliques et compacteurs de chantier.",
+                'image_url' => 'images/IMG-20261029-WA0105.jpg',
+                'default_url' => 'images/IMG-20261029-WA0105.jpg',
                 'focal_point' => 'center top',
                 'sort_order' => 40
             ],
             [
                 'page_slug' => 'home',
-                'section_key' => 'ecosystem_decor',
-                'section_name' => "Section B : Écosystème Intégré 360°",
-                'title' => "Pilier 3 : SIMS Décor (Staff, Marbres & Finitions Haut Standing)",
-                'description' => "Illustration de la filiale décoration et aménagement intérieur.",
-                'image_url' => 'images/IMG-20261029-WA0097.jpg',
-                'default_url' => 'images/IMG-20261029-WA0097.jpg',
+                'section_key' => 'pillar_terrain_3',
+                'section_name' => "Section B : Spécificité Reliefs & Sols de l'Ouest",
+                'title' => "Expertise 3 : Béton Armé 350 kg/m³ & Suivi Rigoureux Diaspora",
+                'description' => "Illustration des ouvrages en béton armé vibré et dalles de compression.",
+                'image_url' => 'images/IMG-20261015-WA0054.jpg',
+                'default_url' => 'images/IMG-20261015-WA0054.jpg',
                 'focal_point' => 'center top',
                 'sort_order' => 50
             ],
             [
                 'page_slug' => 'home',
                 'section_key' => 'about_photo',
-                'section_name' => "Section C : À Propos & Direction",
-                'title' => "Photo Institutionnelle Présentation & Équipe",
-                'description' => "Image de l'encart de présentation de l'entreprise.",
+                'section_name' => "Section C : À Propos & Direction Générale",
+                'title' => "Photo Institutionnelle Présentation & Équipes FEE BTP",
+                'description' => "Image de l'encart de présentation historique de l'entreprise.",
                 'image_url' => 'images/about.jpg',
                 'default_url' => 'images/about.jpg',
                 'focal_point' => 'center top',
@@ -106,11 +113,11 @@ function initPageVisualsTable($pdo) {
             [
                 'page_slug' => 'home',
                 'section_key' => 'dg_portrait',
-                'section_name' => "Section C : À Propos & Direction",
-                'title' => "Portrait Direction Générale (M. Rodrigue DJOMO)",
-                'description' => "Photo officielle du fondateur et Directeur Général de RMC BTP.",
-                'image_url' => 'images/fondateurs/rodrigue-djomo.jpg',
-                'default_url' => 'images/fondateurs/rodrigue-djomo.jpg',
+                'section_name' => "Section C : À Propos & Direction Générale",
+                'title' => "Portrait Direction Générale (M. Fabrice AGHOKENG TANGMO)",
+                'description' => "Photo officielle du fondateur et Directeur Général de FEE BTP SARL.",
+                'image_url' => 'images/team/aghokeng-fabrice.jpg',
+                'default_url' => 'images/team/aghokeng-fabrice.jpg',
                 'focal_point' => 'center top',
                 'sort_order' => 65
             ],
@@ -118,10 +125,10 @@ function initPageVisualsTable($pdo) {
                 'page_slug' => 'home',
                 'section_key' => 'ba_before',
                 'section_name' => "Section C.1 : Comparateur Avant / Après Travaux",
-                'title' => "Visuel AVANT : État Initial ou Gros Œuvre Brut",
-                'description' => "Image du chantier avant les interventions et finitions.",
-                'image_url' => 'images/_JMP6244.jpg',
-                'default_url' => 'images/_JMP6244.jpg',
+                'title' => "Visuel AVANT : État Initial du Terrain ou Gros Œuvre Brut",
+                'description' => "Image du chantier avant les interventions de stabilisation.",
+                'image_url' => 'images/about.jpg',
+                'default_url' => 'images/about.jpg',
                 'focal_point' => 'center center',
                 'sort_order' => 67
             ],
@@ -129,10 +136,10 @@ function initPageVisualsTable($pdo) {
                 'page_slug' => 'home',
                 'section_key' => 'ba_after',
                 'section_name' => "Section C.1 : Comparateur Avant / Après Travaux",
-                'title' => "Visuel APRÈS : Rendu Final & Finitions Clés en Main",
-                'description' => "Image de l'ouvrage achevé avec finitions haut de gamme.",
-                'image_url' => 'images/_JMP6225.jpg',
-                'default_url' => 'images/_JMP6225.jpg',
+                'title' => "Visuel APRÈS : Rendu Final de l'Immeuble Livré Clé en Main",
+                'description' => "Image de l'ouvrage achevé avec façades et peintures de standing.",
+                'image_url' => 'images/IMG-20261015-WA0062.jpg',
+                'default_url' => 'images/IMG-20261015-WA0062.jpg',
                 'focal_point' => 'center center',
                 'sort_order' => 68
             ],
@@ -223,11 +230,13 @@ function initPageVisualsTable($pdo) {
             ]
         ];
 
-        // Optimisation haute performance : si des visuels existent déjà, éviter les requêtes redondantes
-        $checkExists = $pdo->query("SELECT 1 FROM page_visuals LIMIT 1");
-        if ($checkExists && $checkExists->fetch()) {
-            $initialized = true;
-            return;
+        // Optimisation haute performance : si des visuels existent déjà et aucune réparation n'est nécessaire
+        if (!$needsRepair) {
+            $checkExists = $pdo->query("SELECT 1 FROM page_visuals LIMIT 1");
+            if ($checkExists && $checkExists->fetch()) {
+                $initialized = true;
+                return;
+            }
         }
 
         $stmt = $pdo->prepare("INSERT IGNORE INTO page_visuals 

@@ -39,128 +39,170 @@
     });
 
     // ========================================================================
-    // STRUCTURE ARCHITECTURALE D'AVANT-GARDE : TOUR TORSADÉE TWIST & DIAGRID FEE BTP
+    // STRUCTURE ARCHITECTURALE ICONIQUE FEE BTP : 
+    // COMPLEXE GÉODÉSIQUE DE MONTAGNE, GRADINS & DOUBLE ARCHES PARABOLIQUES
+    // (Symbolise le génie civil des reliefs, soutènement de talus et grandes voûtes)
     // ========================================================================
     const nodes = [];
     const edges = [];
-    const floors = 16; // Gratte-ciel haute ingénierie de 16 niveaux
-    const baseRadius = Math.min(width, height) * 0.216; // Rayon proportionnel
-    const pointsPerFloor = 8; // Octogone à torsion continue
+    const baseRadius = Math.min(width, height) * 0.22;
 
-    for (let f = 0; f < floors; f++) {
-      const floorProgress = f / (floors - 1);
-      // Effet de torsion progressive hélicoïdale (Turning Torso / Cayan Tower)
-      const twistAngle = Math.pow(floorProgress, 1.1) * (Math.PI * 0.45);
-      
-      // Rayon étagé avec porte-à-faux en porte-à-faux (Sky Terraces tous les 4 étages)
-      let floorRadius = baseRadius * (1 - Math.pow(floorProgress, 1.3) * 0.42);
-      if (f > 0 && f < floors - 1 && f % 4 === 0) {
-        floorRadius *= 1.16; // Balcon / terrasse panoramique en porte-à-faux
-      }
-      const y = (f - floors * 0.42) * (baseRadius * 0.21);
+    // --- 1. SOCLE EN GRADINS ÉTAGÉS & MURS DE SOUTÈNEMENT (3 Terrasses) ---
+    const terraceCount = 3;
+    const pointsPerTerrace = 12; // Dodécagone majestueux
+    const terraceNodesOffset = [];
 
-      // Anneau extérieur octogonal avec torsion hélicoïdale
-      for (let i = 0; i < pointsPerFloor; i++) {
-        const theta = (i / pointsPerFloor) * Math.PI * 2 + twistAngle;
+    for (let t = 0; t < terraceCount; t++) {
+      const tProgress = t / (terraceCount - 1);
+      const tRadius = baseRadius * (1.35 - tProgress * 0.35); // Base large qui rétrécit vers le dôme
+      const tY = (terraceCount * 0.25 - t * 0.28) * baseRadius; // Étagé vers le haut
+      const startIdx = nodes.length;
+      terraceNodesOffset.push(startIdx);
+
+      for (let i = 0; i < pointsPerTerrace; i++) {
+        const theta = (i / pointsPerTerrace) * Math.PI * 2;
         nodes.push({
-          x0: Math.cos(theta) * floorRadius,
-          y0: -y,
-          z0: Math.sin(theta) * floorRadius,
-          floor: f,
-          isCantilever: (f % 4 === 0),
-          isCore: false
+          x0: Math.cos(theta) * tRadius,
+          y0: tY,
+          z0: Math.sin(theta) * tRadius,
+          tier: t,
+          type: 'terrace'
         });
       }
 
-      // Noyau central porteur cylindrique (Cage d'ascenseurs et voiles béton armé)
-      const coreRadius = floorRadius * 0.38;
-      for (let i = 0; i < 4; i++) {
-        const theta = (i / 4) * Math.PI * 2 + Math.PI / 4 + (twistAngle * 0.5);
-        nodes.push({
-          x0: Math.cos(theta) * coreRadius,
-          y0: -y,
-          z0: Math.sin(theta) * coreRadius,
-          floor: f,
-          isCore: true
-        });
+      // Anneau de terrasse
+      for (let i = 0; i < pointsPerTerrace; i++) {
+        const cur = startIdx + i;
+        const next = startIdx + ((i + 1) % pointsPerTerrace);
+        edges.push([cur, next, 'terrace-ring']);
+      }
+
+      // Contreforts de soutènement verticaux reliant les terrasses
+      if (t > 0) {
+        const prevStart = terraceNodesOffset[t - 1];
+        for (let i = 0; i < pointsPerTerrace; i++) {
+          edges.push([prevStart + i, startIdx + i, 'buttress']);
+          // Diagonale anti-cisaillement
+          if (i % 2 === 0) {
+            edges.push([prevStart + i, startIdx + ((i + 1) % pointsPerTerrace), 'terrace-brace']);
+          }
+        }
       }
     }
 
-    // Double Flèche sommitale / Antennes architecturales de prestige
-    const topFloorY = (floors - 1 - floors * 0.42) * (baseRadius * 0.21);
-    const apexIndex = nodes.length;
+    // --- 2. DÔME GÉODÉSIQUE BIOCLIMATIQUE (Cœur du Complexe) ---
+    const domeRings = 4;
+    const pointsPerDomeRing = 12;
+    const domeCenterY = (terraceCount * 0.25 - (terraceCount - 1) * 0.28) * baseRadius;
+    const domeNodesOffset = [];
+
+    for (let r = 0; r < domeRings; r++) {
+      const phi = (r / domeRings) * (Math.PI * 0.42); // Demi-sphère jusqu'au zénith
+      const rRadius = baseRadius * 0.95 * Math.cos(phi);
+      const rY = domeCenterY - Math.sin(phi) * baseRadius * 0.75;
+      const startIdx = nodes.length;
+      domeNodesOffset.push(startIdx);
+
+      for (let i = 0; i < pointsPerDomeRing; i++) {
+        const theta = (i / pointsPerDomeRing) * Math.PI * 2;
+        nodes.push({
+          x0: Math.cos(theta) * rRadius,
+          y0: rY,
+          z0: Math.sin(theta) * rRadius,
+          ring: r,
+          type: 'dome'
+        });
+      }
+
+      // Anneaux horizontaux du dôme
+      for (let i = 0; i < pointsPerDomeRing; i++) {
+        const cur = startIdx + i;
+        const next = startIdx + ((i + 1) % pointsPerDomeRing);
+        edges.push([cur, next, 'dome-ring']);
+
+        // Méridiens du dôme reliant les anneaux
+        if (r > 0) {
+          const prevStart = domeNodesOffset[r - 1];
+          edges.push([prevStart + i, cur, 'dome-meridian']);
+          // Maillage géodésique triangulé
+          edges.push([prevStart + i, startIdx + ((i + 1) % pointsPerDomeRing), 'dome-tri']);
+        }
+      }
+    }
+
+    // Apex central du dôme
+    const domeApexIdx = nodes.length;
     nodes.push({
       x0: 0,
-      y0: -(topFloorY + baseRadius * 0.72),
+      y0: domeCenterY - baseRadius * 0.80,
       z0: 0,
-      floor: floors,
-      isCore: true,
+      type: 'dome-apex',
       isApex: true
     });
-
-    // Lier les arrêtes du bâtiment avec treillis Diagrid en losanges
-    const nodeStride = pointsPerFloor + 4; // 8 extérieurs + 4 intérieurs = 12 par étage
-    for (let f = 0; f < floors; f++) {
-      const baseIdx = f * nodeStride;
-
-      // 1. Périmètre extérieur de la dalle
-      for (let i = 0; i < pointsPerFloor; i++) {
-        const cur = baseIdx + i;
-        const next = baseIdx + ((i + 1) % pointsPerFloor);
-        edges.push([cur, next, 'ring']);
-
-        // Colonnes torsadées et treillis Diagrid structural
-        if (f < floors - 1) {
-          const above = baseIdx + nodeStride + i;
-          edges.push([cur, above, 'column']);
-
-          // Diagonales croisées (Diagrid BTP haute résistance sismique)
-          const aboveNext = baseIdx + nodeStride + ((i + 1) % pointsPerFloor);
-          edges.push([cur, aboveNext, 'brace']);
-          const abovePrev = baseIdx + nodeStride + ((i - 1 + pointsPerFloor) % pointsPerFloor);
-          edges.push([cur, abovePrev, 'brace-rev']);
-        }
-      }
-
-      // 2. Noyau intérieur central
-      const coreOffset = baseIdx + pointsPerFloor;
-      for (let i = 0; i < 4; i++) {
-        const curCore = coreOffset + i;
-        const nextCore = coreOffset + ((i + 1) % 4);
-        edges.push([curCore, nextCore, 'core-ring']);
-
-        if (f < floors - 1) {
-          const aboveCore = coreOffset + nodeStride + i;
-          edges.push([curCore, aboveCore, 'core-column']);
-        }
-
-        // Poutres radiales de solidarisation dalle / noyau
-        edges.push([curCore, baseIdx + (i * 2), 'radial']);
-      }
+    const lastDomeStart = domeNodesOffset[domeRings - 1];
+    for (let i = 0; i < pointsPerDomeRing; i++) {
+      edges.push([lastDomeStart + i, domeApexIdx, 'dome-apex-rib']);
     }
 
-    // Relier les derniers étages à l'apex sommital
-    const lastFloorBase = (floors - 1) * nodeStride;
-    for (let i = 0; i < pointsPerFloor; i++) {
-      edges.push([lastFloorBase + i, apexIndex, 'spire']);
+    // --- 3. MONUMENTALES ARCHES PARABOLIQUES CROISÉES (Haute Voûte BTP) ---
+    // Deux arches paraboliques géantes s'élançant au-dessus du dôme
+    const archPoints = 13; // Précision de la courbe parabolique
+    const archMaxHeight = baseRadius * 1.45;
+    const archSpan = baseRadius * 1.55;
+
+    // Arche 1 (Axe X-Z principal)
+    const arch1Indices = [];
+    for (let a = 0; a < archPoints; a++) {
+      const t = (a / (archPoints - 1)) * 2 - 1; // de -1 à +1
+      const x = t * archSpan;
+      const z = 0;
+      // Parabole y = - (1 - t^2) * h + yBase
+      const y = (terraceCount * 0.25 * baseRadius) - (1 - t * t) * archMaxHeight;
+      const idx = nodes.length;
+      arch1Indices.push(idx);
+      nodes.push({ x0: x, y0: y, z0: z, type: 'arch1', isArch: true });
+    }
+    for (let a = 0; a < archPoints - 1; a++) {
+      edges.push([arch1Indices[a], arch1Indices[a + 1], 'monumental-arch']);
     }
 
-    // 3. Fondations Géotechniques & Radier Nervuré FEE BTP
-    const foundationPads = [];
-    const groundY = (floors * 0.35) * (baseRadius * 0.21);
-
-    for (let i = 0; i < pointsPerFloor; i++) {
-      const theta = (i / pointsPerFloor) * Math.PI * 2;
-      const padX = Math.cos(theta) * baseRadius;
-      const padZ = Math.sin(theta) * baseRadius;
-      const padSize = baseRadius * 0.15;
-      foundationPads.push({ x: padX, y: groundY, z: padZ, size: padSize });
+    // Arche 2 (Croisée à 90°, axe Z-X transversal)
+    const arch2Indices = [];
+    for (let a = 0; a < archPoints; a++) {
+      const t = (a / (archPoints - 1)) * 2 - 1;
+      const x = 0;
+      const z = t * archSpan;
+      const y = (terraceCount * 0.25 * baseRadius) - (1 - t * t) * archMaxHeight;
+      const idx = nodes.length;
+      arch2Indices.push(idx);
+      nodes.push({ x0: x, y0: y, z0: z, type: 'arch2', isArch: true });
+    }
+    for (let a = 0; a < archPoints - 1; a++) {
+      edges.push([arch2Indices[a], arch2Indices[a + 1], 'monumental-arch']);
     }
 
-    // Grille de fondation géotechnique
+    // Câbles de haubanage reliant le sommet des arches paraboliques aux terrasses
+    const archApex1 = arch1Indices[Math.floor(archPoints / 2)];
+    const archApex2 = arch2Indices[Math.floor(archPoints / 2)];
+    const outerTerraceStart = terraceNodesOffset[0];
+    for (let i = 0; i < pointsPerTerrace; i += 3) {
+      edges.push([archApex1, outerTerraceStart + i, 'cable-stay']);
+      edges.push([archApex2, outerTerraceStart + ((i + 1) % pointsPerTerrace), 'cable-stay']);
+    }
+
+    // --- 4. MASSIFS DE FONDATION GÉOTECHNIQUES & RADIER (4 Piliers d'ancrage des Arches) ---
+    const foundationPads = [
+      { x: archSpan, y: terraceCount * 0.25 * baseRadius, z: 0, size: baseRadius * 0.20 },
+      { x: -archSpan, y: terraceCount * 0.25 * baseRadius, z: 0, size: baseRadius * 0.20 },
+      { x: 0, y: terraceCount * 0.25 * baseRadius, z: archSpan, size: baseRadius * 0.20 },
+      { x: 0, y: terraceCount * 0.25 * baseRadius, z: -archSpan, size: baseRadius * 0.20 }
+    ];
+
+    // Grille de fondation géotechnique (Sol latéritique / Radier général)
     const gridLines = [];
-    const gridSize = baseRadius * 1.65;
+    const gridSize = baseRadius * 1.85;
     const gridSteps = 7;
+    const groundY = terraceCount * 0.25 * baseRadius;
     for (let g = -gridSteps; g <= gridSteps; g++) {
       const pos = (g / gridSteps) * gridSize;
       gridLines.push([
@@ -177,16 +219,16 @@
     const particles = [];
     for (let p = 0; p < 50; p++) {
       particles.push({
-        x: (Math.random() - 0.5) * baseRadius * 3.2,
-        y: (Math.random() - 0.5) * baseRadius * 3.2,
-        z: (Math.random() - 0.5) * baseRadius * 3.2,
+        x: (Math.random() - 0.5) * baseRadius * 3.4,
+        y: (Math.random() - 0.5) * baseRadius * 2.8,
+        z: (Math.random() - 0.5) * baseRadius * 3.4,
         size: Math.random() * 2.5 + 1.2,
         speed: Math.random() * 0.007 + 0.003,
         alpha: Math.random() * 0.6 + 0.4
       });
     }
 
-    let autoRotation = 0; // Rotation continue à 360°
+    let autoRotation = 0;
     let scanLaserY = 0;
 
     function render() {
@@ -210,19 +252,19 @@
       }
 
       // Rotation continue 360° fluide & cinématique
-      autoRotation += 0.0075;
+      autoRotation += 0.0065;
 
       angleX = autoRotation + (targetX * 2);
       angleY += (targetY - angleY) * 0.05;
 
       const cosX = Math.cos(angleX);
       const sinX = Math.sin(angleX);
-      const cosY = Math.cos(angleY + 0.18);
-      const sinY = Math.sin(angleY + 0.18);
+      const cosY = Math.cos(angleY + 0.24); // Vue plongeante héroïque mettant en valeur les arches
+      const sinY = Math.sin(angleY + 0.24);
 
       // Centrage équilibré selon la taille d'écran
       const cx = width > 992 ? width * 0.74 : width * 0.50;
-      const cy = width > 992 ? height * 0.50 : (width <= 640 ? height * 0.46 : height * 0.48);
+      const cy = width > 992 ? height * 0.52 : (width <= 640 ? height * 0.48 : height * 0.50);
       const fov = 750;
 
       // Opacité adaptée sur mobile pour laisser respirer les textes et photos
@@ -247,9 +289,9 @@
         };
       }
 
-      // --- A. RADIER GÉNÉRAL & GRILLE AU SOL (FONDATIONS FEE BTP) ---
-      ctx.lineWidth = 1.6;
-      ctx.strokeStyle = 'rgba(255, 122, 0, 0.35)'; // Grille au sol ambre orangée FEE BTP
+      // --- A. GRILLE GÉOTECHNIQUE AU SOL (100% AMBRE & TERRACOTTA FEE BTP - ZÉRO BLEU) ---
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = 'rgba(234, 88, 12, 0.30)'; // Grille au sol ambre latérite FEE BTP
       for (let g = 0; g < gridLines.length; g++) {
         const pt1 = projectPoint(gridLines[g][0].x, gridLines[g][0].y, gridLines[g][0].z);
         const pt2 = projectPoint(gridLines[g][1].x, gridLines[g][1].y, gridLines[g][1].z);
@@ -259,7 +301,7 @@
         ctx.stroke();
       }
 
-      // Semelles de fondation béton au sol
+      // Semelles de fondation béton d'ancrage des arches
       for (let s = 0; s < foundationPads.length; s++) {
         const pad = foundationPads[s];
         const half = pad.size;
@@ -275,21 +317,21 @@
           ctx.lineTo(pCorners[c].px, pCorners[c].py);
         }
         ctx.closePath();
-        ctx.fillStyle = 'rgba(255, 122, 0, 0.20)';
+        ctx.fillStyle = 'rgba(255, 106, 0, 0.22)';
         ctx.fill();
-        ctx.strokeStyle = 'rgba(245, 158, 11, 0.85)';
+        ctx.strokeStyle = '#ff7a00';
         ctx.lineWidth = 2.4;
         ctx.stroke();
       }
 
-      // Projection des nœuds de la tour
+      // Projection de tous les nœuds
       const projected = [];
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
         projected.push(projectPoint(n.x0, n.y0, n.z0));
       }
 
-      // --- B. TRACÉ DES ARRÊTES ARCHITECTURALES HAUTE DÉFINITION FEE BTP ---
+      // --- B. TRACÉ DES ARRÊTES STRUCTURALES (100% COULEURS OFFICIELLES FEE BTP : ORANGE, AMBRE, BLANC) ---
       for (let e = 0; e < edges.length; e++) {
         const p1 = projected[edges[e][0]];
         const p2 = projected[edges[e][1]];
@@ -299,60 +341,70 @@
         ctx.moveTo(p1.px, p1.py);
         ctx.lineTo(p2.px, p2.py);
 
-        if (type === 'spire') {
-          ctx.strokeStyle = '#ffffff'; // Flèche blanche éclatante
-          ctx.lineWidth = 3.2;
-        } else if (type === 'column') {
-          ctx.strokeStyle = '#ff7a00'; // Colonnes porteuses Orange BTP signature
-          ctx.lineWidth = 2.8;
-        } else if (type === 'brace' || type === 'brace-rev') {
-          ctx.strokeStyle = 'rgba(245, 158, 11, 0.65)'; // Treillis Diagrid Ambre
-          ctx.lineWidth = 1.6;
-        } else if (type === 'core-column' || type === 'core-ring') {
-          ctx.strokeStyle = '#ffffff'; // Cœur béton armé blanc haute luminosité
-          ctx.lineWidth = 2.2;
-        } else if (type === 'radial') {
-          ctx.strokeStyle = 'rgba(255, 200, 150, 0.40)';
-          ctx.lineWidth = 1.4;
-        } else {
-          ctx.strokeStyle = '#e65100'; // Dalles d'étages orange soutenu FEE BTP
+        if (type === 'monumental-arch') {
+          // Grandes Arches Paraboliques maîtresses : Orange Flamboyant Ultra-Épais
+          ctx.strokeStyle = '#ff6a00';
+          ctx.lineWidth = 3.6;
+        } else if (type === 'cable-stay') {
+          // Câbles de haubanage suspendus : Blanc pur haute précision
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.75)';
+          ctx.lineWidth = 1.3;
+        } else if (type === 'dome-apex-rib' || type === 'dome-ring') {
+          // Dôme géodésique : Ambre doré rayonnant
+          ctx.strokeStyle = '#f59e0b';
           ctx.lineWidth = 2.0;
+        } else if (type === 'dome-meridian' || type === 'dome-tri') {
+          // Maillage triangulé du dôme : Ambre doux
+          ctx.strokeStyle = 'rgba(245, 158, 11, 0.50)';
+          ctx.lineWidth = 1.2;
+        } else if (type === 'terrace-ring') {
+          // Gradins de soutènement : Orange BTP profond
+          ctx.strokeStyle = '#ea580c';
+          ctx.lineWidth = 2.2;
+        } else if (type === 'buttress' || type === 'terrace-brace') {
+          // Contreforts de soutènement : Ambre chaud
+          ctx.strokeStyle = 'rgba(217, 119, 6, 0.60)';
+          ctx.lineWidth = 1.6;
+        } else {
+          ctx.strokeStyle = '#ff7a00';
+          ctx.lineWidth = 1.8;
         }
         ctx.stroke();
       }
 
-      // --- C. SCAN LASER DE CHANTIER (Orange Laser de mesure Topographique) ---
+      // --- C. SCAN LASER DE CHANTIER (Orange Laser Topographique) ---
       scanLaserY += 0.015;
-      const currentLaserFloor = (Math.sin(scanLaserY) * 0.5 + 0.5) * (floors - 1);
-      const laserFloorInt = Math.floor(currentLaserFloor);
-      if (laserFloorInt < floors - 1) {
-        const baseScan = laserFloorInt * nodeStride;
-        ctx.beginPath();
-        for (let i = 0; i < pointsPerFloor; i++) {
-          const pt = projected[baseScan + i];
-          if (i === 0) ctx.moveTo(pt.px, pt.py);
-          else ctx.lineTo(pt.px, pt.py);
-        }
-        ctx.closePath();
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 2.5;
-        ctx.shadowColor = '#ff7a00';
-        ctx.shadowBlur = 18;
-        ctx.stroke();
-        ctx.shadowBlur = 0;
+      const scanT = Math.sin(scanLaserY) * 0.5 + 0.5;
+      const laserYPos = groundY - scanT * archMaxHeight;
+      const laserRadius = baseRadius * (1.6 - scanT * 0.8);
+      
+      ctx.beginPath();
+      for (let i = 0; i <= 24; i++) {
+        const theta = (i / 24) * Math.PI * 2;
+        const pt = projectPoint(Math.cos(theta) * laserRadius, laserYPos, Math.sin(theta) * laserRadius);
+        if (i === 0) ctx.moveTo(pt.px, pt.py);
+        else ctx.lineTo(pt.px, pt.py);
       }
+      ctx.closePath();
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2.4;
+      ctx.shadowColor = '#ff6a00';
+      ctx.shadowBlur = 18;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
 
       // --- D. NŒUDS LUMINEUX D'ASSEMBLAGE (ÉTOILES DE STRUCTURE) ---
       for (let i = 0; i < projected.length; i++) {
         const p = projected[i];
+        const isArch = nodes[i].isArch;
         const isApex = nodes[i].isApex;
-        const radiusPt = isApex ? 5.0 : Math.max(1.8, p.scale * 3.0);
+        const radiusPt = isApex ? 5.5 : (isArch ? 3.4 : Math.max(1.6, p.scale * 2.8));
 
         ctx.beginPath();
         ctx.arc(p.px, p.py, radiusPt, 0, Math.PI * 2);
-        ctx.fillStyle = isApex ? '#ffffff' : (nodes[i].isCore ? '#ffffff' : '#f59e0b');
+        ctx.fillStyle = isApex ? '#ffffff' : (isArch ? '#ffffff' : '#f59e0b');
         ctx.shadowColor = isApex ? '#ffffff' : '#ff7a00';
-        ctx.shadowBlur = isApex ? 22 : 10;
+        ctx.shadowBlur = isApex ? 24 : 12;
         ctx.fill();
         ctx.shadowBlur = 0;
       }
@@ -360,8 +412,8 @@
       // --- E. PARTICULES DE POUSSIÈRE LUMINEUSE DORÉE ---
       for (let i = 0; i < particles.length; i++) {
         const pt = particles[i];
-        pt.y -= pt.speed * 70;
-        if (pt.y < -baseRadius * 2) pt.y = baseRadius * 2;
+        pt.y -= pt.speed * 60;
+        if (pt.y < -baseRadius * 1.8) pt.y = baseRadius * 1.8;
 
         const proj = projectPoint(pt.x, pt.y, pt.z);
         ctx.beginPath();
