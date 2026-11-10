@@ -1073,10 +1073,16 @@ $showcase3 = getVisualInfo($homeVisuals, 'showcase_card_3', 'images/IMG-20261015
 			<?php 
 			// Résolution automatique et rigoureuse des photos réelles de chantiers FEE BTP SARL
 			function resolveProjectCardImage($proj, $index = 1) {
+				// 1. Si le champ main_image pointe vers un fichier valide, on l'utilise en priorité absolue
+				if (!empty($proj['main_image'])) {
+					$resolved = resolveImage($proj['main_image'], '');
+					if (!empty($resolved) && $resolved !== 'images/bg_1.jpg') return $resolved;
+				}
+
 				$title = mb_strtolower($proj['title'] ?? '');
 				$loc = mb_strtolower($proj['location'] ?? '');
 
-				// 1. Détection intelligente basée sur les mots-clés du projet
+				// 2. Détection intelligente basée sur les mots-clés du projet
 				if (strpos($title, 'villa') !== false || strpos($title, 'duplex') !== false || strpos($loc, 'keleng') !== false) {
 					return 'images/IMG-20261015-WA0079.jpg';
 				}
@@ -1094,12 +1100,6 @@ $showcase3 = getVisualInfo($homeVisuals, 'showcase_card_3', 'images/IMG-20261015
 				}
 				if (strpos($title, 'contrôle') !== false || strpos($title, 'supervision') !== false) {
 					return 'images/IMG-20261015-WA0120.jpg';
-				}
-
-				// 2. Si le champ main_image pointe vers un fichier existant
-				if (!empty($proj['main_image'])) {
-					$resolved = resolveImage($proj['main_image'], '');
-					if (!empty($resolved)) return $resolved;
 				}
 
 				// 3. Fallbacks de photos réelles haute qualité par index

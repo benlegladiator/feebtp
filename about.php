@@ -3,6 +3,7 @@ $pageTitle = "À Propos de FEE BTP SARL | Direction, Histoire & Engagements à D
 $pageDescription = "Découvrez FEE BTP SARL : son ancrage à Dschang, son dirigeant M. AGHOKENG TANGMO FABRICE, son parc d'engins lourds et sa politique de sécurité.";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
+require_once __DIR__ . '/config/visuals_helper.php';
 
 $expYears = getSetting('stats_experience', '12');
 $totalProjects = getSetting('stats_projects', '165');
@@ -10,10 +11,19 @@ $satisfaction = getSetting('stats_satisfaction', '99');
 $equipments = getSetting('stats_equipments', '48');
 $managerName = getSetting('manager_name', 'M. AGHOKENG TANGMO FABRICE');
 $managerRole = getSetting('manager_role', 'Gérant / Directeur Général');
+
+$aboutVisuals = getPageVisuals($pdo, 'about');
+$aboutBanner = getVisualInfo($aboutVisuals, 'about_banner', 'images/personnel/FAB-8.jpg', 'center top');
+$aboutPresentation = getVisualInfo($aboutVisuals, 'about_presentation', 'images/personnel/FAB-2.jpg', 'center top');
+$teamDg = getVisualInfo($aboutVisuals, 'team_dg', 'images/team/aghokeng-fabrice.jpg', 'center top');
+$teamTchoungo = getVisualInfo($aboutVisuals, 'team_tchoungo', 'images/team/tchoungo-junior.jpg', 'center top');
+$teamKeibog = getVisualInfo($aboutVisuals, 'team_keibog', 'images/team/keibog-ricardo.jpg', 'center top');
+$teamGuemechio = getVisualInfo($aboutVisuals, 'team_guemechio', 'images/team/guemechio-etienne.jpg', 'center top');
+$teamZetsa = getVisualInfo($aboutVisuals, 'team_zetsa', 'images/team/zetsa-iriss.jpg', 'center top');
 ?>
 
 <!-- BANNIÈRE EN-TÊTE -->
-<section class="hero-wrap hero-wrap-2" style="background-image: url('images/personnel/FAB-8.jpg'); background-position: center top;" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('<?= htmlspecialchars($aboutBanner['url']) ?>'); background-position: <?= htmlspecialchars($aboutBanner['focal']) ?>;" data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
 		<div class="row no-gutters slider-text align-items-end justify-content-start">
@@ -30,7 +40,7 @@ $managerRole = getSetting('manager_role', 'Gérant / Directeur Général');
 	<div class="container">
 		<div class="row align-items-center">
 			<div class="col-md-6 ftco-animate">
-				<div class="img about-image rounded shadow overflow-hidden position-relative" style="background-image: url('images/personnel/FAB-2.jpg'); min-height: 500px; background-size: cover; background-position: center top;">
+				<div class="img about-image rounded shadow overflow-hidden position-relative" style="background-image: url('<?= htmlspecialchars($aboutPresentation['url']) ?>'); min-height: 500px; background-size: cover; background-position: <?= htmlspecialchars($aboutPresentation['focal']) ?>;">
 					<div class="badge-btp position-absolute" style="bottom: 20px; left: 20px; background: rgba(17, 20, 24, 0.85); backdrop-filter: blur(8px); color: #fff; padding: 10px 18px; border-radius: 50px; border: 1px solid rgba(249, 115, 22, 0.5);">
 						<i class="fa fa-calendar-check-o text-warning mr-1"></i> Fondée en 2016 • Dschang, Cameroun
 					</div>
@@ -171,7 +181,7 @@ $managerRole = getSetting('manager_role', 'Gérant / Directeur Général');
 				<div class="staff bg-white rounded-xl shadow overflow-hidden d-flex flex-column flex-md-row align-items-stretch" style="border: 2px solid rgba(234, 88, 12, 0.2); border-radius: 20px;">
 					<!-- Espace Photo DG -->
 					<div class="col-md-5 p-0 position-relative" style="min-height: 380px;">
-						<div class="w-100 h-100" style="background-image: url('images/team/aghokeng-fabrice.jpg'); background-size: cover; background-position: top center;"></div>
+						<div class="w-100 h-100" style="background-image: url('<?= htmlspecialchars($teamDg['url']) ?>'); background-size: cover; background-position: <?= htmlspecialchars($teamDg['focal']) ?>;"></div>
 						<div class="position-absolute" style="bottom: 15px; left: 15px;">
 							<span class="badge badge-warning text-dark font-weight-bold px-3 py-1 shadow-sm">
 								<i class="fa fa-star mr-1"></i> Fondateur & DG
@@ -204,7 +214,7 @@ $managerRole = getSetting('manager_role', 'Gérant / Directeur Général');
 				<div class="staff bg-white rounded-xl shadow-sm overflow-hidden h-100 d-flex flex-column justify-content-between" style="border: 1.5px solid #e2e8f0; border-radius: 16px;">
 					<div>
 						<!-- Photo Réelle Optimisée Architecte Junior (Tête 100% visible) -->
-						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('images/team/tchoungo-junior.jpg'); background-size: cover; background-position: top center;">
+						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('<?= htmlspecialchars($teamTchoungo['url']) ?>'); background-size: cover; background-position: <?= htmlspecialchars($teamTchoungo['focal']) ?>;">
 							<div class="team-photo-overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to top, rgba(15,23,42,0.75) 0%, rgba(0,0,0,0) 35%);"></div>
 							<div class="position-absolute" style="bottom: 10px; left: 12px;">
 								<span class="badge badge-light text-dark font-weight-bold px-2 py-1 shadow-sm" style="font-size: 10px;">
@@ -232,7 +242,7 @@ $managerRole = getSetting('manager_role', 'Gérant / Directeur Général');
 				<div class="staff bg-white rounded-xl shadow-sm overflow-hidden h-100 d-flex flex-column justify-content-between" style="border: 1.5px solid #e2e8f0; border-radius: 16px;">
 					<div>
 						<!-- Photo Réelle Optimisée Architecte Ricardo (Tête 100% visible) -->
-						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('images/team/keibog-ricardo.jpg'); background-size: cover; background-position: top center;">
+						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('<?= htmlspecialchars($teamKeibog['url']) ?>'); background-size: cover; background-position: <?= htmlspecialchars($teamKeibog['focal']) ?>;">
 							<div class="team-photo-overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to top, rgba(15,23,42,0.75) 0%, rgba(0,0,0,0) 35%);"></div>
 							<div class="position-absolute" style="bottom: 10px; left: 12px;">
 								<span class="badge badge-light text-dark font-weight-bold px-2 py-1 shadow-sm" style="font-size: 10px;">
@@ -260,7 +270,7 @@ $managerRole = getSetting('manager_role', 'Gérant / Directeur Général');
 				<div class="staff bg-white rounded-xl shadow-sm overflow-hidden h-100 d-flex flex-column justify-content-between" style="border: 1.5px solid #e2e8f0; border-radius: 16px;">
 					<div>
 						<!-- Photo Réelle Optimisée Ingénieur Étienne Bienvenue (Tête 100% visible) -->
-						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('images/team/guemechio-etienne.jpg'); background-size: cover; background-position: top center;">
+						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('<?= htmlspecialchars($teamGuemechio['url']) ?>'); background-size: cover; background-position: <?= htmlspecialchars($teamGuemechio['focal']) ?>;">
 							<div class="team-photo-overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to top, rgba(15,23,42,0.75) 0%, rgba(0,0,0,0) 35%);"></div>
 							<div class="position-absolute" style="bottom: 10px; left: 12px;">
 								<span class="badge badge-light text-dark font-weight-bold px-2 py-1 shadow-sm" style="font-size: 10px;">
@@ -288,7 +298,7 @@ $managerRole = getSetting('manager_role', 'Gérant / Directeur Général');
 				<div class="staff bg-white rounded-xl shadow-sm overflow-hidden h-100 d-flex flex-column justify-content-between" style="border: 1.5px solid #e2e8f0; border-radius: 16px;">
 					<div>
 						<!-- Photo Réelle Optimisée Responsable Logistique Zetsa Iriss (Tête 100% visible) -->
-						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('images/team/zetsa-iriss.jpg'); background-size: cover; background-position: top center;">
+						<div class="team-photo-slot position-relative" style="height: 250px; background-color: #0f172a; background-image: url('<?= htmlspecialchars($teamZetsa['url']) ?>'); background-size: cover; background-position: <?= htmlspecialchars($teamZetsa['focal']) ?>;">
 							<div class="team-photo-overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to top, rgba(15,23,42,0.75) 0%, rgba(0,0,0,0) 35%);"></div>
 							<div class="position-absolute" style="bottom: 10px; left: 12px;">
 								<span class="badge badge-light text-dark font-weight-bold px-2 py-1 shadow-sm" style="font-size: 10px;">
