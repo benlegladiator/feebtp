@@ -28,6 +28,7 @@
     let particles = [];
     let baseRadius = 120;
     let groundY = 0;
+    let archMaxHeight = 150;
 
     function buildStructure() {
       nodes = [];
@@ -147,7 +148,7 @@
     // --- 3. MONUMENTALES ARCHES PARABOLIQUES CROISÉES (Haute Voûte BTP) ---
     // Deux arches paraboliques géantes s'élançant au-dessus du dôme
     const archPoints = 13; // Précision de la courbe parabolique
-    const archMaxHeight = baseRadius * 1.45;
+    archMaxHeight = baseRadius * 1.45;
     const archSpan = baseRadius * 1.55;
 
     // Arche 1 (Axe X-Z principal)
