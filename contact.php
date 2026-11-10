@@ -3,6 +3,11 @@ $pageTitle = "Contact & Demande de Cotation BTP | FEE BTP SARL à Dschang";
 $pageDescription = "Contactez FEE BTP SARL à Dschang : formulaire de devis express avec téléversement de plans (PDF/images), géolocalisation et assistance téléphonique directe.";
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
+require_once __DIR__ . '/config/visuals_helper.php';
+
+$contactVisuals = getPageVisuals($pdo, 'contact');
+$contactBanner = getVisualInfo($contactVisuals, 'contact_banner', 'images/IMG-20261015-WA0079.jpg', 'center top');
+$contactOffice = getVisualInfo($contactVisuals, 'contact_office', 'images/about.jpg', 'center center');
 
 $defaultType = $_GET['type'] ?? 'contact';
 $prefilledService = $_GET['service'] ?? '';
@@ -10,7 +15,7 @@ $prefilledProject = $_GET['projet'] ?? '';
 ?>
 
 <!-- BANNIÈRE EN-TÊTE -->
-<section class="hero-wrap hero-wrap-2" style="background-image: url('images/IMG-20261015-WA0079.jpg'); background-position: center top;" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2" style="background-image: url('<?= htmlspecialchars($contactBanner['url']) ?>'); background-position: <?= htmlspecialchars($contactBanner['focal']) ?>;" data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
 		<div class="row no-gutters slider-text align-items-end justify-content-start">
@@ -171,10 +176,19 @@ $prefilledProject = $_GET['projet'] ?? '';
 					</div>
 				</div>
 
-				<!-- Localisation Interactive Dschang -->
+				<!-- Localisation Interactive Dschang & Bureau -->
 				<div class="bg-white p-3 rounded shadow-sm">
-					<h5 class="font-weight-bold text-dark mb-2 px-2">Localisation à Dschang</h5>
-					<div class="rounded overflow-hidden" style="height: 250px;">
+					<h5 class="font-weight-bold text-dark mb-2 px-2">
+						<i class="fa fa-building text-primary mr-1"></i> Bureau Technique & Direction
+					</h5>
+					<div class="rounded overflow-hidden mb-3" style="height: 190px;">
+						<img src="<?= htmlspecialchars($contactOffice['url']) ?>" 
+						     alt="Siège Social FEE BTP SARL" 
+						     class="w-100 h-100" 
+						     style="object-fit: cover; object-position: <?= htmlspecialchars($contactOffice['focal']) ?>;">
+					</div>
+					<h6 class="font-weight-bold text-muted small px-2 mb-2"><i class="fa fa-map-marked-alt mr-1"></i> Plan d'accès :</h6>
+					<div class="rounded overflow-hidden" style="height: 230px;">
 						<iframe 
 							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.287236599723!2d10.05193987498068!3d5.449645994529881!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x105fc48b0a73b5bf%3A0xe5a3bb4569e160a2!2sDschang%2C%20Cameroun!5e0!3m2!1sfr!2scm!4v1710000000000!5m2!1sfr!2scm" 
 							width="100%" 

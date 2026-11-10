@@ -361,10 +361,21 @@ function initPageVisualsTable($pdo) {
                 'section_name' => "En-tête de la Page Contact",
                 'title' => "Bannière Hero Page Contact & Devis",
                 'description' => "Grande bannière en haut de la page Contact.",
-                'image_url' => 'images/bg_1.jpg',
-                'default_url' => 'images/bg_1.jpg',
+                'image_url' => 'images/IMG-20261015-WA0079.jpg',
+                'default_url' => 'images/IMG-20261015-WA0079.jpg',
                 'focal_point' => 'center top',
                 'sort_order' => 410
+            ],
+            [
+                'page_slug' => 'contact',
+                'section_key' => 'contact_office',
+                'section_name' => "Bureau Technique & Siège à Dschang",
+                'title' => "Photo du Bureau Technique / Siège Social",
+                'description' => "Photo officielle du siège social de Dschang affichée au-dessus du plan de localisation.",
+                'image_url' => 'images/about.jpg',
+                'default_url' => 'images/about.jpg',
+                'focal_point' => 'center center',
+                'sort_order' => 420
             ],
 
             // ==========================================
