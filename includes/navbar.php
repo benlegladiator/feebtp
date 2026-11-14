@@ -1,12 +1,14 @@
 <?php
 $currentPage = basename($_SERVER['PHP_SELF']);
+$identityVisuals = $identityVisuals ?? getPageVisuals($pdo, 'identity');
+$siteLogo = getVisualInfo($identityVisuals, 'site_logo', 'images/logo.png', 'center center');
 ?>
 <nav class="navbar navbar-expand-lg navbar-light navbar-clean-white sticky-top" id="ftco-navbar">
 	<div class="container d-flex align-items-center justify-content-between">
 		
 		<!-- 1. Logo Officiel FEE BTP SARL (Haute Définition Calibré Pro) -->
 		<a class="navbar-brand d-flex align-items-center text-decoration-none py-1" href="index.php" title="<?= htmlspecialchars($companyName ?? 'FEE BTP SARL') ?>">
-			<img src="images/logo.png" alt="<?= htmlspecialchars($companyName ?? 'FEE BTP SARL') ?>" class="brand-logo-img" style="height: 58px; width: auto; max-height: 62px; object-fit: contain;">
+			<img src="<?= htmlspecialchars($siteLogo['url']) ?>" alt="<?= htmlspecialchars($companyName ?? 'FEE BTP SARL') ?>" class="brand-logo-img" style="height: 58px; width: auto; max-height: 62px; object-fit: contain;">
 		</a>
 
 		<!-- Bouton Toggler Mobile -->

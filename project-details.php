@@ -16,23 +16,36 @@ $pageDescription = "Chantier BTP réalisé par FEE BTP SARL à " . htmlspecialch
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/includes/navbar.php';
 
-$titleLower = mb_strtolower($project['title'] ?? '');
-$locLower = mb_strtolower($project['location'] ?? '');
-if (strpos($titleLower, 'villa') !== false || strpos($titleLower, 'duplex') !== false || strpos($locLower, 'keleng') !== false) {
-    $mainImg = 'images/IMG-20261015-WA0079.jpg';
-} elseif (strpos($titleLower, 'immeuble') !== false || strpos($titleLower, 'standing') !== false || strpos($locLower, 'foréké') !== false) {
-    $mainImg = 'images/IMG-20261015-WA0129.jpg';
-} elseif (strpos($titleLower, 'soutènement') !== false || strpos($titleLower, 'banché') !== false || strpos($locLower, 'falaise') !== false || strpos($locLower, 'esplanade') !== false) {
-    $mainImg = 'images/IMG-20261015-WA0070.jpg';
-} elseif (strpos($titleLower, 'terrassement') !== false || strpos($titleLower, 'nivellement') !== false || strpos($titleLower, 'plateforme') !== false || strpos($locLower, 'bafoussam') !== false) {
-    $mainImg = 'images/IMG-20261029-WA0105.jpg';
-} elseif (strpos($titleLower, 'voirie') !== false || strpos($titleLower, 'pavée') !== false || strpos($titleLower, 'pluviale') !== false || strpos($locLower, 'axe urbain') !== false) {
-    $mainImg = 'images/IMG-20261015-WA0062.jpg';
-} elseif (strpos($titleLower, 'contrôle') !== false || strpos($titleLower, 'supervision') !== false) {
-    $mainImg = 'images/IMG-20261015-WA0120.jpg';
-} else {
-    $mainImg = resolveImage($project['main_image'] ?? '', 'images/IMG-20261015-WA0079.jpg');
+// 1. Image principale personnalisée en priorité
+$mainImg = '';
+if (!empty($project['main_image'])) {
+	$resolved = resolveImage($project['main_image'], '');
+	if (!empty($resolved) && strpos($resolved, 'bg_1.jpg') === false) {
+		$mainImg = $resolved;
+	}
 }
+
+// 2. Détection intelligente par mot-clé si non personnalisé
+if (empty($mainImg)) {
+	$titleLower = mb_strtolower($project['title'] ?? '');
+	$locLower = mb_strtolower($project['location'] ?? '');
+	if (strpos($titleLower, 'villa') !== false || strpos($titleLower, 'duplex') !== false || strpos($locLower, 'keleng') !== false) {
+		$mainImg = resolveImage('images/IMG-20261015-WA0079.jpg');
+	} elseif (strpos($titleLower, 'immeuble') !== false || strpos($titleLower, 'standing') !== false || strpos($locLower, 'foréké') !== false) {
+		$mainImg = resolveImage('images/IMG-20261015-WA0129.jpg');
+	} elseif (strpos($titleLower, 'soutènement') !== false || strpos($titleLower, 'banché') !== false || strpos($locLower, 'falaise') !== false || strpos($locLower, 'esplanade') !== false) {
+		$mainImg = resolveImage('images/IMG-20261015-WA0070.jpg');
+	} elseif (strpos($titleLower, 'terrassement') !== false || strpos($titleLower, 'nivellement') !== false || strpos($titleLower, 'plateforme') !== false || strpos($locLower, 'bafoussam') !== false) {
+		$mainImg = resolveImage('images/IMG-20261029-WA0105.jpg');
+	} elseif (strpos($titleLower, 'voirie') !== false || strpos($titleLower, 'pavée') !== false || strpos($titleLower, 'pluviale') !== false || strpos($locLower, 'axe urbain') !== false) {
+		$mainImg = resolveImage('images/IMG-20261015-WA0062.jpg');
+	} elseif (strpos($titleLower, 'contrôle') !== false || strpos($titleLower, 'supervision') !== false) {
+		$mainImg = resolveImage('images/IMG-20261015-WA0120.jpg');
+	} else {
+		$mainImg = resolveImage($project['main_image'] ?? '', 'images/IMG-20261015-WA0079.jpg');
+	}
+}
+
 $beforeImg = resolveImage($project['before_image'] ?? '', 'images/about.jpg');
 $afterImg = !empty($project['after_image']) ? resolveImage($project['after_image'], $mainImg) : $mainImg;
 
@@ -40,6 +53,17 @@ $afterImg = !empty($project['after_image']) ? resolveImage($project['after_image
 $galleryStmt = $pdo->prepare("SELECT * FROM project_gallery WHERE project_id = ?");
 $galleryStmt->execute([$projectId]);
 $gallery = $galleryStmt->fetchAll();
+
+// Regroupement de toutes les images pour le carrousel défilant automatique
+$allDetailImages = [$mainImg];
+if (!empty($gallery)) {
+	foreach ($gallery as $g) {
+		if (!empty($g['image_url'])) {
+			$allDetailImages[] = resolveImage($g['image_url'], 'images/project-1.jpg');
+		}
+	}
+}
+$allDetailImages = array_values(array_unique($allDetailImages));
 ?>
 
 <!-- BANNIÈRE EN-TÊTE -->
@@ -88,9 +112,40 @@ $gallery = $galleryStmt->fetchAll();
 						</div>
 					</div>
 				<?php else: ?>
-					<div class="mb-4">
-						<img src="<?= htmlspecialchars($mainImg) ?>" alt="<?= htmlspecialchars($project['title']) ?>" class="img-fluid rounded shadow-sm w-100" style="max-height: 480px; object-fit: cover;">
-					</div>
+					<?php if (count($allDetailImages) > 1): ?>
+						<!-- Carrousel Défilant Automatique du Chantier FEE BTP -->
+						<div id="projectHeroCarousel" class="carousel slide carousel-fade mb-4 shadow-sm rounded overflow-hidden position-relative" data-ride="carousel" data-interval="3500" data-pause="false" style="background: #1e2229; border-radius: 14px;">
+							<ol class="carousel-indicators mb-2" style="z-index: 3;">
+								<?php foreach ($allDetailImages as $idx => $dImg): ?>
+									<li data-target="#projectHeroCarousel" data-slide-to="<?= $idx ?>" class="<?= $idx === 0 ? 'active' : '' ?>" style="width: 8px; height: 8px; border-radius: 50%;"></li>
+								<?php endforeach; ?>
+							</ol>
+							<div class="carousel-inner" style="height: 480px;">
+								<?php foreach ($allDetailImages as $idx => $dImg): ?>
+									<div class="carousel-item h-100 <?= $idx === 0 ? 'active' : '' ?>">
+										<a href="<?= htmlspecialchars($dImg) ?>" class="image-popup d-block h-100" title="<?= htmlspecialchars($project['title']) ?> - Vue <?= $idx + 1 ?>">
+											<img src="<?= htmlspecialchars($dImg) ?>" alt="<?= htmlspecialchars($project['title']) ?> - Photo <?= $idx + 1 ?>" class="d-block w-100 h-100" style="object-fit: cover; object-position: center top;">
+										</a>
+									</div>
+								<?php endforeach; ?>
+							</div>
+							<a class="carousel-control-prev" href="#projectHeroCarousel" role="button" data-slide="prev" style="width: 8%; opacity: 0.8;">
+								<span class="carousel-control-prev-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));"></span>
+								<span class="sr-only">Précédent</span>
+							</a>
+							<a class="carousel-control-next" href="#projectHeroCarousel" role="button" data-slide="next" style="width: 8%; opacity: 0.8;">
+								<span class="carousel-control-next-icon" aria-hidden="true" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));"></span>
+								<span class="sr-only">Suivant</span>
+							</a>
+							<span class="badge badge-dark position-absolute" style="bottom: 12px; right: 15px; z-index: 4; font-size: 11px; background: rgba(30,34,41,0.85); backdrop-filter: blur(4px); color: #fff; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">
+								<i class="fa fa-play mr-1 text-warning"></i> <?= count($allDetailImages) ?> photos • Défilement automatique
+							</span>
+						</div>
+					<?php else: ?>
+						<div class="mb-4">
+							<img src="<?= htmlspecialchars($mainImg) ?>" alt="<?= htmlspecialchars($project['title']) ?>" class="img-fluid rounded shadow-sm w-100" style="max-height: 480px; object-fit: cover;">
+						</div>
+					<?php endif; ?>
 				<?php endif; ?>
 
 				<!-- Description du Chantier -->

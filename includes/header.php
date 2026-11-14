@@ -11,6 +11,8 @@ $address = getSetting('address', 'Dschang, Région de l\'Ouest, Cameroun');
 $openingHours = getSetting('opening_hours', 'Lun - Sam : 07h30 - 18h00');
 
 $currentFile = basename($_SERVER['PHP_SELF']);
+$identityVisuals = getPageVisuals($pdo, 'identity');
+$siteFavicon = getVisualInfo($identityVisuals, 'site_favicon', 'images/favicon-32x32.png', 'center center');
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,11 +23,11 @@ $currentFile = basename($_SERVER['PHP_SELF']);
 	<meta name="description" content="<?= htmlspecialchars($pageDescription ?? 'FEE BTP SARL - Entreprise agréée en BTP, Génie Civil, VRD, Gros œuvre et Rénovation à Dschang, Cameroun. Devis express et suivi rigoureux.') ?>">
 	
 	<!-- Favicon Officiel FEE BTP SARL (Multi-résolutions Navigateur & Mobile) -->
-	<link rel="icon" type="image/x-icon" href="favicon.ico?v=<?= time() ?>">
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico?v=<?= time() ?>">
-	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png?v=<?= time() ?>">
-	<link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192x192.png?v=<?= time() ?>">
-	<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png?v=<?= time() ?>">
+	<link rel="icon" type="image/x-icon" href="<?= htmlspecialchars($siteFavicon['url']) ?>">
+	<link rel="shortcut icon" type="image/x-icon" href="<?= htmlspecialchars($siteFavicon['url']) ?>">
+	<link rel="icon" type="image/png" sizes="32x32" href="<?= htmlspecialchars($siteFavicon['url']) ?>">
+	<link rel="icon" type="image/png" sizes="192x192" href="<?= htmlspecialchars($siteFavicon['url']) ?>">
+	<link rel="apple-touch-icon" sizes="180x180" href="<?= htmlspecialchars($siteFavicon['url']) ?>">
 	
 	<!-- Polices Google Architecturales & Modernes (Plus Jakarta Sans) -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">

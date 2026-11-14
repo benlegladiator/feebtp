@@ -556,7 +556,7 @@ $showcase3 = getVisualInfo($homeVisuals, 'showcase_card_3', 'images/IMG-20261015
 			<div class="col-md-6 ftco-animate">
 				<div class="dg-3d-card-wrapper position-relative" data-3d-tilt style="perspective: 1200px;">
 					<!-- Carte DG avec Effet de Profondeur 3D et Cadre Architecte -->
-					<div class="img img-video d-flex align-items-end justify-content-center position-relative rounded shadow-lg overflow-hidden dg-3d-card" style="background-image: url('images/team/aghokeng-fabrice.jpg'); min-height: 520px; background-size: cover; background-position: center top; border: 4px solid #fff; border-radius: 18px !important; box-shadow: 0 30px 60px rgba(30, 34, 41, 0.28) !important;">
+					<div class="img img-video d-flex align-items-end justify-content-center position-relative rounded shadow-lg overflow-hidden dg-3d-card" style="background-image: url('<?= htmlspecialchars($dgPortrait['url']) ?>'); min-height: 520px; background-size: cover; background-position: <?= htmlspecialchars($dgPortrait['focal']) ?>; border: 4px solid #fff; border-radius: 18px !important; box-shadow: 0 30px 60px rgba(30, 34, 41, 0.28) !important;">
 						<div class="overlay" style="position: absolute; top:0; left:0; right:0; bottom:0; background: linear-gradient(to top, rgba(17, 20, 24,0.95) 0%, rgba(17, 20, 24,0.3) 50%, rgba(0,0,0,0) 80%);"></div>
 						
 						<!-- Badge Flottant en relief 3D (Z-Index surélevé) -->
@@ -584,6 +584,12 @@ $showcase3 = getVisualInfo($homeVisuals, 'showcase_card_3', 'images/IMG-20261015
 				<p class="text-muted" style="line-height: 1.8;">
 					Avec un bureau d'études pluridisciplinaire réunissant des <strong>architectes concepteurs</strong> et des <strong>ingénieurs de suivi de travaux</strong>, nous prenons en charge vos bâtiments de standing (R+3, 800 à 1 200 m²), vos terrassements et vos fondations complexes.
 				</p>
+				<div class="mb-4 rounded overflow-hidden shadow-sm position-relative" style="height: 150px; border: 2px solid #e2e8f0;">
+					<img src="<?= htmlspecialchars($aboutPhoto['url']) ?>" alt="Présentation & Équipe BTP" style="width: 100%; height: 100%; object-fit: cover; object-position: <?= htmlspecialchars($aboutPhoto['focal']) ?>;">
+					<div style="position: absolute; bottom: 8px; left: 12px; background: rgba(30, 34, 41, 0.88); backdrop-filter: blur(4px); color: #fff; padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 700;">
+						<i class="fa fa-users mr-1"></i> FEE BTP SARL • Équipe d'Ingénierie & Direction
+					</div>
+				</div>
 				<div class="p-3 mb-4 rounded" style="background: #fff7ed; border-left: 4px solid #ea580c;">
 					<h6 class="font-weight-bold mb-1" style="color: #c2410c;"><i class="fa fa-handshake-o mr-2"></i>Partenaire Privilégié de la Diaspora</h6>
 					<p class="small text-muted mb-0">
@@ -1118,23 +1124,64 @@ $showcase3 = getVisualInfo($homeVisuals, 'showcase_card_3', 'images/IMG-20261015
 			$projIdx = 1;
 			foreach ($projects as $proj): 
 				$projImg = resolveProjectCardImage($proj, $projIdx);
+
+				// Galerie multi-photos pour carrousel automatique défilant
+				$projImages = [$projImg];
+				$stmtG = $pdo->prepare("SELECT image_url FROM project_gallery WHERE project_id = ? ORDER BY id ASC");
+				$stmtG->execute([$proj['id']]);
+				while ($grow = $stmtG->fetch(PDO::FETCH_ASSOC)) {
+					if (!empty($grow['image_url'])) {
+						$projImages[] = resolveImage($grow['image_url'], 'images/project-' . $projIdx . '.jpg');
+					}
+				}
+				$projImages = array_values(array_unique($projImages));
+				$hasMulti = count($projImages) > 1;
+				$carId = 'projCarIndex_' . $proj['id'];
 			?>
 				<div class="col-lg-4 col-md-6 ftco-animate mb-4">
 					<div class="project-entry project-card-3d rounded shadow-sm overflow-hidden" style="position: relative; background: #fff;">
-						<!-- Zone Image Optimisée : Cadrage "center top" évitant toute coupure en haut -->
-						<div class="project-img position-relative" style="height: 275px; background: #0f172a url('<?= htmlspecialchars($projImg) ?>?v=2') center top / cover no-repeat !important;">
-							<span class="badge badge-primary position-absolute" style="top: 15px; left: 15px; padding: 6px 10px; font-size: 11px;">
-								<?= htmlspecialchars($proj['category'] ?? 'BTP') ?>
-							</span>
-							<?php if (!empty($proj['video_url'])): ?>
-								<span class="badge badge-danger position-absolute" style="top: 15px; right: 15px; padding: 6px 10px; font-size: 11px;">
-									<i class="fa fa-video-camera mr-1"></i> Vidéo
+						
+						<?php if ($hasMulti): ?>
+							<!-- Carrousel Défilant Automatique (Multi-Photos) -->
+							<div id="<?= $carId ?>" class="carousel slide carousel-fade position-relative" data-ride="carousel" data-interval="3500" data-pause="false" style="height: 275px; overflow: hidden; background: #0f172a;">
+								<ol class="carousel-indicators mb-1" style="z-index: 4;">
+									<?php foreach ($projImages as $i => $img): ?>
+										<li data-target="#<?= $carId ?>" data-slide-to="<?= $i ?>" class="<?= $i === 0 ? 'active' : '' ?>" style="width: 7px; height: 7px; border-radius: 50%;"></li>
+									<?php endforeach; ?>
+								</ol>
+								<div class="carousel-inner h-100">
+									<?php foreach ($projImages as $i => $img): ?>
+										<div class="carousel-item h-100 <?= $i === 0 ? 'active' : '' ?>">
+											<div style="width: 100%; height: 100%; background: #0f172a url('<?= htmlspecialchars($img) ?>') center top / cover no-repeat !important;"></div>
+										</div>
+									<?php endforeach; ?>
+								</div>
+								<span class="badge badge-primary position-absolute" style="top: 15px; left: 15px; z-index: 5; padding: 6px 10px; font-size: 11px;">
+									<?= htmlspecialchars($proj['category'] ?? 'BTP') ?>
 								</span>
-							<?php endif; ?>
-							<a href="<?= htmlspecialchars($projImg) ?>" class="image-popup d-flex justify-content-center align-items-center" style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(30, 34, 41,0.5); opacity:0; transition: all 0.3s ease;">
-								<span class="fa fa-expand text-white" style="font-size: 26px;"></span>
-							</a>
-						</div>
+								<span class="badge badge-dark position-absolute" style="bottom: 12px; right: 12px; z-index: 5; font-size: 10.5px; background: rgba(15,23,42,0.85); backdrop-filter: blur(4px); color: #fff; padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">
+									<i class="fa fa-play mr-1 text-warning"></i> <?= count($projImages) ?> photos
+								</span>
+								<a href="<?= htmlspecialchars($projImages[0]) ?>" class="image-popup d-flex justify-content-center align-items-center" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 3; background: rgba(30, 34, 41,0.3); opacity:0; transition: all 0.3s ease;">
+									<span class="fa fa-expand text-white" style="font-size: 26px;"></span>
+								</a>
+							</div>
+						<?php else: ?>
+							<!-- Zone Image Optimisée : Cadrage "center top" évitant toute coupure en haut -->
+							<div class="project-img position-relative" style="height: 275px; background: #0f172a url('<?= htmlspecialchars($projImg) ?>') center top / cover no-repeat !important;">
+								<span class="badge badge-primary position-absolute" style="top: 15px; left: 15px; padding: 6px 10px; font-size: 11px;">
+									<?= htmlspecialchars($proj['category'] ?? 'BTP') ?>
+								</span>
+								<?php if (!empty($proj['video_url'])): ?>
+									<span class="badge badge-danger position-absolute" style="top: 15px; right: 15px; padding: 6px 10px; font-size: 11px;">
+										<i class="fa fa-video-camera mr-1"></i> Vidéo
+									</span>
+								<?php endif; ?>
+								<a href="<?= htmlspecialchars($projImg) ?>" class="image-popup d-flex justify-content-center align-items-center" style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(30, 34, 41,0.5); opacity:0; transition: all 0.3s ease;">
+									<span class="fa fa-expand text-white" style="font-size: 26px;"></span>
+								</a>
+							</div>
+						<?php endif; ?>
 						<div class="p-3">
 							<h5 class="font-weight-bold mb-1">
 								<a href="project-details.php?id=<?= $proj['id'] ?>" class="text-dark">
@@ -1316,7 +1363,7 @@ $showcase3 = getVisualInfo($homeVisuals, 'showcase_card_3', 'images/IMG-20261015
 <!-- ========================================================================
      12. CALL TO ACTION FINAL HAUTE VISIBILITÉ (GRADIENT SOLAIRE ORANGE BTP)
      ======================================================================== -->
-<section class="ftco-intro py-5" style="background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);">
+<section class="ftco-intro py-5 position-relative" style="background-image: linear-gradient(135deg, rgba(234, 88, 12, 0.92) 0%, rgba(194, 65, 12, 0.94) 100%), url('<?= htmlspecialchars($ctaBg['url']) ?>'); background-size: cover; background-position: <?= htmlspecialchars($ctaBg['focal']) ?>; box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);">
 	<div class="container">
 		<div class="row justify-content-between align-items-center">
 			<div class="col-md-8 text-white mb-3 mb-md-0">
