@@ -4,9 +4,9 @@
  * Permet d'administrer 100% des images, bannières, logos, cadres et engins du site.
  */
 
-function initPageVisualsTable($pdo) {
+function initPageVisualsTable($pdo, $forceSync = false) {
     static $initialized = false;
-    if ($initialized) return;
+    if ($initialized && !$forceSync) return;
 
     try {
         $pdo->exec("CREATE TABLE IF NOT EXISTS page_visuals (
@@ -180,8 +180,8 @@ function initPageVisualsTable($pdo) {
                 'section_name' => "Section C : À Propos & Direction",
                 'title' => "Photo Institutionnelle Présentation & Équipes FEE BTP",
                 'description' => "Image de présentation générale de l'entreprise sur l'accueil.",
-                'image_url' => 'images/about.jpg',
-                'default_url' => 'images/about.jpg',
+                'image_url' => 'images/about-2.jpg',
+                'default_url' => 'images/about-2.jpg',
                 'focal_point' => 'center top',
                 'sort_order' => 60
             ],
@@ -398,6 +398,9 @@ function initPageVisualsTable($pdo) {
             (page_slug, section_key, section_name, title, description, image_url, default_url, focal_point, sort_order) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
+        $stmtUpDef = $pdo->prepare("UPDATE page_visuals SET default_url = ?, section_name = ?, title = ? WHERE page_slug = ? AND section_key = ?");
+        $stmtUpImg = $pdo->prepare("UPDATE page_visuals SET image_url = ?, focal_point = ? WHERE page_slug = ? AND section_key = ?");
+
         foreach ($defaults as $d) {
             $stmt->execute([
                 $d['page_slug'],
@@ -410,6 +413,27 @@ function initPageVisualsTable($pdo) {
                 $d['focal_point'],
                 $d['sort_order']
             ]);
+
+            if ($forceSync) {
+                $stmtUpDef->execute([
+                    $d['default_url'],
+                    $d['section_name'],
+                    $d['title'],
+                    $d['page_slug'],
+                    $d['section_key']
+                ]);
+
+                $chk = $pdo->prepare("SELECT image_url FROM page_visuals WHERE page_slug = ? AND section_key = ?");
+                $chk->execute([$d['page_slug'], $d['section_key']]);
+                $curr = $chk->fetch(PDO::FETCH_ASSOC);
+                if ($curr) {
+                    $currImg = ltrim(preg_replace('/\?.*$/', '', $curr['image_url']), '/');
+                    $fullP = __DIR__ . '/../' . $currImg;
+                    if (empty($currImg) || !file_exists($fullP) || ($d['section_key'] === 'about_photo' && $currImg === 'images/about.jpg')) {
+                        $stmtUpImg->execute([$d['default_url'], $d['focal_point'], $d['page_slug'], $d['section_key']]);
+                    }
+                }
+            }
         }
 
         $initialized = true;
