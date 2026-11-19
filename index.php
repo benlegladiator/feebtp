@@ -1457,6 +1457,14 @@ if (empty($siteWhatsApp)) $siteWhatsApp = '237691006431';
 			['url' => 'images/IMG-20261015-WA0092.jpg', 'title' => "Armatures FeE500 Anti-Sismiques", 'cat' => "Ferraillage", 'desc' => "Cages d'armatures denses pour absorber les efforts de torsion."],
 			['url' => 'images/IMG-20261015-WA0100.jpg', 'title' => "Ouvrages VRD & Caniveaux Dalot", 'cat' => "VRD & Assainissement", 'desc' => "Évacuation des eaux de ruissellement et viabilisation des accès."],
 			['url' => 'images/IMG-20261015-WA0131.jpg', 'title' => "Second Œuvre & Finitions Nobles", 'cat' => "Second Œuvre", 'desc' => "Pose de carrelages grand format, staff décoratif et menuiseries."],
+			['url' => 'images/IMG-20261015-WA0004.jpg', 'title' => "Coffrage de Voiles Béton", 'cat' => "Gros Œuvre", 'desc' => "Coffrage soigné garantissant la planéité parfaite des voiles porteurs."],
+			['url' => 'images/IMG-20261015-WA0025.jpg', 'title' => "Pose Étaiement Métallique", 'cat' => "Sécurité BTP", 'desc' => "Structure de soutien sécurisée pour coulage de plancher haut."],
+			['url' => 'images/IMG-20261015-WA0036.jpg', 'title' => "Terrassement en Déblai/Remblai", 'cat' => "Terrassement", 'desc' => "Ajustement altimétrique de plateforme sur terrain accidenté."],
+			['url' => 'images/IMG-20261015-WA0042.jpg', 'title' => "Ferraillage Semelles Isolées", 'cat' => "Fondations", 'desc' => "Nappes d'aciers haute adhérence ancrées dans le socle rocheux."],
+			['url' => 'images/IMG-20261015-WA0050.jpg', 'title' => "Coulage de Poteaux d'Angle", 'cat' => "Gros Œuvre", 'desc' => "Vibration mécanique immédiate pour éliminer les bulles d'air."],
+			['url' => 'images/IMG-20261015-WA0058.jpg', 'title' => "Dalle de Compression Coulée", 'cat' => "Gros Œuvre", 'desc' => "Plancher intermédiaire avec poutrelles et treillis soudé."],
+			['url' => 'images/IMG-20261015-WA0067.jpg', 'title' => "Charpente Bois & Couverture", 'cat' => "Toiture", 'desc' => "Traitement fongicide des bois de charpente et tôles nervurées."],
+			['url' => 'images/IMG-20261015-WA0086.jpg', 'title' => "Pose Parpaings Vibrés au Cordeau", 'cat' => "Maçonnerie", 'desc' => "Élévation de cloisons avec joints horizontaux et verticaux pleins."],
 		];
 		?>
 
