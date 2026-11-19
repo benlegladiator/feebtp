@@ -13,3 +13,8 @@ Thumbs.db
 .vscode/
 .idea/
 *.log
+
+# Documents sources bruts
+partenaires/
+uploads/*
+!uploads/**/.gitkeep
