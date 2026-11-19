@@ -123,14 +123,15 @@
     // Mise à jour du lien WhatsApp direct
     const btnWhatsapp = document.getElementById('feewizBtnWhatsapp');
     if (btnWhatsapp) {
-      const msg = `Bonjour FEE BTP SARL ! J'ai configuré mon projet sur votre site :
+      const msg = `Bonjour RMC BTP SARL ! J'ai configuré mon projet sur votre site :
 • Type d'ouvrage : ${result.baseName}
 • Superficie couverte : ${state.surface} m²
 • Standing : ${result.standingName}
 • Terrain : ${result.terrainName}
 • Estimation : ${result.totalMin.toLocaleString('fr-FR')} à ${result.totalMax.toLocaleString('fr-FR')} FCFA (~${result.totalMinEUR.toLocaleString('fr-FR')} €)
-Je souhaite affiner ce devis avec un ingénieur ou conducteur de travaux.`;
-      btnWhatsapp.href = `https://wa.me/237691006431?text=${encodeURIComponent(msg)}`;
+Je souhaite affiner ce devis avec un ingénieur ou conducteur de travaux RMC BTP.`;
+      const waNum = window.SITE_WHATSAPP || '237697398455';
+      btnWhatsapp.href = `https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`;
     }
   }
 
@@ -170,17 +171,17 @@ Je souhaite affiner ce devis avec un ingénieur ou conducteur de travaux.`;
     printArea.style.color = '#1e293b';
 
     printArea.innerHTML = `
-      <div style="border-bottom: 3px solid #ea580c; padding-bottom: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="border-bottom: 3px solid #d97706; padding-bottom: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center;">
         <div>
-          <h2 style="margin: 0; color: #0f172a; font-size: 24px; font-weight: bold;">FEE BTP SARL</h2>
-          <p style="margin: 3px 0 0; color: #ea580c; font-size: 12px; font-weight: bold; text-transform: uppercase;">Direction Générale & Ingénierie BTP • Dschang, Cameroun</p>
-          <p style="margin: 2px 0 0; color: #64748b; font-size: 11px;">Tél: (+237) 691 00 64 31 / 671 06 34 41 &bull; contact@feebtp-sarl.com</p>
+          <h2 style="margin: 0; color: #0c2e60; font-size: 24px; font-weight: bold;">RMC BTP SARL</h2>
+          <p style="margin: 3px 0 0; color: #d97706; font-size: 12px; font-weight: bold; text-transform: uppercase;">Direction Générale & Ingénierie BTP • Yaoundé & Douala, Cameroun</p>
+          <p style="margin: 2px 0 0; color: #64748b; font-size: 11px;">Tél: (+237) 697 39 84 55 / 693 90 91 59 &bull; info@rmcbtp.com</p>
         </div>
         <div style="text-align: right;">
-          <div style="background: #ea580c; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; display: inline-block;">
+          <div style="background: #0c2e60; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; display: inline-block;">
             ÉTUDE ESTIMATIVE DE PROJET BTP
           </div>
-          <p style="margin: 5px 0 0; font-size: 11px; color: #64748b;">Réf: DEV-FEE-${Date.now().toString().slice(-6)} &bull; ${new Date().toLocaleDateString('fr-FR')}</p>
+          <p style="margin: 5px 0 0; font-size: 11px; color: #64748b;">Réf: DEV-RMC-${Date.now().toString().slice(-6)} &bull; ${new Date().toLocaleDateString('fr-FR')}</p>
         </div>
       </div>
 
@@ -223,12 +224,12 @@ Je souhaite affiner ce devis avec un ingénieur ou conducteur de travaux.`;
         <tr style="background: #f1f5f9; border-bottom: 1px solid #cbd5e1;">
           <th style="padding: 8px; text-align: left;">Poste / Ressource</th>
           <th style="padding: 8px; text-align: right;">Quantité Estimée</th>
-          <th style="padding: 8px; text-align: left;">Spécification Technique FEE BTP</th>
+          <th style="padding: 8px; text-align: left;">Spécification Technique RMC BTP</th>
         </tr>
         <tr style="border-bottom: 1px solid #e2e8f0;">
           <td style="padding: 8px;">Ciment CPJ 42.5</td>
           <td style="padding: 8px; text-align: right; font-weight: bold;">~ ${result.cementBags} sacs</td>
-          <td style="padding: 8px; color: #64748b;">Dosage standard 350 kg/m³ de béton</td>
+          <td style="padding: 8px; color: #64748b;">Dosage standard 350 kg/m³ de béton (SIMS Quincaillerie)</td>
         </tr>
         <tr style="border-bottom: 1px solid #e2e8f0;">
           <td style="padding: 8px;">Aciers Haute Adhérence (HA)</td>
@@ -252,8 +253,8 @@ Je souhaite affiner ce devis avec un ingénieur ou conducteur de travaux.`;
       </div>
 
       <div style="margin-top: 35px; text-align: right;">
-        <p style="margin: 0; font-size: 12px; font-weight: bold; color: #0f172a;">Direction Technique & Métrés</p>
-        <p style="margin: 2px 0 0; font-size: 12px; color: #ea580c; font-weight: bold;">FEE BTP SARL &bull; Dschang</p>
+        <p style="margin: 0; font-size: 12px; font-weight: bold; color: #0c2e60;">Direction Technique & Métrés</p>
+        <p style="margin: 2px 0 0; font-size: 12px; color: #d97706; font-weight: bold;">RMC BTP SARL &bull; Yaoundé & Douala</p>
       </div>
     `;
 
@@ -262,7 +263,7 @@ Je souhaite affiner ce devis avec un ingénieur ou conducteur de travaux.`;
     if (typeof html2pdf !== 'undefined') {
       const opt = {
         margin:       10,
-        filename:     `Devis_Estimatif_FEE_BTP_${state.surface}m2.pdf`,
+        filename:     `Devis_Estimatif_RMC_BTP_${state.surface}m2.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2, useCORS: true },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
@@ -359,7 +360,7 @@ Je souhaite affiner ce devis avec un ingénieur ou conducteur de travaux.`;
           state.options.solar ? "Centrale solaire hybride" : ""
         ].filter(Boolean).join(", ") || "Gros œuvre & Second œuvre standard";
 
-        const msg = `Bonjour FEE BTP SARL ! J'ai configuré mon projet sur votre simulateur en ligne et je souhaite recevoir ma Fiche Estimative Officielle en format PDF :
+        const msg = `Bonjour RMC BTP SARL ! J'ai configuré mon projet sur votre simulateur en ligne et je souhaite recevoir ma Fiche Estimative Officielle en format PDF :
 • Type d'ouvrage : ${result.baseName}
 • Superficie couverte : ${state.surface} m²
 • Niveau de standing : ${result.standingName}
@@ -370,7 +371,8 @@ Je souhaite affiner ce devis avec un ingénieur ou conducteur de travaux.`;
 
 Pouvez-vous me transmettre la fiche de cotation détaillée complète en PDF par WhatsApp ? Merci d'avance !`;
 
-        window.open(`https://wa.me/237691006431?text=${encodeURIComponent(msg)}`, '_blank');
+        const waNum = window.SITE_WHATSAPP || '237697398455';
+        window.open(`https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`, '_blank');
       });
     }
 

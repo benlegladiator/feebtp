@@ -21,6 +21,7 @@ $siteFavicon = getVisualInfo($identityVisuals, 'site_favicon', 'images/favicon-3
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title><?= htmlspecialchars($pageTitle ?? ($companyName . ' | Bâtiment, Travaux Publics & Génie Civil à Dschang')) ?></title>
 	<meta name="description" content="<?= htmlspecialchars($pageDescription ?? 'FEE BTP SARL - Entreprise agréée en BTP, Génie Civil, VRD, Gros œuvre et Rénovation à Dschang, Cameroun. Devis express et suivi rigoureux.') ?>">
+	<script>window.SITE_WHATSAPP = "<?= preg_replace('/[^0-9]/', '', $whatsappNumber) ?>";</script>
 	
 	<!-- Favicon Officiel FEE BTP SARL (Multi-résolutions Navigateur & Mobile) -->
 	<link rel="icon" type="image/x-icon" href="<?= htmlspecialchars($siteFavicon['url']) ?>">
