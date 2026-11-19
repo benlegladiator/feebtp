@@ -469,6 +469,31 @@ function initPageVisualsTable($pdo, $forceSync = false) {
             }
         }
 
+        // Enrichissement automatique des galeries de chantiers si incomplètes
+        try {
+            $chkGal = $pdo->query("SELECT COUNT(*) FROM project_gallery");
+            if ($chkGal && (int)$chkGal->fetchColumn() < 25) {
+                $feeDefaultGalleries = [
+                    1 => ['images/IMG-20261015-WA0004.jpg', 'images/IMG-20261015-WA0025.jpg', 'images/IMG-20261015-WA0036.jpg', 'images/IMG-20261015-WA0100.jpg', 'images/IMG-20261015-WA0104.jpg'],
+                    2 => ['images/IMG-20261015-WA0042.jpg', 'images/IMG-20261015-WA0050.jpg', 'images/IMG-20261015-WA0066.jpg', 'images/IMG-20261015-WA0097.jpg', 'images/IMG-20261015-WA0102.jpg'],
+                    3 => ['images/IMG-20261015-WA0088.jpg', 'images/IMG-20261015-WA0092.jpg', 'images/IMG-20261015-WA0100.jpg', 'images/IMG-20261015-WA0103.jpg', 'images/IMG-20261015-WA0105.jpg'],
+                    4 => ['images/IMG-20261015-WA0058.jpg', 'images/IMG-20261015-WA0067.jpg', 'images/IMG-20261015-WA0083.jpg', 'images/IMG-20261015-WA0073.jpg', 'images/IMG-20261015-WA0100.jpg'],
+                    5 => ['images/IMG-20261015-WA0086.jpg', 'images/IMG-20261015-WA0094.jpg', 'images/IMG-20261015-WA0104.jpg', 'images/IMG-20261015-WA0070.jpg', 'images/IMG-20261015-WA0054.jpg'],
+                    6 => ['images/IMG-20261015-WA0106.jpg', 'images/IMG-20261015-WA0108.jpg', 'images/IMG-20261015-WA0131.jpg', 'images/IMG-20261015-WA0062.jpg', 'images/IMG-20261015-WA0120.jpg']
+                ];
+                $insG = $pdo->prepare("INSERT INTO project_gallery (project_id, image_url, caption, created_at) VALUES (?, ?, 'Vue technique du chantier', NOW())");
+                $chkExists = $pdo->prepare("SELECT COUNT(*) FROM project_gallery WHERE project_id = ? AND image_url = ?");
+                foreach ($feeDefaultGalleries as $pid => $imgs) {
+                    foreach ($imgs as $img) {
+                        $chkExists->execute([$pid, $img]);
+                        if ($chkExists->fetchColumn() == 0) {
+                            $insG->execute([$pid, $img]);
+                        }
+                    }
+                }
+            }
+        } catch (Exception $eGal) {}
+
         $initialized = true;
     } catch (Exception $e) {
         // En cas d'erreur de schéma, on ne bloque pas le site

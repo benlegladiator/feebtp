@@ -1425,6 +1425,92 @@ if (empty($siteWhatsApp)) $siteWhatsApp = '237691006431';
 </section>
 
 <!-- ========================================================================
+     8.2 MOSAÏQUE REPORTAGE PHOTOS : CHANTIERS & SAVOIR-FAIRE EN ACTION (DSCHANG & OUEST)
+     ======================================================================== -->
+<section class="rmc-live-gallery-section py-5" id="galerie-chantiers-live" style="background: #ffffff; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;">
+	<div class="container py-3">
+		<div class="row justify-content-center text-center mb-5">
+			<div class="col-lg-10 ftco-animate">
+				<div class="d-inline-flex align-items-center gap-2 px-3 py-1 mb-3 rounded-pill" style="background: rgba(234, 88, 12, 0.1); border: 1.5px solid rgba(234, 88, 12, 0.35); color: #ea580c; font-size: 11.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">
+					<i class="fa fa-camera mr-1" style="color: #ea580c;"></i> REPORTAGE PHOTO IMMERSIF • 100% TERRAIN
+				</div>
+				<h2 class="font-weight-bold mb-3 text-dark" style="font-size: 2.2rem; letter-spacing: -0.02em;">
+					Nos Réalisations & Équipes en Action à Dschang et dans l'Ouest
+				</h2>
+				<p class="lead mx-auto text-muted" style="max-width: 820px; font-size: 1.05rem; line-height: 1.7;">
+					Immersion totale au cœur de nos ouvrages d'art : stabilisation de pentes, génie civil parasismique, coffrages d'exception et villas contemporaines livrées clés en main.
+				</p>
+			</div>
+		</div>
+
+		<?php
+		$feeWorksitePhotos = [
+			['url' => 'images/IMG-20261015-WA0073.jpg', 'title' => "Murs de Soutènement Banchés", 'cat' => "Génie Civil & Pentes", 'desc' => "Stabilisation de talus latéritiques et drainage anti-éboulement."],
+			['url' => 'images/IMG-20261029-WA0105.jpg', 'title' => "Flotte d'Engins & Terrassement", 'cat' => "Terrassement", 'desc' => "Pelles hydrauliques et compacteurs sur plateformes de Dschang."],
+			['url' => 'images/IMG-20261015-WA0054.jpg', 'title' => "Béton Armé Vibré 350 kg/m³", 'cat' => "Gros Œuvre", 'desc' => "Coulage continu et contrôle de plasticité pour dalles et radier."],
+			['url' => 'images/IMG-20261015-WA0070.jpg', 'title' => "Coffrage d'Art & Poutres Cintrées", 'cat' => "Architecture BTP", 'desc' => "Moulage soigné de colonnes sculptées et linteaux en plein cintre."],
+			['url' => 'images/IMG-20261015-WA0129.jpg', 'title' => "Immeuble R+3 en Élévation", 'cat' => "Bâtiment", 'desc' => "Réseau de poteaux-poutres pour ensemble résidentiel et commercial."],
+			['url' => 'images/IMG-20261015-WA0062.jpg', 'title' => "Villa Contemporaine Achevée", 'cat' => "Clés en Main", 'desc' => "Finitions complètes, toiture étanche et aménagements extérieurs."],
+			['url' => 'images/IMG-20261015-WA0079.jpg', 'title' => "Élévation R+1 & Chaînages", 'cat' => "Gros Œuvre", 'desc' => "Chaînages horizontaux et verticaux ceinturant chaque niveau."],
+			['url' => 'images/IMG-20261015-WA0120.jpg', 'title' => "Contrôle Qualité & Niveaux Laser", 'cat' => "Ingénierie", 'desc' => "Vérification des aplombs et résistance mécanique des éprouvettes."],
+			['url' => 'images/IMG-20261015-WA0088.jpg', 'title' => "Fondations sur Sol Difficile", 'cat' => "Fondations", 'desc' => "Semelles isolées ancrées au bon sol avec béton de propreté."],
+			['url' => 'images/IMG-20261015-WA0092.jpg', 'title' => "Armatures FeE500 Anti-Sismiques", 'cat' => "Ferraillage", 'desc' => "Cages d'armatures denses pour absorber les efforts de torsion."],
+			['url' => 'images/IMG-20261015-WA0100.jpg', 'title' => "Ouvrages VRD & Caniveaux Dalot", 'cat' => "VRD & Assainissement", 'desc' => "Évacuation des eaux de ruissellement et viabilisation des accès."],
+			['url' => 'images/IMG-20261015-WA0131.jpg', 'title' => "Second Œuvre & Finitions Nobles", 'cat' => "Second Œuvre", 'desc' => "Pose de carrelages grand format, staff décoratif et menuiseries."],
+		];
+		?>
+
+		<div class="row no-gutters rmc-gallery-grid" style="border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+			<?php foreach ($feeWorksitePhotos as $idx => $item): 
+				$imgP = resolveImage($item['url']);
+			?>
+				<div class="col-lg-3 col-md-4 col-sm-6 p-1">
+					<div class="rmc-gallery-item position-relative" style="height: 220px; overflow: hidden; border-radius: 10px; cursor: pointer;">
+						<img src="<?= htmlspecialchars($imgP) ?>" 
+						     alt="<?= htmlspecialchars($item['title']) ?>" 
+						     loading="lazy"
+						     style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
+						<div class="rmc-gallery-overlay d-flex flex-column justify-content-between p-3" 
+						     style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(12,46,96,0.92) 100%); opacity: 0; transition: opacity 0.3s ease;">
+							<div class="d-flex justify-content-between align-items-center">
+								<span class="badge badge-warning text-dark font-weight-bold px-2 py-1" style="font-size: 10.5px; border-radius: 6px;">
+									<?= htmlspecialchars($item['cat']) ?>
+								</span>
+								<span class="text-white small" style="background: rgba(255,255,255,0.25); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+									<i class="fa fa-search-plus"></i>
+								</span>
+							</div>
+							<div>
+								<h6 class="text-white font-weight-bold mb-1" style="font-size: 13.5px; line-height: 1.3;">
+									<?= htmlspecialchars($item['title']) ?>
+								</h6>
+								<p class="text-light small mb-0" style="font-size: 11px; opacity: 0.9; line-height: 1.3;">
+									<?= htmlspecialchars($item['desc']) ?>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<div class="text-center mt-4">
+			<a href="project.php" class="btn btn-primary py-3 px-5 font-weight-bold shadow-sm" style="border-radius: 50px; font-size: 14.5px;">
+				<i class="fa fa-images mr-2"></i> Consulter l'Album Complet de Tous Nos Chantiers
+			</a>
+		</div>
+	</div>
+</section>
+<style>
+.rmc-gallery-item:hover img {
+	transform: scale(1.08);
+}
+.rmc-gallery-item:hover .rmc-gallery-overlay {
+	opacity: 1 !important;
+}
+</style>
+
+<!-- ========================================================================
      9.1 CARTE INTERACTIVE DES RÉALISATIONS AU CAMEROUN (LEAFLET)
      ======================================================================== -->
 <section class="fee-map-section" id="cameroun-map-section">
