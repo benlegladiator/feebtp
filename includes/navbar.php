@@ -77,6 +77,14 @@ $siteLogo = getVisualInfo($identityVisuals, 'site_logo', 'images/logo.png', 'cen
 								<small class="text-muted">Maillage Dschang, Ouest & Cameroun</small>
 							</div>
 						</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item py-2 d-flex align-items-center" href="index.php#partenaires-groupe">
+							<i class="fa fa-handshake mr-3 text-warning" style="font-size: 18px; width: 22px; text-align: center;"></i>
+							<div>
+								<strong class="d-block text-dark" style="font-size: 13px;">Partenaires du Groupe</strong>
+								<small class="text-muted">FEE Security, IAGC & Auto-École FKE</small>
+							</div>
+						</a>
 					</div>
 				</li>
 				<li class="nav-item">

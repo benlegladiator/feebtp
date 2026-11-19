@@ -44,6 +44,11 @@ $ctaBg = getVisualInfo($homeVisuals, 'cta_bg', 'images/bg_1.jpg', 'center center
 $showcase1 = getVisualInfo($homeVisuals, 'showcase_card_1', 'images/wa0062-framed-16x9.jpg', 'center center');
 $showcase2 = getVisualInfo($homeVisuals, 'showcase_card_2', 'images/IMG-20261015-WA0062.jpg', 'center center');
 $showcase3 = getVisualInfo($homeVisuals, 'showcase_card_3', 'images/IMG-20261015-WA0073.jpg', 'center center');
+$partnerFeeSecurity = getVisualInfo($homeVisuals, 'partner_fee_security', 'images/partenaires/logo-fee-security.jpg', 'center center');
+$partnerIagc = getVisualInfo($homeVisuals, 'partner_iagc', 'images/partenaires/logo-iagc.jpg', 'center center');
+$partnerFkeSmart = getVisualInfo($homeVisuals, 'partner_fke_smart', 'images/partenaires/logo-fke-smart.jpg', 'center center');
+$siteWhatsApp = preg_replace('/[^0-9]/', '', (string)getSetting('site_whatsapp', '237691006431'));
+if (empty($siteWhatsApp)) $siteWhatsApp = '237691006431';
 ?>
 
 <!-- Alertes Flash -->
@@ -386,6 +391,213 @@ $showcase3 = getVisualInfo($homeVisuals, 'showcase_card_3', 'images/IMG-20261015
 		<div class="text-center mt-4">
 			<span class="small" style="color: #64748b;">
 				<i class="fa fa-mouse-pointer mr-1 text-warning"></i> <strong>360° Interactif</strong> : Cliquez-glissez pour tourner &bull; Molette pour zoomer &bull; Testez la <strong>Vue Écorchée</strong>, l'ambiance <strong>Jour/Nuit</strong> et cliquez sur les <strong>Pastilles BTP</strong> pour inspecter chaque lot technique.
+			</span>
+		</div>
+	</div>
+</section>
+
+<!-- ========================================================================
+     2.2 ÉCOSYSTÈME, FILIALES & PARTENAIRES STRATÉGIQUES DU GROUPE
+     ======================================================================== -->
+<style>
+.fee-partner-card {
+	transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.fee-partner-card:hover {
+	transform: translateY(-8px);
+	box-shadow: 0 20px 35px rgba(0, 0, 0, 0.28) !important;
+}
+.fee-partner-card:hover .fee-partner-logo-wrap img {
+	transform: scale(1.05);
+	transition: transform 0.35s ease;
+}
+</style>
+<section class="fee-partners-section py-5 position-relative" id="partenaires-groupe" style="background: linear-gradient(180deg, #07172f 0%, #0a1e3d 50%, #061327 100%); border-top: 1px solid rgba(234, 88, 12, 0.35); border-bottom: 1px solid rgba(255,255,255,0.08);">
+	<div class="container position-relative py-3" style="z-index: 2;">
+		<!-- En-tête Prestigieux de Section -->
+		<div class="row justify-content-center text-center mb-5">
+			<div class="col-lg-10 ftco-animate">
+				<div class="d-inline-flex align-items-center gap-2 px-3 py-1 mb-3 rounded-pill" style="background: rgba(234, 88, 12, 0.15); border: 1.5px solid rgba(234, 88, 12, 0.4); color: #fb923c; font-size: 11.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;">
+					<i class="fa fa-handshake mr-1"></i> SYNERGIE 360° & SERVICES D'EXCELLENCE
+				</div>
+				<h2 class="font-weight-bold mb-3 text-white" style="font-size: 2.3rem; letter-spacing: -0.02em;">
+					Écosystème & Partenaires Stratégiques du Groupe
+				</h2>
+				<p class="lead mx-auto" style="max-width: 840px; color: #94a3b8; font-size: 1.08rem; line-height: 1.7;">
+					Au-delà de la construction et du génie civil, <strong style="color: #fb923c;">FEE BTP SARL</strong> collabore étroitement avec ses filiales et pôles partenaires spécialisés en <strong class="text-white">Sécurité Privée</strong>, <strong class="text-white">Ingénierie & Formation</strong> et <strong class="text-white">Permis de Conduire</strong>.
+				</p>
+			</div>
+		</div>
+
+		<!-- Grille des 3 Partenaires Clés -->
+		<div class="row align-items-stretch">
+			<!-- Partenaire 1 : FEE SECURITY -->
+			<div class="col-lg-4 col-md-6 d-flex ftco-animate mb-4 mb-lg-0">
+				<div class="fee-partner-card w-100" style="background: #ffffff; border-radius: 16px; border: 1px solid rgba(226, 232, 240, 0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.18); display: flex; flex-direction: column; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+					<!-- En-tête Logo Officiel -->
+					<div class="fee-partner-logo-wrap" style="height: 160px; background: #ffffff; border-bottom: 2px solid #f1f5f9; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative;">
+						<span class="badge badge-primary px-3 py-1 shadow-sm font-weight-bold" style="position: absolute; top: 12px; right: 12px; font-size: 11px; background: #0c2e60; border-radius: 6px;">
+							<i class="fa fa-shield-alt mr-1 text-warning"></i> Sécurité 24/7
+						</span>
+						<img src="<?= htmlspecialchars($partnerFeeSecurity['url']) ?>" 
+						     alt="Logo Officiel FEE SECURITY" 
+						     style="max-height: 115px; max-width: 85%; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.06));"
+						     onerror="this.onerror=null; this.src='images/logo.png';">
+					</div>
+
+					<!-- Corps descriptif -->
+					<div class="p-4 d-flex flex-column justify-content-between flex-grow-1" style="background: #ffffff;">
+						<div>
+							<div class="d-flex align-items-center mb-1">
+								<h3 class="font-weight-bold mb-0 text-dark" style="font-size: 1.35rem; color: #0c2e60;">FEE SECURITY</h3>
+							</div>
+							<div class="font-italic font-weight-bold mb-3" style="color: #ea580c; font-size: 0.92rem;">
+								« Votre protection, notre priorité »
+							</div>
+							<p class="text-muted small mb-3" style="font-size: 13px; line-height: 1.6;">
+								Notre agence de sécurité est spécialisée dans la protection des personnes, des biens et des infrastructures. Nous mettons à votre disposition des agents qualifiés, professionnels et vigilants pour assurer votre sérénité 24h/24 et 7j/7.
+							</p>
+
+							<!-- Puces techniques d'expertise -->
+							<ul class="list-unstyled mb-4" style="font-size: 12.5px; color: #334155;">
+								<li class="mb-2 d-flex align-items-center">
+									<i class="fa fa-check-circle mr-2 text-warning" style="font-size: 14px;"></i>
+									<span><strong>Gardiennage & Surveillance</strong> de chantiers et résidences</span>
+								</li>
+								<li class="mb-2 d-flex align-items-center">
+									<i class="fa fa-check-circle mr-2 text-warning" style="font-size: 14px;"></i>
+									<span><strong>Contrôle d'accès rigoureux</strong> et rondes motorisées 24h/24</span>
+								</li>
+								<li class="mb-2 d-flex align-items-center">
+									<i class="fa fa-check-circle mr-2 text-warning" style="font-size: 14px;"></i>
+									<span><strong>Sécurisation d'événements</strong> et protection VIP/Entreprises</span>
+								</li>
+							</ul>
+						</div>
+
+						<a href="https://wa.me/<?= htmlspecialchars($siteWhatsApp) ?>?text=Bonjour%20FEE%20SECURITY,%20je%20souhaite%20des%20informations%20sur%20vos%20services%20de%20gardiennage%20et%20s%C3%A9curit%C3%A9." 
+						   target="_blank" rel="noopener" 
+						   class="btn btn-block font-weight-bold text-white py-2 shadow-sm" 
+						   style="background: linear-gradient(135deg, #0c2e60 0%, #1e3a8a 100%); border-radius: 10px; font-size: 13px;">
+							<i class="fab fa-whatsapp mr-1 text-success"></i> Contacter FEE SECURITY
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Partenaire 2 : IAGC (Institut Africain du Génie Civil) -->
+			<div class="col-lg-4 col-md-6 d-flex ftco-animate mb-4 mb-lg-0">
+				<div class="fee-partner-card w-100" style="background: #ffffff; border-radius: 16px; border: 1px solid rgba(226, 232, 240, 0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.18); display: flex; flex-direction: column; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+					<!-- En-tête Logo Officiel -->
+					<div class="fee-partner-logo-wrap" style="height: 160px; background: #ffffff; border-bottom: 2px solid #f1f5f9; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative;">
+						<span class="badge badge-warning px-3 py-1 shadow-sm font-weight-bold text-dark" style="position: absolute; top: 12px; right: 12px; font-size: 11px; background: #fb923c; border-radius: 6px;">
+							<i class="fa fa-graduation-cap mr-1"></i> Formation BTP
+						</span>
+						<img src="<?= htmlspecialchars($partnerIagc['url']) ?>" 
+						     alt="Logo Officiel IAGC" 
+						     style="max-height: 115px; max-width: 85%; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.06));"
+						     onerror="this.onerror=null; this.src='images/logo.png';">
+					</div>
+
+					<!-- Corps descriptif -->
+					<div class="p-4 d-flex flex-column justify-content-between flex-grow-1" style="background: #ffffff;">
+						<div>
+							<div class="d-flex align-items-center mb-1">
+								<h3 class="font-weight-bold mb-0 text-dark" style="font-size: 1.35rem; color: #0c2e60;">IAGC • GÉNIE CIVIL</h3>
+							</div>
+							<div class="font-italic font-weight-bold mb-3" style="color: #ea580c; font-size: 0.92rem;">
+								« Former les bâtisseurs de demain, construire le monde »
+							</div>
+							<p class="text-muted small mb-3" style="font-size: 13px; line-height: 1.6;">
+								L'Institut Africain du Génie Civil est un établissement de formation professionnelle et technique d'excellence. Notre mission est de former des techniciens et cadres capables de concevoir, réaliser, superviser et entretenir les infrastructures durables.
+							</p>
+
+							<!-- Puces techniques d'expertise -->
+							<ul class="list-unstyled mb-4" style="font-size: 12.5px; color: #334155;">
+								<li class="mb-2 d-flex align-items-center">
+									<i class="fa fa-check-circle mr-2 text-warning" style="font-size: 14px;"></i>
+									<span><strong>Filières Techniques BTP</strong> & Dessin de Bâtiment 2D/3D</span>
+								</li>
+								<li class="mb-2 d-flex align-items-center">
+									<i class="fa fa-check-circle mr-2 text-warning" style="font-size: 14px;"></i>
+									<span><strong>Apprentissage terrain immersif</strong> sur les chantiers réels</span>
+								</li>
+								<li class="mb-2 d-flex align-items-center">
+									<i class="fa fa-check-circle mr-2 text-warning" style="font-size: 14px;"></i>
+									<span><strong>Diplômes certifiés</strong> & insertion professionnelle rapide</span>
+								</li>
+							</ul>
+						</div>
+
+						<a href="https://wa.me/<?= htmlspecialchars($siteWhatsApp) ?>?text=Bonjour%20IAGC,%20je%20souhaite%20des%20informations%20sur%20les%20formations%20professionnelles%20en%20G%C3%A9nie%20Civil." 
+						   target="_blank" rel="noopener" 
+						   class="btn btn-block font-weight-bold text-white py-2 shadow-sm" 
+						   style="background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%); border-radius: 10px; font-size: 13px;">
+							<i class="fab fa-whatsapp mr-1"></i> Renseignements Inscriptions
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Partenaire 3 : AUTO-ÉCOLE FKE SMART -->
+			<div class="col-lg-4 col-md-6 d-flex ftco-animate mb-4 mb-lg-0">
+				<div class="fee-partner-card w-100" style="background: #ffffff; border-radius: 16px; border: 1px solid rgba(226, 232, 240, 0.9); box-shadow: 0 10px 30px rgba(0,0,0,0.18); display: flex; flex-direction: column; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+					<!-- En-tête Logo Officiel -->
+					<div class="fee-partner-logo-wrap" style="height: 160px; background: #ffffff; border-bottom: 2px solid #f1f5f9; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative;">
+						<span class="badge badge-success px-3 py-1 shadow-sm font-weight-bold" style="position: absolute; top: 12px; right: 12px; font-size: 11px; background: #16a34a; border-radius: 6px;">
+							<i class="fa fa-car mr-1"></i> Auto-École Agréée
+						</span>
+						<img src="<?= htmlspecialchars($partnerFkeSmart['url']) ?>" 
+						     alt="Logo Officiel AUTO-ÉCOLE FKE SMART" 
+						     style="max-height: 115px; max-width: 85%; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.06));"
+						     onerror="this.onerror=null; this.src='images/logo.png';">
+					</div>
+
+					<!-- Corps descriptif -->
+					<div class="p-4 d-flex flex-column justify-content-between flex-grow-1" style="background: #ffffff;">
+						<div>
+							<div class="d-flex align-items-center mb-1">
+								<h3 class="font-weight-bold mb-0 text-dark" style="font-size: 1.35rem; color: #0c2e60;">AUTO-ÉCOLE FKE SMART</h3>
+							</div>
+							<div class="font-italic font-weight-bold mb-3" style="color: #16a34a; font-size: 0.92rem;">
+								« Apprenez à conduire, prenez la route vers la réussite »
+							</div>
+							<p class="text-muted small mb-3" style="font-size: 13px; line-height: 1.6;">
+								Bienvenue dans notre auto-école partenaire de référence pour une formation de conduite de haute qualité. Nous vous accompagnons pas à pas pour devenir un conducteur responsable, autonome, respectueux et confiant au volant.
+							</p>
+
+							<!-- Puces techniques d'expertise -->
+							<ul class="list-unstyled mb-4" style="font-size: 12.5px; color: #334155;">
+								<li class="mb-2 d-flex align-items-center">
+									<i class="fa fa-check-circle mr-2 text-warning" style="font-size: 14px;"></i>
+									<span><strong>Permis B (Léger), C & D (Poids Lourd)</strong> aux normes CEMAC</span>
+								</li>
+								<li class="mb-2 d-flex align-items-center">
+									<i class="fa fa-check-circle mr-2 text-warning" style="font-size: 14px;"></i>
+									<span><strong>Cours de code interactifs</strong> & séances de perfectionnement</span>
+								</li>
+								<li class="mb-2 d-flex align-items-center">
+									<i class="fa fa-check-circle mr-2 text-warning" style="font-size: 14px;"></i>
+									<span><strong>Véhicules d'apprentissage récents</strong> & moniteurs certifiés</span>
+								</li>
+							</ul>
+						</div>
+
+						<a href="https://wa.me/<?= htmlspecialchars($siteWhatsApp) ?>?text=Bonjour%20Auto-%C3%89cole%20FKE%20Smart,%20je%20souhaite%20des%20informations%20sur%20les%20cours%20de%20conduite%20et%20le%20permis." 
+						   target="_blank" rel="noopener" 
+						   class="btn btn-block font-weight-bold text-white py-2 shadow-sm" 
+						   style="background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); border-radius: 10px; font-size: 13px;">
+							<i class="fab fa-whatsapp mr-1"></i> Inscription Auto-École
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Note de bas de section -->
+		<div class="text-center mt-5 pt-3" style="border-top: 1px solid rgba(255,255,255,0.08);">
+			<span class="small text-light" style="opacity: 0.75;">
+				<i class="fa fa-check-circle text-warning mr-1"></i> Des filiales et partenaires animés par les mêmes valeurs d'exigence technique, de rigueur et de ponctualité signées <strong>FEE BTP SARL</strong>.
 			</span>
 		</div>
 	</div>

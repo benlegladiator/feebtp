@@ -143,6 +143,39 @@ function initPageVisualsTable($pdo, $forceSync = false) {
             ],
             [
                 'page_slug' => 'home',
+                'section_key' => 'partner_fee_security',
+                'section_name' => "Section Partenaires & Filiales du Groupe",
+                'title' => "Logo Partenaire 1 : FEE SECURITY",
+                'description' => "Logo et visuel de l'agence de sécurité privée et gardiennage 24/7.",
+                'image_url' => 'images/partenaires/logo-fee-security.jpg',
+                'default_url' => 'images/partenaires/logo-fee-security.jpg',
+                'focal_point' => 'center center',
+                'sort_order' => 51
+            ],
+            [
+                'page_slug' => 'home',
+                'section_key' => 'partner_iagc',
+                'section_name' => "Section Partenaires & Filiales du Groupe",
+                'title' => "Logo Partenaire 2 : IAGC (Génie Civil)",
+                'description' => "Logo et visuel de l'Institut Africain du Génie Civil.",
+                'image_url' => 'images/partenaires/logo-iagc.jpg',
+                'default_url' => 'images/partenaires/logo-iagc.jpg',
+                'focal_point' => 'center center',
+                'sort_order' => 52
+            ],
+            [
+                'page_slug' => 'home',
+                'section_key' => 'partner_fke_smart',
+                'section_name' => "Section Partenaires & Filiales du Groupe",
+                'title' => "Logo Partenaire 3 : AUTO-ÉCOLE FKE SMART",
+                'description' => "Logo et visuel de l'auto-école partenaire FKE Smart.",
+                'image_url' => 'images/partenaires/logo-fke-smart.jpg',
+                'default_url' => 'images/partenaires/logo-fke-smart.jpg',
+                'focal_point' => 'center center',
+                'sort_order' => 53
+            ],
+            [
+                'page_slug' => 'home',
                 'section_key' => 'showcase_card_1',
                 'section_name' => "Section B.2 : Résultats Concrets Livrés (Clés en Main)",
                 'title' => "Projet Livré 1 : Villa Duplex Contemporaine R+1 (Foréké-Dschang)",
