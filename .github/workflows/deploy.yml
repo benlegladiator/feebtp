@@ -25,5 +25,9 @@ jobs:
             **/.git*/**
             README.md
             *.sql
+            **/*.sql
+            *.sqlite
+            **/*.sqlite
+            *.log
             *.zip
             uploads/**
